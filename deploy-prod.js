@@ -1,4 +1,4 @@
-const knex = require("./database/knex");
+const knex = require("./server/database/knex");
 
 const DELAY = 3000;
 
@@ -28,7 +28,7 @@ testConnection()
   })
   // run server
   .then(() => {
-    require("./server");
+    require("./server/server");
   })
   .catch(err => {
     console.log(err);

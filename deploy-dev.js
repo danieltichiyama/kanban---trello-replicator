@@ -1,5 +1,5 @@
 const nodemon = require("nodemon");
-const knex = require("./database/knex");
+const knex = require("./server/database/knex");
 
 const DELAY = 3000;
 
@@ -31,7 +31,7 @@ testConnection()
   // run server using nodemon
   .then(() => {
     nodemon({
-      script: "./server.js",
+      script: "./server/server.js",
       ext: "js json"
     });
 
