@@ -3,10 +3,11 @@ const path = require("path");
 require("dotenv").config({ path: "../.env" });
 
 module.exports = {
-  client: "postgresql",
+  client: "pg",
   connection: {
     database: process.env.POSTGRES_DB,
     user: process.env.POSTGRES_USER,
+    port: process.env.POSTGRES_CONTAINER_PORT,
     password: process.env.POSTGRES_PASSWORD,
     host: process.env.POSTGRES_HOSTNAME
   },
@@ -16,9 +17,9 @@ module.exports = {
   },
   migrations: {
     tableName: "knex_migrations",
-    directory: "./database/migrations"
+    directory: path.join(__dirname, "database", "migrations")
   },
   seeds: {
-    directory: "./database/seeds"
+    directory: path.join(__dirname, "database", "seeds")
   }
 };
