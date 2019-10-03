@@ -15,9 +15,19 @@ app.get("/", (req, res) => {
 });
 
 app.get("/cards", (req, res) => {
-  return req.database.Card.fetchAll().then(results => {
-    res.send(results.toJSON());
-  });
+  return req.database.Card.fetchAll()
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+      return res
+        .status(500)
+        .json({
+          message:
+            "Sorry, my hand slipped while grabbing those cards from the database."
+        });
+    });
 });
 
 app.listen(PORT, () => {

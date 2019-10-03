@@ -4,7 +4,6 @@ import Card from "../../components/Card";
 
 class Board extends Component {
   render() {
-    console.log(this.props);
     return (
       <div className="board">
         <ul>
