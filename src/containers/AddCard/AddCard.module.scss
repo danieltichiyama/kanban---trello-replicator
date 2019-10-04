@@ -20,18 +20,27 @@
       background: rgba($color: #ff5f5f, $alpha: 1);
       border-radius: 5px;
       width: 30px;
-      height: 30px;
+      height: 25px;
       border: none;
       align-content: center;
       justify-content: center;
       display: flex;
       font-weight: bolder;
       font-size: 15px;
+      color: rgba($color: #000000, $alpha: 0.5);
+
+      &:hover {
+        color: black;
+      }
     }
   }
 
   label {
     margin-right: 10px;
+  }
+
+  .status_id {
+    display: hidden;
   }
 
   input {
@@ -48,5 +57,17 @@
     margin-bottom: 10px;
     height: 30px;
     font-size: 16px;
+  }
+
+  button {
+    height: 30px;
+    font-size: 16px;
+    border-radius: 5px;
+    margin-top: 10px;
+
+    &:active {
+      background: rgba($color: #4340ff, $alpha: 1);
+      color: white;
+    }
   }
 }

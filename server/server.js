@@ -31,8 +31,14 @@ app.get("/cards", (req, res) => {
 });
 
 app.post("/cards", (req, res) => {
+  req.body.status_id = 1;
   return req.database.Card.forge(req.body)
     .save()
+    .then(results => {
+      return req.database.Card.where({ id: results.id }).fetch({
+        withRelated: ["createdBy", "assignedTo"]
+      });
+    })
     .then(results => {
       return res.json(results);
     })
