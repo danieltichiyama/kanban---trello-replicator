@@ -8,6 +8,10 @@ class User extends bookshelf.Model {
   get hasTimestamps() {
     return true;
   }
+
+  cards() {
+    return this.hasMany("Card");
+  }
 }
 
 module.exports = bookshelf.model("User", User);

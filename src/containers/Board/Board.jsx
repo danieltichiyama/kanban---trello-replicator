@@ -8,7 +8,7 @@ class Board extends Component {
       <div className="board">
         <ul>
           {this.props.cards.map(element => {
-            return <Card card={element} />;
+            return <Card card={element} key={element.id} />;
           })}
         </ul>
       </div>

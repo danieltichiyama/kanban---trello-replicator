@@ -15,7 +15,9 @@ app.get("/", (req, res) => {
 });
 
 app.get("/cards", (req, res) => {
-  return req.database.Card.fetchAll()
+  return req.database.Card.fetchAll({
+    withRelated: ["createdBy", "assignedTo"]
+  })
     .then(results => {
       return res.json(results);
     })
@@ -70,6 +72,8 @@ app.delete("/cards/:id", (req, res) => {
       });
     });
 });
+
+//create a route that pulls all priorites from db, to populate AddCard and Edit priority-select field;
 
 app.listen(PORT, () => {
   console.log(`PORT: ${PORT}, at your service.`);
