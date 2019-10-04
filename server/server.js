@@ -21,12 +21,53 @@ app.get("/cards", (req, res) => {
     })
     .catch(err => {
       console.log(err);
-      return res
-        .status(500)
-        .json({
-          message:
-            "Sorry, my hand slipped while grabbing those cards from the database."
-        });
+      return res.status(500).json({
+        message:
+          "Sorry, my hand slipped while grabbing those cards from the database."
+      });
+    });
+});
+
+app.post("/cards", (req, res) => {
+  return req.database.Card.forge(req.body)
+    .save()
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({
+        message: "Sorry, I can't quite make a card out of that data."
+      });
+    });
+});
+
+app.put("/cards/:id", (req, res) => {
+  return req.database.Card.where({ id: req.params.id })
+    .save(req.body, { method: "update", patch: true })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({
+        message: "Sorry, something happened while editing that card."
+      });
+    });
+});
+
+app.delete("/cards/:id", (req, res) => {
+  return req.database.Card.where({ id: req.params.id })
+    .destroy()
+    .then(results => {
+      return res.json({ message: "Yay! That card has been destroyed!" });
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json({
+        message:
+          "Sorry, that card has an invincibility shield on and can't be destroyed right now."
+      });
     });
 });
 
