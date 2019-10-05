@@ -12,7 +12,7 @@ class AddCard extends Component {
       body: "",
       priority_id: 1,
       status_id: 1,
-      created_by: null,
+      created_by: undefined,
       assigned_to: undefined
     };
   }

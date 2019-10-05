@@ -16,8 +16,11 @@ const Card = function(props) {
         assigned to: {assignedTo.first_name.concat(" ", assignedTo.last_name)}
       </p>
       <p className={styles.faded}>updated at: {updated_at}</p>
+      <button onClick={props.onEdit(props.card)}>Edit</button>
     </div>
   );
 };
 
 export default Card;
+
+//edit button broken...
