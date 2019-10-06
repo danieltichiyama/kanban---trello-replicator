@@ -45,16 +45,30 @@ export const addCard = data => async dispatch => {
 };
 
 export const editCard = data => async dispatch => {
+  let object = {
+    id: data.id,
+    title: data.title,
+    body: data.body,
+    created_by: data.created_by,
+    assigned_by: data.assigned_by,
+    priority_id: data.priority_id,
+    status_id: data.status_id
+  };
+
   await fetch(`/cards/${data.id}`, {
     method: "PUT",
-    body: JSON.stringify(data),
+    body: JSON.stringify(object),
     headers: {
       "Content-type": "application/json"
     }
-  }).then(results => {
-    dispatch({
-      type: EDIT_CARD,
-      payload: results
+  })
+    .then(results => {
+      return results.json();
+    })
+    .then(results => {
+      dispatch({
+        type: EDIT_CARD,
+        payload: results
+      });
     });
-  });
 };

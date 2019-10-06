@@ -14,7 +14,7 @@ let initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log("reducer, action.payload", action.payload);
+  console.log("action.payload: ", action.payload, "action.type", action.type); //leave in for future checks
 
   switch (action.type) {
     case LOAD_CARDS:
@@ -26,8 +26,15 @@ const reducer = (state = initialState, action) => {
       });
 
     case EDIT_CARD:
+      let cards = state.cards.map(element => {
+        if (element.id !== action.payload.id) {
+          return element;
+        } else {
+          return action.payload;
+        }
+      });
       return Object.assign({}, state, {
-        cards: [...state.cards, action.payload]
+        cards: [...cards, action.payload]
       });
 
     case GET_CARD:

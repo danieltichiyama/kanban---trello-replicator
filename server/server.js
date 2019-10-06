@@ -51,8 +51,23 @@ app.post("/cards", (req, res) => {
 });
 
 app.put("/cards/:id", (req, res) => {
+  let object = {
+    id: req.body.id,
+    title: req.body.title,
+    body: req.body.body,
+    created_by: req.body.created_by,
+    assigned_by: req.body.assigned_by,
+    priority_id: req.body.priority_id,
+    status_id: req.body.status_id
+  };
+
   return req.database.Card.where({ id: req.params.id })
-    .save(req.body, { method: "update", patch: true })
+    .save(object, { method: "update", patch: true })
+    .then(results => {
+      return req.database.Card.where({ id: results.id }).fetch({
+        withRelated: ["createdBy", "assignedTo"]
+      });
+    })
     .then(results => {
       return res.json(results);
     })

@@ -33,7 +33,7 @@ testConnection()
     nodemon({
       script: "./server/server.js",
       ext: "js json",
-      ignore: ["src/*"]
+      ignore: ["src/"]
     });
 
     nodemon

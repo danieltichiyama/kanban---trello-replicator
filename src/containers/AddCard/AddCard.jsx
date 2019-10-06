@@ -43,12 +43,7 @@ class AddCard extends Component {
   };
 
   handleSubmitCard = () => {
-    // const { titleInput, authorInput } = this.state;
-    //this.props.addBook({title: titleInput, author: authorInput});
-
-    //one version
     this.props.onAdd(this.state);
-    //another version, does the same thing as the comments above
   };
 
   render() {
@@ -132,5 +127,3 @@ AddCard = connect(
 )(AddCard);
 
 export default AddCard;
-
-//apply the eventHandler to the form, not the individual inputs???

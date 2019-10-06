@@ -104,8 +104,8 @@ class EditCard extends Component {
         />
         <br />
         <button
-          onClick={function() {
-            console.log("EditCard, button: submit, onClick");
+          onClick={() => {
+            this.props.onEditClick(this.state);
           }}
         >
           Submit
