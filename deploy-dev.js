@@ -32,7 +32,8 @@ testConnection()
   .then(() => {
     nodemon({
       script: "./server/server.js",
-      ext: "js json"
+      ext: "js json",
+      ignore: ["src/*"]
     });
 
     nodemon

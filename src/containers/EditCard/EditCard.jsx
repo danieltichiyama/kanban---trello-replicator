@@ -1,20 +1,13 @@
 import React, { Component } from "react";
-import { addCard } from "../../actions";
 import { connect } from "react-redux";
-import styles from "./AddCard.module.scss";
+import { editCard, getCardData } from "../../actions";
 
-class AddCard extends Component {
+import styles from "./EditCard.module.scss";
+
+class EditCard extends Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      title: "",
-      body: "",
-      priority_id: 1,
-      status_id: 1,
-      created_by: undefined,
-      assigned_to: undefined
-    };
+    this.state = {};
   }
 
   handleTitleInput = e => {
@@ -42,20 +35,21 @@ class AddCard extends Component {
     this.setState({ assigned_to: value });
   };
 
-  handleSubmitCard = () => {
-    // const { titleInput, authorInput } = this.state;
-    //this.props.addBook({title: titleInput, author: authorInput});
+  componentDidUpdate(prevProps) {
+    if (prevProps.editor !== this.props.editor) {
+      this.fetchPostData(this.props.editor.id);
+    }
+  }
 
-    //one version
-    this.props.onAdd(this.state);
-    //another version, does the same thing as the comments above
+  fetchPostData = () => {
+    this.setState(this.props.editor);
   };
 
   render() {
     return (
-      <div className={styles.addCard}>
+      <div className={styles.editCard}>
         <div className={styles.header}>
-          <h3>Add a task</h3>
+          <h3>Edit a task</h3>
           <button>X</button>
         </div>
         <label htmlFor="title">Title</label>
@@ -84,6 +78,7 @@ class AddCard extends Component {
           value={this.state.priority_id}
           onChange={this.handlePriorityIdInput}
         >
+          {/* needs a route to pull priorities from db */}
           <option value="1">Low</option>
           <option value="2">Medium</option>
           <option value="3">High</option>
@@ -104,33 +99,38 @@ class AddCard extends Component {
           type="number"
           name="assigned_to"
           id="assigned_to"
-          value={this.state.assignedToInput}
+          value={this.state.assigned_to}
           onChange={this.handleAssignedToInput}
         />
         <br />
-        <button onClick={this.handleSubmitCard}>Submit</button>
+        <button
+          onClick={function() {
+            console.log("EditCard, button: submit, onClick");
+          }}
+        >
+          Submit
+        </button>
       </div>
     );
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
+function mapStateToProps(state) {
+  return { editor: state.editor };
+}
 
-const mapDispatchToProps = dispatch => {
+function mapDispatchToProps(dispatch) {
   return {
-    onAdd: card => {
-      dispatch(addCard(card));
+    onEditClick: data => {
+      return dispatch(editCard(data));
+    },
+    getCardData: id => {
+      return dispatch(getCardData(id));
     }
   };
-};
+}
 
-AddCard = connect(
+export default EditCard = connect(
   mapStateToProps,
   mapDispatchToProps
-)(AddCard);
-
-export default AddCard;
-
-//apply the eventHandler to the form, not the individual inputs???
+)(EditCard);

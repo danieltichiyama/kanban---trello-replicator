@@ -8,30 +8,17 @@ class Board extends Component {
     this.state = {};
   }
 
-  editCard = obj => {
-    console.log(obj);
-  };
-
   render() {
     return (
       <div className="board">
         <ul>
           {this.props.cards.map(element => {
-            return (
-              <Card
-                onEdit={obj => {
-                  return this.editCard.bind(obj);
-                }}
-                card={element}
-                key={element.id}
-              />
-            );
+            return <Card card={element} key={element.id} />;
           })}
         </ul>
       </div>
     );
   }
 }
-//editCard broken
 
 export default Board;

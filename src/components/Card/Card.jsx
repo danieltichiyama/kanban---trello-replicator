@@ -1,10 +1,12 @@
 import React from "react";
 
 import styles from "./Card.module.scss";
+import { connect } from "react-redux";
 
-const Card = function(props) {
+import { getCardData } from "../../actions";
+
+let Card = function(props) {
   const { title, body, updated_at, createdBy, assignedTo } = props.card;
-
   return (
     <div className={styles.card}>
       <h3>{title}</h3>
@@ -16,11 +18,30 @@ const Card = function(props) {
         assigned to: {assignedTo.first_name.concat(" ", assignedTo.last_name)}
       </p>
       <p className={styles.faded}>updated at: {updated_at}</p>
-      <button onClick={props.onEdit(props.card)}>Edit</button>
+      <button
+        onClick={function() {
+          props.onEditClick(props.card.id);
+        }}
+      >
+        Edit
+      </button>
     </div>
   );
 };
 
-export default Card;
+function mapStateToProps(state) {
+  return {};
+}
 
-//edit button broken...
+const mapDispatchToProps = dispatch => {
+  return {
+    onEditClick: id => {
+      return dispatch(getCardData(id));
+    }
+  };
+};
+
+export default Card = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Card);

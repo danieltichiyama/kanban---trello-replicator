@@ -5,6 +5,7 @@ import { loadCards } from "../actions";
 
 import Board from "../containers/Board";
 import AddCard from "../containers/AddCard";
+import EditCard from "../containers/EditCard/EditCard";
 
 class App extends Component {
   constructor(props) {
@@ -19,6 +20,7 @@ class App extends Component {
   render() {
     return (
       <div>
+        <EditCard />
         <AddCard />
         <Board cards={this.props.cards} />
       </div>
