@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { editCard, getCardData } from "../../actions";
+import { editCard, getCardData, deleteCard } from "../../actions";
 
 import styles from "./EditCard.module.scss";
 
@@ -110,6 +110,13 @@ class EditCard extends Component {
         >
           Submit
         </button>
+        <button
+          onClick={() => {
+            this.props.onDeleteClick(this.props.editor.id);
+          }}
+        >
+          Delete
+        </button>
       </div>
     );
   }
@@ -126,6 +133,9 @@ function mapDispatchToProps(dispatch) {
     },
     getCardData: id => {
       return dispatch(getCardData(id));
+    },
+    onDeleteClick: id => {
+      return dispatch(deleteCard(id));
     }
   };
 }

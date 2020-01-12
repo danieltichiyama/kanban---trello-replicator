@@ -1,4 +1,10 @@
-import { LOAD_CARDS, ADD_CARD, EDIT_CARD, GET_CARD } from "../actions";
+import {
+  LOAD_CARDS,
+  ADD_CARD,
+  EDIT_CARD,
+  GET_CARD,
+  DELETE_CARD
+} from "../actions";
 
 let initialState = {
   cards: [],
@@ -17,6 +23,13 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type); //leave in for future checks
 
   switch (action.type) {
+    case DELETE_CARD:
+      let cardsList = state.cards.filter(card => {
+        return card.id !== parseInt(action.payload);
+      });
+
+      return Object.assign({}, state, { cards: cardsList });
+
     case LOAD_CARDS:
       return Object.assign({}, state, { cards: action.payload });
 

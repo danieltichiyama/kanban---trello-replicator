@@ -83,7 +83,7 @@ app.delete("/cards/:id", (req, res) => {
   return req.database.Card.where({ id: req.params.id })
     .destroy()
     .then(results => {
-      return res.json({ message: "Yay! That card has been destroyed!" });
+      return res.status(200).json({ id: req.params.id });
     })
     .catch(err => {
       console.log(err);
@@ -93,8 +93,6 @@ app.delete("/cards/:id", (req, res) => {
       });
     });
 });
-
-//create a route that pulls all priorites from db, to populate AddCard and Edit priority-select field;
 
 app.listen(PORT, () => {
   console.log(`PORT: ${PORT}, at your service.`);
