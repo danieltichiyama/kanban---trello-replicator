@@ -8,7 +8,7 @@ export const DELETE_CARD = "DELETE_CARD";
 //action creators
 
 export const deleteCard = id => async dispatch => {
-  await fetch(`/cards/${id}`, {
+  await fetch(`/api/cards/${id}`, {
     method: "DELETE",
     headers: {
       "Content-type": "application/json"
@@ -29,7 +29,7 @@ export const deleteCard = id => async dispatch => {
 };
 
 export const loadCards = () => async dispatch => {
-  await fetch("/cards")
+  await fetch("/api/cards")
     .then(results => {
       return results.json();
     })
@@ -52,7 +52,7 @@ export const getCardData = id => async dispatch => {
 };
 
 export const addCard = data => async dispatch => {
-  await fetch("/cards", {
+  await fetch("/api/cards", {
     method: "POST",
     body: JSON.stringify(data),
     headers: {
@@ -84,7 +84,7 @@ export const editCard = data => async dispatch => {
     status_id: data.status_id
   };
 
-  await fetch(`/cards/${data.id}`, {
+  await fetch(`/api/cards/${data.id}`, {
     method: "PUT",
     body: JSON.stringify(object),
     headers: {

@@ -16,6 +16,10 @@ class Card extends bookshelf.Model {
   assignedTo() {
     return this.belongsTo("User", "assigned_to");
   }
+
+  status() {
+    return this.hasOne("Status", "id");
+  }
 }
 
 module.exports = bookshelf.model("Card", Card);
