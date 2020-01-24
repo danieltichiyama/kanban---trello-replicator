@@ -17,8 +17,16 @@ class Card extends bookshelf.Model {
     return this.belongsTo("User", "assigned_to");
   }
 
-  status() {
-    return this.hasOne("Status", "id");
+  list() {
+    return this.belongsTo("List", "list_id");
+  }
+
+  labels() {
+    return this.belongsToMany("Label");
+  }
+
+  cardImages() {
+    return this.hasMany("CardImage");
   }
 }
 

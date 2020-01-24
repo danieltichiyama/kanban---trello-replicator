@@ -14,7 +14,21 @@ app.use(decorator);
 app.use("/api/cards", cards);
 
 app.get("/smoke", (req, res) => {
-  res.send("smoke test");
+  return req.database.User.fetchAll({
+    withRelated: [
+      "userImage",
+      "boards.lists.cards.labels",
+      "boards.boardImage",
+      "boards.lists.cards.cardImages"
+    ]
+  })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+      return res.status(500).json(err);
+    });
 });
 
 app.listen(PORT, () => {

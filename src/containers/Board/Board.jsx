@@ -10,7 +10,8 @@ class Board extends Component {
   }
 
   componentDidMount = () => {
-    this.props.onLoadCards();
+    this.props.dispatchLoadStatuses();
+    this.props.dispatchLoadCards();
   };
 
   render() {
@@ -34,8 +35,11 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
   return {
-    onLoadCards: () => {
-      return dispatch(loadCards());
+    dispatchLoadCards: () => {
+      return dispatch(actionsLoadCards());
+    },
+    dispatchLoadStatuses: () => {
+      return dispatch(actionsLoadStatuses());
     }
   };
 };

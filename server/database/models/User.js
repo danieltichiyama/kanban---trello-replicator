@@ -9,8 +9,20 @@ class User extends bookshelf.Model {
     return true;
   }
 
-  cards() {
-    return this.hasMany("Card");
+  userImage() {
+    return this.hasOne("UserImage");
+  }
+
+  boards() {
+    return this.hasMany("Board", "created_by");
+  }
+
+  cardsCreated() {
+    return this.hasMany("Card", "created_by");
+  }
+
+  cardsAssigned() {
+    return this.hasMany("Card", "assigned_to");
   }
 }
 

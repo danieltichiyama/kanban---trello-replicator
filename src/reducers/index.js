@@ -8,6 +8,7 @@ import {
 
 let initialState = {
   cards: [],
+  statuses: [],
   editor: {
     title: "",
     body: "",

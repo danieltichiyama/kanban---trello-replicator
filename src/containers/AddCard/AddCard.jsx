@@ -121,9 +121,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-AddCard = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(AddCard);
+AddCard = connect(mapStateToProps, mapDispatchToProps)(AddCard);
 
 export default AddCard;

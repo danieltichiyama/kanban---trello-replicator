@@ -7,6 +7,10 @@ export const DELETE_CARD = "DELETE_CARD";
 
 //action creators
 
+export const actionsLoadStatuses = () = async dispatch =>{
+  await fetch(`/api/statuses`)
+}
+
 export const deleteCard = id => async dispatch => {
   await fetch(`/api/cards/${id}`, {
     method: "DELETE",
@@ -28,7 +32,7 @@ export const deleteCard = id => async dispatch => {
     });
 };
 
-export const loadCards = () => async dispatch => {
+export const actionsLoadCards = () => async dispatch => {
   await fetch("/api/cards")
     .then(results => {
       return results.json();

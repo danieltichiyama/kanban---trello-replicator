@@ -7,6 +7,7 @@ exports.up = function(knex) {
       .string("email")
       .unique()
       .notNullable();
+    table.string("username").notNullable();
     table.timestamps(true, true);
   });
 };
