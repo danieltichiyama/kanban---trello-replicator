@@ -1,64 +1,15 @@
-import {
-  LOAD_CARDS,
-  ADD_CARD,
-  EDIT_CARD,
-  GET_CARD,
-  DELETE_CARD
-} from "../actions";
+import { GET_BOARDS } from "../actions";
 
 let initialState = {
-  cards: [],
-  statuses: [],
-  editor: {
-    title: "",
-    body: "",
-    id: undefined,
-    priority_id: undefined,
-    status_id: undefined,
-    created_by: undefined,
-    assigned_to: undefined
-  }
+  boards: []
 };
 
 const reducer = (state = initialState, action) => {
-  console.log("action.payload: ", action.payload, "action.type", action.type); //leave in for future checks
+  console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
-    case DELETE_CARD:
-      let cardsList = state.cards.filter(card => {
-        return card.id !== parseInt(action.payload);
-      });
-
-      return Object.assign({}, state, { cards: cardsList });
-
-    case LOAD_CARDS:
-      return Object.assign({}, state, { cards: action.payload });
-
-    case ADD_CARD:
-      return Object.assign({}, state, {
-        cards: [...state.cards, action.payload]
-      });
-
-    case EDIT_CARD:
-      let cards = state.cards.map(element => {
-        if (element.id !== action.payload.id) {
-          return element;
-        } else {
-          return action.payload;
-        }
-      });
-      return Object.assign({}, state, {
-        cards: [...cards, action.payload]
-      });
-
-    case GET_CARD:
-      let card;
-      for (let i = 0; i < state.cards.length; i++) {
-        if (state.cards[i].id === action.payload) {
-          card = state.cards[i];
-        }
-      }
-      return Object.assign({}, state, { editor: card });
+    case GET_BOARDS:
+      return Object.assign({}, action.payload);
 
     default:
       return state;

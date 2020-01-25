@@ -3,7 +3,7 @@ exports.up = function(knex) {
     table.increments();
     table.string("title", 255).notNullable();
     table.string("details", 1024);
-    table.integer("order");
+    table.decimal("position");
     table.datetime("due_date");
     table
       .integer("list_id")

@@ -1,15 +1,13 @@
 import React from "react";
 import "./App.scss";
-import Board from "../containers/Board";
-import AddCard from "../containers/AddCard";
-import EditCard from "../containers/EditCard/EditCard";
+import Board from "../components/Board";
+import BoardsList from "../components/BoardsList";
 
 let App = () => {
   return (
     <div>
-      <EditCard />
-      <AddCard />
-      <Board />
+      <BoardsList></BoardsList>
+      <Board></Board>
     </div>
   );
 };
