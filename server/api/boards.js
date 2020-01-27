@@ -2,16 +2,34 @@ const express = require("express");
 
 const router = express.Router();
 
-router.get("/:id", (req, res) => {
-  return req.database.Board.where({ created_by: req.params.id })
-    .fetchAll()
+router.get("/board/:id", (req, res) => {
+  return req.database.Board.where({ id: req.params.id })
+    .fetch({
+      withRelated: [
+        "createdBy",
+        "lists.cards.labels",
+        "boardImage",
+        "lists.cards.cardImages",
+        "lists.cards.createdBy",
+        "lists.cards.assignedTo"
+      ]
+    })
     .then(results => {
-      console.log(results);
       return res.json(results);
     })
     .catch(err => {
       console.log(err);
-      return res.json({ err });
+    });
+});
+
+router.get("/:id", (req, res) => {
+  return req.database.Board.where({ created_by: req.params.id })
+    .fetchAll()
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
     });
 });
 

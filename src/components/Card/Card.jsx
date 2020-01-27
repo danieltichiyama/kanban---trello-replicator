@@ -1,15 +1,29 @@
 import React from "react";
 import styles from "./Card.module.scss";
 import { connect } from "react-redux";
-import { getCardData } from "../../actions";
 
 let Card = function(props) {
-  return <div className={styles.Card}></div>;
+  let { card } = props;
+
+  let { labels } = card;
+
+  return (
+    <div className={styles.Card}>
+      {card.title}
+      {labels.map(label => {
+        return (
+          <div className={styles.Label} key={label.id}>
+            {label.name}
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
-function mapStateToProps(state) {
+const mapStateToProps = state => {
   return {};
-}
+};
 
 const mapDispatchToProps = dispatch => {
   return {};
