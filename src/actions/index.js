@@ -7,6 +7,7 @@ export const actionsGetBoards = userID => async dispatch => {
       return response.json();
     })
     .then(json => {
+      console.log("json", json);
       return dispatch({
         type: GET_BOARDS,
         payload: json

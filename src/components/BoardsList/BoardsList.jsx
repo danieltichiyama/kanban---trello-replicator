@@ -14,7 +14,22 @@ class BoardsList extends Component {
   };
 
   render() {
-    return <div className={styles.BoardsList}>This is the list of boards</div>;
+    return (
+      <div className={styles.BoardsList}>
+        <ul>
+          {this.props.boards
+            ? this.props.boards.map(board => {
+                return (
+                  <li key={board.id} className={styles.li_board}>
+                    {board.name}
+                  </li>
+                );
+              })
+            : null}
+          <li className={styles.li_board}>New Board</li>
+        </ul>
+      </div>
+    );
   }
 }
 

@@ -1,15 +1,13 @@
 import { GET_BOARDS } from "../actions";
 
-let initialState = {
-  boards: []
-};
+let initialState = {};
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
     case GET_BOARDS:
-      return Object.assign({}, action.payload);
+      return Object.assign({}, { boards: action.payload });
 
     default:
       return state;

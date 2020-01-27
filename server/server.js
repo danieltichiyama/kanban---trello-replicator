@@ -19,7 +19,7 @@ app.get("/smoke", (req, res) => {
   return req.database.User.fetchAll({
     withRelated: [
       "userImage",
-      // "boards.createdBy",
+      "boards.createdBy",
       "boards.lists.cards.labels",
       "boards.boardImage",
       "boards.lists.cards.cardImages"
