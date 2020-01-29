@@ -2,16 +2,36 @@
 export const GET_BOARDS = "GET_BOARDS";
 export const GET_BOARD_DATA = "GET_BOARD_DATA";
 export const CREATE_BOARD = "CREATE_BOARD";
+export const CREATE_LIST = "CREATE_LIST";
 
-export const actionsCreateBoard = formData => async dispatch => {
-  let config = {
+const postConfig = data => {
+  return {
     method: "POST",
-    body: JSON.stringify(formData),
+    body: JSON.stringify(data),
     headers: {
       "Content-type": "application/json"
     }
   };
-  await fetch(`/api/boards/new`, config)
+};
+
+export const actionsCreateList = formData => async dispatch => {
+  await fetch(`/api/lists/new`, postConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return dispatch({
+        type: CREATE_LIST,
+        payload: json
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const actionsCreateBoard = formData => async dispatch => {
+  await fetch(`/api/boards/new`, postConfig(formData))
     .then(response => {
       return response.json();
     })

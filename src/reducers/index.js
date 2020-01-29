@@ -1,4 +1,9 @@
-import { GET_BOARDS, GET_BOARD_DATA, CREATE_BOARD } from "../actions";
+import {
+  GET_BOARDS,
+  GET_BOARD_DATA,
+  CREATE_BOARD,
+  CREATE_LIST
+} from "../actions";
 
 let initialState = {
   phUser: 1
@@ -8,6 +13,11 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case CREATE_LIST:
+      let boardData = { ...state.boardData };
+      boardData.lists.push(action.payload);
+      return Object.assign({}, state, { boardData });
+
     case CREATE_BOARD:
       let boards = [...state.boards];
       boards.push(action.payload);
