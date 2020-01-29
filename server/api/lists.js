@@ -1,14 +1,14 @@
 const express = require("express");
 
-const router = express.Router();
+router = express.Router();
 
 router.get("/smoke", (req, res) => {
-  return res.send("There's smoke in the cards route.");
+  return res.send("There's smoke in the lists route.");
 });
 
 router.post("/new", (req, res) => {
-  //req.body = {title, [details], [due_date], position, created_by, [assigned_to], list_id, [is_archived]}
-  return req.database.Card.forge(req.body)
+  //req.body = {name, position, board_id}
+  return req.database.List.forge(req.body)
     .save()
     .then(result => {
       res.json(result);
@@ -18,8 +18,8 @@ router.post("/new", (req, res) => {
     });
 });
 
-router.get("/:cardID", (req, res) => {
-  return req.database.Card.where({ id: req.params.cardID })
+router.get("/:listID", (req, res) => {
+  return req.database.List.where({ id: req.params.listID })
     .fetch()
     .then(result => {
       return res.json(result);

@@ -20,6 +20,10 @@ class Board extends bookshelf.Model {
   boardImage() {
     return this.hasOne("BoardImage");
   }
+
+  labels() {
+    return this.hasMany("Label");
+  }
 }
 
 module.exports = bookshelf.model("Board", Board);
