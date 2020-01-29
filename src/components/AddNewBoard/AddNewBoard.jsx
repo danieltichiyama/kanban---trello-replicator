@@ -7,10 +7,7 @@ import { actionsCreateBoard } from "../../actions";
 class AddNewBoard extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      name: "",
-      description: ""
-    };
+    this.state = {};
   }
 
   submitForm = e => {
