@@ -7,7 +7,7 @@ router.get("/smoke", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
-  //req.body = {name, color, board_id}
+  //req.body = {[name], [color], board_id}
   return req.database.Label.forge(req.body)
     .save()
     .then(result => {

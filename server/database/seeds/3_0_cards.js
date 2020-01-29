@@ -6,7 +6,7 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("cards").insert([
         {
-          title: "Make the board",
+          name: "Make the board",
           details: "This is a seeded card.",
           position: 1,
           list_id: 2,
@@ -14,7 +14,7 @@ exports.seed = function(knex) {
           assigned_to: 1
         },
         {
-          title: "Make the board better",
+          name: "Make the board better",
           details: "This is a seeded card.",
           position: 1,
           list_id: 1,
@@ -22,7 +22,7 @@ exports.seed = function(knex) {
           assigned_to: 1
         },
         {
-          title: "Make the board like trello.",
+          name: "Make the board like trello.",
           details: "This is a seeded card.",
           position: 2,
           list_id: 1,
@@ -30,7 +30,7 @@ exports.seed = function(knex) {
           assigned_to: 1
         },
         {
-          title: "Setup database seeds and migrations",
+          name: "Setup database seeds and migrations",
           details: "This is a seeded card.",
           position: 1,
           list_id: 3,

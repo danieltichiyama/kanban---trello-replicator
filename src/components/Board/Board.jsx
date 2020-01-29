@@ -1,8 +1,9 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styles from "./Board.module.scss";
-import Card from "../Card";
 import { actionsCreateList } from "../../actions";
+import List from "../List";
+import BoardMenu from "../BoardMenu";
+import styles from "./Board.module.scss";
 
 class Board extends Component {
   constructor(props) {
@@ -10,22 +11,18 @@ class Board extends Component {
     this.state = {};
   }
 
-  addCard = e => {
-    console.log(e.target);
+  createList = e => {
     e.preventDefault();
-  };
-
-  addList = e => {
-    e.preventDefault();
-    let lists = this.props.boardData.lists;
+    let lists = this.props.lists;
 
     let position = parseInt(parseFloat(lists[lists.length - 1].position) + 1);
     let formData = {
       ...this.state,
-      board_id: this.props.boardData.id,
+      board_id: this.props.board_id,
       position
     };
-    return this.props.dispatchCreateList(formData);
+    this.props.dispatchCreateList(formData);
+    return this.setState({ name: "" });
   };
 
   handleInput = event => {
@@ -36,36 +33,14 @@ class Board extends Component {
   render() {
     return (
       <div className={styles.Board}>
+        <BoardMenu />
         <ul className={styles.Lists}>
-          {this.props.boardData && this.props.boardData.lists
-            ? this.props.boardData.lists.map(list => {
-                return (
-                  <li className={styles.List} key={list.id}>
-                    {list.name}
-                    <ul>
-                      {list.cards
-                        ? list.cards.map(card => {
-                            return <Card card={card} key={card.id} />;
-                          })
-                        : null}
-                      <li className={styles.AddCard}>
-                        <form onSubmit={this.addCard}>
-                          <input
-                            type="text"
-                            name="card"
-                            value={this.state.card}
-                            placeholder="+ Add Card"
-                            onChange={this.handleInput}
-                          />
-                          <input type="submit" value="Add" />
-                        </form>
-                      </li>
-                    </ul>
-                  </li>
-                );
+          {this.props.lists
+            ? this.props.lists.map(list => {
+                return <List list={list} key={list.id} cards={list.cards} />;
               })
             : null}
-          <form onSubmit={this.addList}>
+          <form onSubmit={this.createList}>
             <input
               className={styles.AddList}
               name="name"
@@ -83,7 +58,10 @@ class Board extends Component {
 
 const mapStateToProps = state => {
   return {
-    boardData: state.boardData
+    boardData: state.boardData,
+    lists: state.lists,
+    labels: state.labels,
+    board_id: state.id
   };
 };
 

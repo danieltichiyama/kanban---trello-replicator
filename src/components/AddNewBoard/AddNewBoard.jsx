@@ -10,9 +10,10 @@ class AddNewBoard extends Component {
     this.state = {};
   }
 
-  submitForm = e => {
+  createBoard = e => {
     e.preventDefault();
-    return this.props.dispatchCreateBoard(this.state);
+    this.props.dispatchCreateBoard(this.state);
+    return this.setState({ name: "" });
   };
 
   handleInput = event => {
@@ -23,8 +24,7 @@ class AddNewBoard extends Component {
   render() {
     return (
       <div className={styles.AddNewBoard}>
-        This is the AddNewBoard Modal
-        <form onSubmit={this.submitForm}>
+        <form onSubmit={this.createBoard}>
           <input
             type="text"
             name="name"
@@ -42,11 +42,6 @@ class AddNewBoard extends Component {
           <input type="submit" value="Create" />
           <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
         </form>
-        <ul>
-          This component still needs:
-          <li>Input fields for adding a new board.</li>
-          <li>A submit button</li>
-        </ul>
       </div>
     );
   }

@@ -11,6 +11,7 @@ router.post("/new", (req, res) => {
   return req.database.List.forge(req.body)
     .save()
     .then(result => {
+      console.log("successfully added.");
       res.json(result);
     })
     .catch(err => {

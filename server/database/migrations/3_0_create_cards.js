@@ -1,7 +1,7 @@
 exports.up = function(knex) {
   return knex.schema.createTable("cards", table => {
     table.increments();
-    table.string("title", 255).notNullable();
+    table.string("name", 255).notNullable();
     table.string("details", 1024);
     table.decimal("position");
     table.datetime("due_date");
