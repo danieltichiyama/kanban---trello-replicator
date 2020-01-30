@@ -5,17 +5,36 @@ import {
   CREATE_LIST,
   CREATE_CARD,
   CREATE_LABEL,
-  UPDATE_BOARD
+  UPDATE_BOARD,
+  UPDATE_LIST,
+  UPDATE_CARD,
+  UPDATE_LABEL
 } from "../actions";
 
 let initialState = {};
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
-
   switch (action.type) {
+    case UPDATE_CARD:
+      return state;
+
+    case UPDATE_LABEL:
+      return state;
+
+    case UPDATE_LIST:
+      let updateMutableLists = [...state.lists];
+      for (let i = 0; i < updateMutableLists.length; i++) {
+        if (updateMutableLists[i].id === action.paylaod.id) {
+          updateMutableLists.splice(i, 1, action.payload);
+          return Object.assign({}, state, { lists: updateMutableLists });
+        }
+      }
+      break;
+
     case UPDATE_BOARD:
       let mutableBoards = [...state.boards];
+      console.log(mutableBoards);
       for (let i = 0; i < mutableBoards.length; i++) {
         if (mutableBoards[i].id === action.payload.id) {
           mutableBoards.splice(i, 1, action.payload);

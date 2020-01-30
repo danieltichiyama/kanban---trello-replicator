@@ -2,13 +2,21 @@ import React, { Component } from "react";
 import styles from "./List.module.scss";
 import { connect } from "react-redux";
 import Card from "../Card";
-import { actionsCreateCard } from "../../actions";
+import { actionsCreateCard, actionsUpdateList } from "../../actions";
 
 class List extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      list: {}
+    };
   }
+
+  updateList = e => {
+    e.preventDefault();
+    let formData = { ...this.state.list, id: this.props.list.id };
+    return this.props.dispatchUpdateList(formData);
+  };
 
   createCard = e => {
     e.preventDefault();
@@ -25,21 +33,39 @@ class List extends Component {
       position,
       created_by: 1
     };
+
+    if (formData.list) {
+      delete formData.list;
+    }
+
     this.props.dispatchCreateCard(formData);
     return this.setState({ name: "" });
   };
 
-  handleInput = event => {
+  handleCardInput = event => {
     const { value, name } = event.target;
     return this.setState({ [name]: value });
+  };
+
+  handleListInput = e => {
+    const { value, name } = e.target;
+
+    return this.setState({ list: { [name]: value } });
   };
 
   render() {
     return (
       <div className={styles.List}>
         <li className={styles.List} key={this.props.list.id}>
-          <form onSubmit={this.submitListName}>
-            <input type="text" placeholder={this.props.list.name} />
+          <form onSubmit={this.updateList}>
+            <input
+              type="text"
+              defaultValue={this.props.list.name}
+              placeholder={this.props.list.name}
+              onChange={this.handleListInput}
+              value={this.state.list.name}
+              name="name"
+            />
             <input type="submit" value="Change" />
           </form>
 
@@ -56,7 +82,7 @@ class List extends Component {
                   name="name"
                   value={this.state.name}
                   placeholder="+ Add Card"
-                  onChange={this.handleInput}
+                  onChange={this.handleCardInput}
                 />
                 <input type="submit" value="Add" />
               </form>
@@ -72,6 +98,9 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateCard: formData => {
       dispatch(actionsCreateCard(formData));
+    },
+    dispatchUpdateList: formData => {
+      dispatch(actionsUpdateList(formData));
     }
   };
 };

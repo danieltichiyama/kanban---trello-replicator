@@ -11,12 +11,14 @@ class BoardThumbnail extends Component {
     };
   }
 
-  updateBoard = () => {
+  updateBoard = e => {
+    e.preventDefault();
     let formData = { ...this.state };
     delete formData.showMenu;
     formData.id = this.props.board.id;
 
-    return this.props.dispatchUpdateBoard(formData);
+    this.props.dispatchUpdateBoard(formData);
+    return this.toggleMenu();
   };
 
   handleInput = e => {
@@ -25,24 +27,29 @@ class BoardThumbnail extends Component {
   };
 
   toggleMenu = e => {
-    e.stopPropagation();
+    if (e) {
+      e.stopPropagation();
+    }
     return this.setState({ showMenu: !this.state.showMenu });
   };
 
   render() {
     let { board, getBoardData } = this.props;
     return (
-      <div>
-        <li id={board.id} className={styles.li_board} onClick={getBoardData}>
+      <div className={styles.BoardThumbnail}>
+        <div id={board.id} className={styles.boardName} onClick={getBoardData}>
           {board.name}
           <button onClick={this.toggleMenu}>Edit</button>
-        </li>
+        </div>
         {this.state.showMenu ? (
           <form onSubmit={this.updateBoard}>
+            <input type="button" value="Cancel" onClick={this.toggleMenu} />
+
             <input
               type="text"
               name="name"
               value={this.state.name}
+              defaultValue={this.props.board.name}
               onChange={this.handleInput}
               placeholder={this.props.board.name}
             />

@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actionsCreateList } from "../../actions";
+import { actionsCreateList, actionsUpdateBoard } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
 import styles from "./Board.module.scss";
@@ -8,8 +8,17 @@ import styles from "./Board.module.scss";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { board: {}, list: {} };
   }
+
+  updateBoard = e => {
+    e.preventDefault();
+    let formData = {
+      ...this.state.board,
+      id: this.props.board_id
+    };
+    return this.props.dispatchUpdateBoard(formData);
+  };
 
   createList = e => {
     e.preventDefault();
@@ -21,25 +30,38 @@ class Board extends Component {
       position = parseInt(parseFloat(lists[lists.length - 1].position) + 1);
     }
     let formData = {
-      ...this.state,
+      ...this.state.list,
       board_id: this.props.board_id,
       position
     };
+
     this.props.dispatchCreateList(formData);
     return this.setState({ name: "" });
   };
 
-  handleInput = event => {
-    const { value, name } = event.target;
-    return this.setState({ [name]: value });
+  handleBoardInput = e => {
+    const { value, name } = e.target;
+    return this.setState({ board: { [name]: value } });
+  };
+
+  handleListInput = e => {
+    const { value, name } = e.target;
+    return this.setState({ list: { [name]: value } });
   };
 
   render() {
     return (
       <div className={styles.Board}>
         <BoardMenu />
-        <form onSubmit={this.updateBoardName}>
-          <input type="text" placeholder={this.props.name} />
+        <form onSubmit={this.updateBoard}>
+          <input
+            type="text"
+            name="name"
+            value={this.state.board.name}
+            defaultValue={this.props.name}
+            placeholder={this.props.name}
+            onChange={this.handleBoardInput}
+          />
           <input type="submit" value="Change" />
         </form>
         <ul className={styles.Lists}>
@@ -52,9 +74,9 @@ class Board extends Component {
             <input
               className={styles.AddList}
               name="name"
-              value={this.state.name}
+              value={this.state.list.name}
               placeholder="+ Add List"
-              onChange={this.handleInput}
+              onChange={this.handleListInput}
             />
             <input type="submit" value="Add" />
           </form>
@@ -76,7 +98,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateList: formData => {
-      dispatch(actionsCreateList(formData));
+      return dispatch(actionsCreateList(formData));
+    },
+    dispatchUpdateBoard: formData => {
+      return dispatch(actionsUpdateBoard(formData));
     }
   };
 };
