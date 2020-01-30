@@ -5,6 +5,7 @@ export const CREATE_BOARD = "CREATE_BOARD";
 export const CREATE_LIST = "CREATE_LIST";
 export const CREATE_CARD = "CREATE_CARD";
 export const CREATE_LABEL = "CREATE_LABEL";
+export const UPDATE_BOARD = "UPDATE_BOARD";
 
 const postConfig = data => {
   return {
@@ -14,6 +15,32 @@ const postConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+const putConfig = data => {
+  return {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+};
+
+export const actionsUpdateBoard = formData => async dispatch => {
+  await fetch(`/api/boards/${formData.id}`, putConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return dispatch({
+        type: UPDATE_BOARD,
+        payload: json
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 export const actionsCreateLabel = formData => async dispatch => {

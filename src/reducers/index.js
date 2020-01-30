@@ -4,17 +4,26 @@ import {
   CREATE_BOARD,
   CREATE_LIST,
   CREATE_CARD,
-  CREATE_LABEL
+  CREATE_LABEL,
+  UPDATE_BOARD
 } from "../actions";
 
-let initialState = {
-  phUser: 1
-};
+let initialState = {};
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case UPDATE_BOARD:
+      let mutableBoards = [...state.boards];
+      for (let i = 0; i < mutableBoards.length; i++) {
+        if (mutableBoards[i].id === action.payload.id) {
+          mutableBoards.splice(i, 1, action.payload);
+          return Object.assign({}, state, { boards: mutableBoards });
+        }
+      }
+      break;
+
     case CREATE_LABEL:
       let mutableLabels = [...state.labels];
       mutableLabels.push(action.payload);
