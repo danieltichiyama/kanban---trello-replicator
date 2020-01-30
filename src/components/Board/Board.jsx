@@ -14,8 +14,12 @@ class Board extends Component {
   createList = e => {
     e.preventDefault();
     let lists = this.props.lists;
-
-    let position = parseInt(parseFloat(lists[lists.length - 1].position) + 1);
+    let position;
+    if (lists.length === 0) {
+      position = 1;
+    } else {
+      position = parseInt(parseFloat(lists[lists.length - 1].position) + 1);
+    }
     let formData = {
       ...this.state,
       board_id: this.props.board_id,
@@ -34,6 +38,10 @@ class Board extends Component {
     return (
       <div className={styles.Board}>
         <BoardMenu />
+        <form onSubmit={this.updateBoardName}>
+          <input type="text" placeholder={this.props.name} />
+          <input type="submit" value="Change" />
+        </form>
         <ul className={styles.Lists}>
           {this.props.lists
             ? this.props.lists.map(list => {
@@ -44,11 +52,11 @@ class Board extends Component {
             <input
               className={styles.AddList}
               name="name"
-              value={this.state.list}
+              value={this.state.name}
               placeholder="+ Add List"
               onChange={this.handleInput}
             />
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Add" />
           </form>
         </ul>
       </div>
@@ -58,7 +66,7 @@ class Board extends Component {
 
 const mapStateToProps = state => {
   return {
-    boardData: state.boardData,
+    name: state.name,
     lists: state.lists,
     labels: state.labels,
     board_id: state.id

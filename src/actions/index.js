@@ -54,6 +54,7 @@ export const actionsCreateList = formData => async dispatch => {
       return response.json();
     })
     .then(json => {
+      json["cards"] = [];
       return dispatch({
         type: CREATE_LIST,
         payload: json

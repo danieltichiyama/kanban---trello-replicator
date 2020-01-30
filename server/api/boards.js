@@ -6,6 +6,25 @@ router.get("/smoke", (req, res) => {
   return res.send("There's smoke in the boards router.");
 });
 
+router.delete("/:id", (req, res) => {
+  return req.database.Board.where({ id: req.params.id })
+    .destroy()
+    .then(results => {
+      return res.status(200).send({ wasSuccessful: true });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  return req.database.Board.where({ id: req.params.id })
+    .save(req.body, { method: "update", patch: true })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.post("/new", (req, res) => {
   //req.body = {name, [description], created_by}
   return req.database.Board.forge(req.body)

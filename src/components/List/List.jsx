@@ -13,7 +13,12 @@ class List extends Component {
   createCard = e => {
     e.preventDefault();
     let cards = this.props.list.cards;
-    let position = parseInt(parseFloat(cards[cards.length - 1].position) + 1);
+    let position;
+    if (!this.props.list.cards || cards.length === 0) {
+      position = 1;
+    } else {
+      position = parseInt(parseFloat(cards[cards.length - 1].position) + 1);
+    }
     let formData = {
       ...this.state,
       list_id: this.props.list.id,
@@ -33,7 +38,11 @@ class List extends Component {
     return (
       <div className={styles.List}>
         <li className={styles.List} key={this.props.list.id}>
-          {this.props.list.name}
+          <form onSubmit={this.submitListName}>
+            <input type="text" placeholder={this.props.list.name} />
+            <input type="submit" value="Change" />
+          </form>
+
           <ul>
             {this.props.cards
               ? this.props.cards.map(card => {

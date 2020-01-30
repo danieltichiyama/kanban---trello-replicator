@@ -6,6 +6,28 @@ router.get("/smoke", (req, res) => {
   return res.send("There's smoke in the cards route.");
 });
 
+router.delete("/:id", (req, res) => {
+  return req.database.Card.where({ id: req.params.id })
+    .destroy()
+    .then(results => {
+      return res.status(200).send({ wasSuccessful: true });
+    });
+});
+
+router.put("/:id", (req, res) => {
+  return req.database.Card.where({ id: req.params.id })
+    .save(req.body, { method: "update", patch: true })
+    .then(results => {
+      return results.load(["labels", "createdBy", "assignedTo", "cardImages"]);
+    })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.post("/new", (req, res) => {
   //req.body = {title, [details], [due_date], position, created_by, [assigned_to], list_id, [is_archived]}
   return req.database.Card.forge(req.body)
@@ -20,7 +42,7 @@ router.post("/new", (req, res) => {
 
 router.get("/:cardID", (req, res) => {
   return req.database.Card.where({ id: req.params.cardID })
-    .fetch()
+    .fetch({ withRelated: ["labels", "createdBy", "assignedTo", "cardImages"] })
     .then(result => {
       return res.json(result);
     })
