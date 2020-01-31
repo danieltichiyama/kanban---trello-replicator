@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./Card.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
+import { Draggable } from "react-beautiful-dnd";
 
 class Card extends Component {
   constructor(props) {
@@ -38,30 +39,48 @@ class Card extends Component {
 
   render() {
     return (
-      <div className={styles.Card}>
-        <form onSubmit={this.updateCard}>
-          <input
-            type="text"
-            name="name"
-            defaultValue={this.props.card.name}
-            placeholder={this.props.card.name}
-            value={this.state.card.name}
-            onChange={this.handleCardInput}
-          />
-          <button onClick={this.toggleMenu}>Edit</button>
-        </form>
+      <Draggable
+        draggableId={this.props.card.id.toString()}
+        index={this.props.index}
+      >
+        {provided => {
+          return (
+            <div
+              className={styles.Card}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              <form onSubmit={this.updateCard}>
+                <input
+                  type="text"
+                  name="name"
+                  defaultValue={this.props.card.name}
+                  placeholder={this.props.card.name}
+                  value={this.state.card.name}
+                  onChange={this.handleCardInput}
+                />
+                <button onClick={this.toggleMenu}>Edit</button>
+              </form>
 
-        {this.props.card.labels
-          ? this.props.card.labels.map(label => {
-              let color = { backgroundColor: label.color };
-              return (
-                <div className={styles.Label} key={label.color} style={color}>
-                  Label: {label.name}
-                </div>
-              );
-            })
-          : null}
-      </div>
+              {this.props.card.labels
+                ? this.props.card.labels.map(label => {
+                    let color = { backgroundColor: label.color };
+                    return (
+                      <div
+                        className={styles.Label}
+                        key={label.color}
+                        style={color}
+                      >
+                        Label: {label.name}
+                      </div>
+                    );
+                  })
+                : null}
+            </div>
+          );
+        }}
+      </Draggable>
     );
   }
 }

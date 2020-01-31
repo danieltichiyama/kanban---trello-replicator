@@ -4,12 +4,17 @@ import { actionsCreateList, actionsUpdateBoard } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
 import styles from "./Board.module.scss";
+import { DragDropContext } from "react-beautiful-dnd";
 
 class Board extends Component {
   constructor(props) {
     super(props);
     this.state = { board: {}, list: {} };
   }
+
+  onDragEnd = result => {
+    console.log(result);
+  };
 
   updateBoard = e => {
     e.preventDefault();
@@ -64,23 +69,25 @@ class Board extends Component {
           />
           <input type="submit" value="Change" />
         </form>
-        <ul className={styles.Lists}>
-          {this.props.lists
-            ? this.props.lists.map(list => {
-                return <List list={list} key={list.id} cards={list.cards} />;
-              })
-            : null}
-          <form onSubmit={this.createList}>
-            <input
-              className={styles.AddList}
-              name="name"
-              value={this.state.list.name}
-              placeholder="+ Add List"
-              onChange={this.handleListInput}
-            />
-            <input type="submit" value="Add" />
-          </form>
-        </ul>
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          <ul className={styles.Lists}>
+            {this.props.lists
+              ? this.props.lists.map(list => {
+                  return <List list={list} key={list.id} cards={list.cards} />;
+                })
+              : null}
+            <form onSubmit={this.createList}>
+              <input
+                className={styles.AddList}
+                name="name"
+                value={this.state.list.name}
+                placeholder="+ Add List"
+                onChange={this.handleListInput}
+              />
+              <input type="submit" value="Add" />
+            </form>
+          </ul>
+        </DragDropContext>
       </div>
     );
   }

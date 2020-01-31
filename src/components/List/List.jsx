@@ -3,6 +3,7 @@ import styles from "./List.module.scss";
 import { connect } from "react-redux";
 import Card from "../Card";
 import { actionsCreateCard, actionsUpdateList } from "../../actions";
+import { Droppable } from "react-beautiful-dnd";
 
 class List extends Component {
   constructor(props) {
@@ -68,13 +69,23 @@ class List extends Component {
             />
             <input type="submit" value="Change" />
           </form>
-
           <ul>
-            {this.props.cards
-              ? this.props.cards.map(card => {
-                  return <Card card={card} key={card.id} />;
-                })
-              : null}
+            <Droppable droppableId={this.props.list.id.toString()}>
+              {provided => {
+                return (
+                  <div ref={provided.innerRef} {...provided.droppableProps}>
+                    {this.props.cards
+                      ? this.props.cards.map((card, index) => {
+                          return (
+                            <Card card={card} key={card.id} index={index} />
+                          );
+                        })
+                      : null}
+                    {provided.placeholder}
+                  </div>
+                );
+              }}
+            </Droppable>
             <li className={styles.AddCard}>
               <form onSubmit={this.createCard}>
                 <input
