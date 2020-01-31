@@ -11,21 +11,38 @@ import {
   UPDATE_LABEL
 } from "../actions";
 
-let initialState = {};
+let initialState = {
+  labelsObjINIT: {
+    "#218b8d": { color: "#218b8d" },
+    "#6bcdcc": { color: "#6bcdcc" },
+    "#f8e559": { color: "#f8e559" },
+    "#ef7124": { color: "#ef7124" },
+    "#90dc9e": { color: "#90dc9e" },
+    "#473e3e": { color: "#473e3e" }
+  }
+};
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
+
   switch (action.type) {
     case UPDATE_CARD:
       return state;
 
     case UPDATE_LABEL:
-      return state;
+      let updateMutableLabels = [...state.labels];
+      for (let i = 0; i < updateMutableLabels.length; i++) {
+        if (updateMutableLabels[i].id === action.payload.id) {
+          updateMutableLabels.splice(i, 1, action.payload);
+          return Object.assign({}, state, { labels: updateMutableLabels });
+        }
+      }
+      break;
 
     case UPDATE_LIST:
       let updateMutableLists = [...state.lists];
       for (let i = 0; i < updateMutableLists.length; i++) {
-        if (updateMutableLists[i].id === action.paylaod.id) {
+        if (updateMutableLists[i].id === action.payload.id) {
           updateMutableLists.splice(i, 1, action.payload);
           return Object.assign({}, state, { lists: updateMutableLists });
         }
@@ -44,9 +61,14 @@ const reducer = (state = initialState, action) => {
       break;
 
     case CREATE_LABEL:
-      let mutableLabels = [...state.labels];
-      mutableLabels.push(action.payload);
-      return Object.assign({}, state, { labels: mutableLabels });
+      let createMutableLabels = [...state.labels];
+      for (let i = 0; i < createMutableLabels.length; i++) {
+        if (createMutableLabels[i].id === action.payload.id) {
+          createMutableLabels.splice(i, 1, action.payload);
+          return Object.assign({}, state, { labels: createMutableLabels });
+        }
+      }
+      break;
 
     case CREATE_CARD:
       let addCardToList = [...state.lists];
@@ -71,6 +93,13 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { boards: boards });
 
     case GET_BOARD_DATA:
+      let getBoardDataLabels = [...action.payload.labels];
+      for (let i = 0; i < getBoardDataLabels.length; i++) {
+        state.labelsObjINIT[getBoardDataLabels[i].color] =
+          getBoardDataLabels[i];
+      }
+      action.payload.labels = Object.values(state.labelsObjINIT);
+
       return Object.assign({}, state, action.payload);
 
     case GET_BOARDS:

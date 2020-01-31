@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./LabelsMenu.module.scss";
-import { actionsCreateLabel } from "../../actions";
+import { actionsCreateLabel, actionsUpdateLabel } from "../../actions";
 
 class LabelsMenu extends Component {
   constructor(props) {
@@ -9,18 +9,36 @@ class LabelsMenu extends Component {
     this.state = {};
   }
 
-  createLabel = e => {
+  createOrUpdateLabel = e => {
     e.preventDefault();
-    let formData = {
-      ...this.state,
-      board_id: this.props.board_id
-    };
-    this.props.dispatchCreateLabel(formData);
-    return this.setState({ name: "" });
+    if (e.target.id) {
+      let { name, id } = e.target;
+
+      let formData = {
+        color: name,
+        name: this.state[name],
+        board_id: this.props.board_id,
+        id
+      };
+      console.log(formData);
+
+      return this.props.dispatchUpdateLabel(formData);
+    } else {
+      let { name } = e.target;
+
+      let formData = {
+        color: name,
+        name: this.state[name],
+        board_id: this.props.board_id
+      };
+      console.log(formData);
+
+      return this.props.dispatchCreateLabel(formData);
+    }
   };
 
-  handleInput = event => {
-    const { value, name } = event.target;
+  handleLabelInput = e => {
+    const { value, name } = e.target;
     return this.setState({ [name]: value });
   };
 
@@ -31,11 +49,28 @@ class LabelsMenu extends Component {
         {this.props.labels
           ? this.props.labels.map(label => {
               let color = { backgroundColor: label.color };
-              return <div style={color}>{label.name}</div>;
+              return (
+                <form
+                  onSubmit={this.createOrUpdateLabel}
+                  style={color}
+                  key={label.color}
+                  name={label.color}
+                  id={label.id}
+                >
+                  <input
+                    type="text"
+                    name={label.color}
+                    defaultValue={label.name}
+                    value={this.state.name}
+                    onChange={this.handleLabelInput}
+                  />
+                  <input type="submit" value="Edit" />
+                </form>
+              );
             })
           : null}
 
-        <form onSubmit={this.createLabel}>
+        {/* <form onSubmit={this.createLabel}>
           <input
             className={styles.AddLabel}
             name="name"
@@ -45,7 +80,7 @@ class LabelsMenu extends Component {
           />
           <input type="color" name="color" onChange={this.handleInput} />
           <input type="submit" value="Submit" />
-        </form>
+        </form> */}
       </div>
     );
   }
@@ -62,6 +97,9 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateLabel: formData => {
       return dispatch(actionsCreateLabel(formData));
+    },
+    dispatchUpdateLabel: formData => {
+      return dispatch(actionsUpdateLabel(formData));
     }
   };
 };
