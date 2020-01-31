@@ -94,12 +94,6 @@ class List extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    labels: state.labels
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateCard: formData => {
@@ -111,4 +105,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default List = connect(mapStateToProps, mapDispatchToProps)(List);
+export default List = connect(null, mapDispatchToProps)(List);

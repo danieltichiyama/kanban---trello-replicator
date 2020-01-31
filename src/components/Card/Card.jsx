@@ -66,12 +66,6 @@ class Card extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    labels: state.labels
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateCard: formData => {
@@ -80,4 +74,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default Card = connect(mapStateToProps, mapDispatchToProps)(Card);
+export default Card = connect(null, mapDispatchToProps)(Card);
