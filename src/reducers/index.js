@@ -13,6 +13,7 @@ import {
 
 let initialState = {
   labelsObjINIT: {
+    //this needs to happen on the component level, to prevent cross contamination
     "#218b8d": { color: "#218b8d" },
     "#6bcdcc": { color: "#6bcdcc" },
     "#f8e559": { color: "#f8e559" },
@@ -33,10 +34,12 @@ const reducer = (state = initialState, action) => {
           for (let j = 0; j < updateCardInList[i].cards.length; j++) {
             if (updateCardInList[i].cards[j].id === action.payload.id) {
               updateCardInList[i].cards.splice(j, 1, action.payload);
+              console.log("cards updated");
               return Object.assign({}, state, { lists: updateCardInList });
             }
           }
           updateCardInList[i].cards.push(action.payload);
+          console.log("cards updated");
           return Object.assign({}, state, { lists: updateCardInList });
         }
       }
