@@ -70,16 +70,20 @@ class List extends Component {
             <input type="submit" value="Change" />
           </form>
           <ul>
-            <Droppable droppableId={this.props.list.id.toString()}>
+            <Droppable droppableId={this.props.listIndex.toString()}>
               {provided => {
                 return (
                   <div ref={provided.innerRef} {...provided.droppableProps}>
                     {this.props.cards
-                      ? this.props.cards.map((card, index) => {
-                          return (
-                            <Card card={card} key={card.id} index={index} />
-                          );
-                        })
+                      ? this.props.cards
+                          .sort((a, b) => {
+                            return a.position - b.position;
+                          })
+                          .map((card, index) => {
+                            return (
+                              <Card card={card} key={card.id} index={index} />
+                            );
+                          })
                       : null}
                     {provided.placeholder}
                   </div>

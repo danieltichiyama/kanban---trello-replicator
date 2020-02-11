@@ -4,6 +4,7 @@ exports.up = function(knex) {
     table.string("name").notNullable();
     table.decimal("position").notNullable();
     table.integer("board_id").references("boards.id");
+    table.boolean("is_archived").defaultTo(false);
     table.timestamps(true, true);
   });
 };

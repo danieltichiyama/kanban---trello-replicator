@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { actionsCreateList, actionsUpdateBoard } from "../../actions";
+import {
+  actionsCreateList,
+  actionsUpdateBoard,
+  actionsUpdateCard
+} from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
 import styles from "./Board.module.scss";
@@ -13,7 +17,50 @@ class Board extends Component {
   }
 
   onDragEnd = result => {
-    console.log(result);
+    let { source, destination, draggableId } = result;
+    if (!destination) {
+      return;
+    }
+
+    if (
+      destination.droppableId === source.droppableId &&
+      destination.index === source.index
+    ) {
+      return;
+    }
+
+    let index = destination.index;
+
+    let generatePosition = (index, array) => {
+      let position;
+
+      if (index === 0) {
+        position = parseFloat(array[index].position) / 2;
+      } else if (index === array.length - 1) {
+        position = parseInt(parseFloat(array[index].position) + 1);
+      } else {
+        position = parseFloat(
+          parseFloat(array[index].position) +
+            parseFloat(array[index - 1].position) / 2
+        );
+      }
+
+      return position;
+    };
+
+    let formData = {
+      id: draggableId,
+      list_id: parseInt(this.props.lists[destination.droppableId].id),
+      position: generatePosition(
+        index,
+        this.props.lists[destination.droppableId].cards
+      )
+    };
+
+    return this.props.dispatchUpdateCard(formData);
+    //saves the data in the backend server, however it doesn't rerender the list in the correct order.  Perhaps because it can't see the difference in the reducer, so it doesn't trigger a rerender.
+
+    //also, dragging it to another list doesn't work.
   };
 
   updateBoard = e => {
@@ -72,8 +119,15 @@ class Board extends Component {
         <DragDropContext onDragEnd={this.onDragEnd}>
           <ul className={styles.Lists}>
             {this.props.lists
-              ? this.props.lists.map(list => {
-                  return <List list={list} key={list.id} cards={list.cards} />;
+              ? this.props.lists.map((list, index) => {
+                  return (
+                    <List
+                      list={list}
+                      key={list.id}
+                      cards={list.cards}
+                      listIndex={index}
+                    />
+                  );
                 })
               : null}
             <form onSubmit={this.createList}>
@@ -109,6 +163,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchUpdateBoard: formData => {
       return dispatch(actionsUpdateBoard(formData));
+    },
+    dispatchUpdateCard: formData => {
+      return dispatch(actionsUpdateCard(formData));
     }
   };
 };

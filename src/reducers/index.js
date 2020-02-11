@@ -27,7 +27,20 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case UPDATE_CARD:
-      return state;
+      let updateCardInList = [...state.lists];
+      for (let i = 0; i < updateCardInList.length; i++) {
+        if (updateCardInList[i].id === action.payload.list_id) {
+          for (let j = 0; j < updateCardInList[i].cards.length; j++) {
+            if (updateCardInList[i].cards[j].id === action.payload.id) {
+              updateCardInList[i].cards.splice(j, 1, action.payload);
+              return Object.assign({}, state, { lists: updateCardInList });
+            }
+          }
+          updateCardInList[i].cards.push(action.payload);
+          return Object.assign({}, state, { lists: updateCardInList });
+        }
+      }
+      break;
 
     case UPDATE_LABEL:
       let updateMutableLabels = [...state.labels];
