@@ -3,19 +3,22 @@ import styles from "./Card.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
 
+import CardMenu from "../CardMenu";
+
 class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showMenu: false,
-      card: {},
       label: {}
     };
   }
 
   updateCard = e => {
     e.preventDefault();
-    let formData = { ...this.state.card, id: this.props.card.id };
+    let formData = { ...this.state, id: this.props.card.id };
+    delete formData.label;
+    delete formData.showMenu;
     return this.props.dispatchUpdateCard(formData);
   };
 
@@ -28,7 +31,7 @@ class Card extends Component {
 
   handleCardInput = e => {
     const { value, name } = e.target;
-    return this.setState({ card: { [name]: value } });
+    return this.setState({ [name]: value });
   };
 
   handleLabelInput = e => {
@@ -36,20 +39,29 @@ class Card extends Component {
     return this.setState({ label: { [name]: value } });
   };
 
+  handleInputClick = e => {
+    const { placeholder, name } = e.target;
+    return this.setState({ [name]: placeholder });
+  };
+
   render() {
+    // console.log("rerendering card:", this.props.card);
     return (
       <div className={styles.Card}>
         <form onSubmit={this.updateCard}>
           <input
             type="text"
             name="name"
-            defaultValue={this.props.card.name}
             placeholder={this.props.card.name}
-            value={this.state.card.name}
+            value={this.state.name}
             onChange={this.handleCardInput}
+            onClick={this.handleInputClick}
           />
-          <button onClick={this.toggleMenu}>Edit</button>
+          <input type="submit" value="Edit" />
         </form>
+        <button onClick={this.toggleMenu}>
+          {!this.state.showMenu ? "More" : "Less"}
+        </button>
 
         {this.props.card.labels
           ? this.props.card.labels.map(label => {
@@ -61,6 +73,14 @@ class Card extends Component {
               );
             })
           : null}
+
+        {!this.state.showMenu ? null : (
+          <CardMenu
+            card={this.props.card}
+            toggleMenu={this.toggleMenu}
+            updateCard={this.updateCard}
+          />
+        )}
       </div>
     );
   }

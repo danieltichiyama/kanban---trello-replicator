@@ -27,7 +27,36 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case UPDATE_CARD:
-      return state;
+      let updateCardInList = [...state.lists];
+      for (let i = 0; i < updateCardInList.length; i++) {
+        if (updateCardInList[i].id === action.payload.list_id) {
+          for (let j = 0; j < updateCardInList[i].cards.length; j++) {
+            if (updateCardInList[i].cards[j].id === action.payload.id) {
+              updateCardInList[i].cards.splice(j, 1, action.payload);
+              console.log("card found and updated in state");
+              return Object.assign({}, state, { lists: updateCardInList });
+            }
+          }
+          console.log("card added to a new list");
+
+          updateCardInList[i].cards.push(action.payload);
+          for (let j = 0; j < updateCardInList.length; j++) {
+            for (let k = 0; k < updateCardInList[j].cards.length; k++) {
+              if (
+                updateCardInList[j].cards[k].id === action.payload.id &&
+                j !== i
+              ) {
+                updateCardInList[j].cards.splice(k, 1);
+                console.log(
+                  "card's old position found and deleted from old list."
+                );
+                return Object.assign({}, state, { lists: updateCardInList });
+              }
+            }
+          }
+        }
+      }
+      break;
 
     case UPDATE_LABEL:
       let updateMutableLabels = [...state.labels];

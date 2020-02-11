@@ -36,7 +36,7 @@ class Board extends Component {
     };
 
     this.props.dispatchCreateList(formData);
-    return this.setState({ name: "" });
+    return this.setState({ list: { name: "" } });
   };
 
   handleBoardInput = e => {

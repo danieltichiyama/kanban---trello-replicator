@@ -72,7 +72,11 @@ class List extends Component {
           <ul>
             {this.props.cards
               ? this.props.cards.map(card => {
-                  return <Card card={card} key={card.id} />;
+                  if (card.is_archived === false) {
+                    return <Card card={card} key={card.id} />;
+                  } else {
+                    return null;
+                  }
                 })
               : null}
             <li className={styles.AddCard}>
@@ -94,6 +98,12 @@ class List extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    watchLists: state.lists
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateCard: formData => {
@@ -105,4 +115,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default List = connect(null, mapDispatchToProps)(List);
+export default List = connect(mapStateToProps, mapDispatchToProps)(List);

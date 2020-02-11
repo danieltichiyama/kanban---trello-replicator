@@ -33,6 +33,9 @@ router.post("/new", (req, res) => {
   return req.database.Card.forge(req.body)
     .save()
     .then(result => {
+      return result.load(["labels", "createdBy", "assignedTo", "cardImages"]);
+    })
+    .then(result => {
       res.json(result);
     })
     .catch(err => {
