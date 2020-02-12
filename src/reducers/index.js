@@ -11,19 +11,7 @@ import {
   UPDATE_LABEL
 } from "../actions";
 
-let initialState = {
-  labelsObjINIT: {
-    "#61be4f": { color: "#61be4f" },
-    "#f2d600": { color: "#f2d600" },
-    "#ff9f1a": { color: "#ff9f1a" },
-    "#eb5946": { color: "#eb5946" },
-    "#c377e0": { color: "#c377e0" },
-    "#0079bf": { color: "#0079bf" },
-    "#00c2e0": { color: "#00c2e0" },
-    "#ff77cb": { color: "#ff77cb" },
-    "#344562": { color: "#344562" }
-  }
-};
+let initialState = {};
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
@@ -95,13 +83,6 @@ const reducer = (state = initialState, action) => {
       return Object.assign({}, state, { boards: createBoard });
 
     case GET_BOARD_DATA:
-      let getBoardDataLabels = [...action.payload.labels];
-      for (let i = 0; i < getBoardDataLabels.length; i++) {
-        state.labelsObjINIT[getBoardDataLabels[i].color] =
-          getBoardDataLabels[i];
-      }
-      action.payload.labels = Object.values(state.labelsObjINIT);
-
       return Object.assign({}, state, action.payload);
 
     case GET_BOARDS:
