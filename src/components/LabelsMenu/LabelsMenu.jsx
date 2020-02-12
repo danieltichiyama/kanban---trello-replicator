@@ -20,6 +20,7 @@ class LabelsMenu extends Component {
   }
 
   componentDidMount = () => {
+    //merges saved labels into state
     let state = { ...this.state };
     let { labels } = this.props;
     for (let i = 0; i < labels.length; i++) {
@@ -65,13 +66,8 @@ class LabelsMenu extends Component {
   handleInputClick = e => {
     const { placeholder, name } = e.target;
     let color = { ...this.state[name] };
-    if (placeholder) {
-      color.name = placeholder;
-      return this.setState({ [name]: color });
-    } else {
-      color.name = "";
-      return this.setState({ [name]: color });
-    }
+    color.name = placeholder;
+    return this.setState({ [name]: color });
   };
 
   render() {
@@ -80,7 +76,6 @@ class LabelsMenu extends Component {
         {/* Labels */}
         {Object.values(this.state).map(label => {
           let color = { backgroundColor: label.color };
-          console.log(label.color);
           return (
             <form
               onSubmit={this.createOrUpdateLabel}

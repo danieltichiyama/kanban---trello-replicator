@@ -8,8 +8,12 @@ import styles from "./Board.module.scss";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: {}, list: {} };
+    this.state = { board: {}, list: {}, showMenu: false };
   }
+
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
+  };
 
   updateBoard = e => {
     e.preventDefault();
@@ -57,7 +61,8 @@ class Board extends Component {
   render() {
     return (
       <div className={styles.Board}>
-        <BoardMenu />
+        <button onClick={this.toggleMenu}>Menu</button>
+        {this.state.showMenu ? <BoardMenu /> : null}
 
         {/* Board Name */}
         <form onSubmit={this.updateBoard}>
