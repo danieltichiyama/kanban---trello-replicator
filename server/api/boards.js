@@ -54,12 +54,13 @@ router.get("/:boardID", (req, res) => {
     .fetch({
       withRelated: [
         "createdBy",
-        "lists.cards.labels",
+        "cards.labels",
         "boardImage",
-        "lists.cards.cardImages",
-        "lists.cards.createdBy",
-        "lists.cards.assignedTo",
-        "labels"
+        "cards.cardImages",
+        "cards.createdBy",
+        "cards.assignedTo",
+        "labels",
+        "lists"
       ]
     })
     .then(results => {

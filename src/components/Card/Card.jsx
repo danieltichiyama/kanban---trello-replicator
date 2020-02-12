@@ -45,9 +45,9 @@ class Card extends Component {
   };
 
   render() {
-    // console.log("rerendering card:", this.props.card);
     return (
       <div className={styles.Card}>
+        {/* Card Name */}
         <form onSubmit={this.updateCard}>
           <input
             type="text"
@@ -59,10 +59,13 @@ class Card extends Component {
           />
           <input type="submit" value="Edit" />
         </form>
+
+        {/* Show Card Editor Menu */}
         <button onClick={this.toggleMenu}>
           {!this.state.showMenu ? "More" : "Less"}
         </button>
 
+        {/* Card's Labels */}
         {this.props.card.labels
           ? this.props.card.labels.map(label => {
               let color = { backgroundColor: label.color };
@@ -74,6 +77,7 @@ class Card extends Component {
             })
           : null}
 
+        {/* Card Menu */}
         {!this.state.showMenu ? null : (
           <CardMenu
             card={this.props.card}

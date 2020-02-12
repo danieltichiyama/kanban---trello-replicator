@@ -49,27 +49,40 @@ class Board extends Component {
     return this.setState({ list: { [name]: value } });
   };
 
+  handleInputClick = e => {
+    const { placeholder } = e.target;
+    return this.setState({ board: { name: placeholder } });
+  };
+
   render() {
     return (
       <div className={styles.Board}>
         <BoardMenu />
+
+        {/* Board Name */}
         <form onSubmit={this.updateBoard}>
           <input
             type="text"
             name="name"
             value={this.state.board.name}
-            defaultValue={this.props.name}
             placeholder={this.props.name}
             onChange={this.handleBoardInput}
+            onClick={this.handleInputClick}
           />
           <input type="submit" value="Change" />
         </form>
+
+        {/* Lists */}
         <ul className={styles.Lists}>
           {this.props.lists
             ? this.props.lists.map(list => {
-                return <List list={list} key={list.id} cards={list.cards} />;
+                return (
+                  <List list={list} key={list.id} cards={this.props.cards} />
+                );
               })
             : null}
+
+          {/* Add List */}
           <form onSubmit={this.createList}>
             <input
               className={styles.AddList}
@@ -91,7 +104,8 @@ const mapStateToProps = state => {
     name: state.name,
     lists: state.lists,
     labels: state.labels,
-    board_id: state.id
+    board_id: state.id,
+    cards: state.cards
   };
 };
 

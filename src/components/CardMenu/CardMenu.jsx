@@ -37,8 +37,7 @@ class CardMenu extends Component {
     return (
       <div className={styles.CardMenu}>
         <form onSubmit={this.updateCard}>
-          <input type="button" value="Cancel" onClick={this.toggleMenu} />
-
+          <input type="button" value="Cancel" onClick={this.props.toggleMenu} />
           <input
             type="text"
             name="name"

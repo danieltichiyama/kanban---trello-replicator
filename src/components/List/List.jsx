@@ -20,9 +20,9 @@ class List extends Component {
 
   createCard = e => {
     e.preventDefault();
-    let cards = this.props.list.cards;
+    let cards = this.props.cards;
     let position;
-    if (!this.props.list.cards || cards.length === 0) {
+    if (!this.props.cards || cards.length === 0) {
       position = 1;
     } else {
       position = parseInt(parseFloat(cards[cards.length - 1].position) + 1);
@@ -31,19 +31,18 @@ class List extends Component {
       ...this.state,
       list_id: this.props.list.id,
       position,
-      created_by: 1
+      created_by: 1,
+      board_id: this.props.list.board_id
     };
 
-    if (formData.list) {
-      delete formData.list;
-    }
+    delete formData.list;
 
     this.props.dispatchCreateCard(formData);
     return this.setState({ name: "" });
   };
 
-  handleCardInput = event => {
-    const { value, name } = event.target;
+  handleCardInput = e => {
+    const { value, name } = e.target;
     return this.setState({ [name]: value });
   };
 
@@ -53,46 +52,56 @@ class List extends Component {
     return this.setState({ list: { [name]: value } });
   };
 
+  handleInputClick = e => {
+    const { placeholder } = e.target;
+    return this.setState({ list: { name: placeholder } });
+  };
+
   render() {
     return (
-      <div className={styles.List}>
-        <li className={styles.List} key={this.props.list.id}>
-          <form onSubmit={this.updateList}>
-            <input
-              type="text"
-              defaultValue={this.props.list.name}
-              placeholder={this.props.list.name}
-              onChange={this.handleListInput}
-              value={this.state.list.name}
-              name="name"
-            />
-            <input type="submit" value="Change" />
-          </form>
+      <div className={styles.List} key={this.props.list.id}>
+        {/* List Name */}
+        <form onSubmit={this.updateList}>
+          <input
+            type="text"
+            placeholder={this.props.list.name}
+            onChange={this.handleListInput}
+            onClick={this.handleInputClick}
+            value={this.state.list.name}
+            name="name"
+          />
+          <input type="submit" value="Change" />
+        </form>
 
-          <ul>
-            {this.props.cards
-              ? this.props.cards.map(card => {
-                  if (card.is_archived === false) {
-                    return <Card card={card} key={card.id} />;
-                  } else {
-                    return null;
-                  }
-                })
-              : null}
-            <li className={styles.AddCard}>
-              <form onSubmit={this.createCard}>
-                <input
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  placeholder="+ Add Card"
-                  onChange={this.handleCardInput}
-                />
-                <input type="submit" value="Add" />
-              </form>
-            </li>
-          </ul>
-        </li>
+        {/* Cards */}
+        <ul>
+          {this.props.cards
+            ? this.props.cards.map(card => {
+                if (
+                  card.is_archived === false &&
+                  card.list_id === this.props.list.id
+                ) {
+                  return <Card card={card} key={card.id} />;
+                } else {
+                  return null;
+                }
+              })
+            : null}
+
+          {/* Add Card */}
+          <li className={styles.AddCard}>
+            <form onSubmit={this.createCard}>
+              <input
+                type="text"
+                name="name"
+                value={this.state.name}
+                placeholder="+ Add Card"
+                onChange={this.handleCardInput}
+              />
+              <input type="submit" value="Add" />
+            </form>
+          </li>
+        </ul>
       </div>
     );
   }
