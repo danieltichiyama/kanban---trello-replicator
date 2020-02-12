@@ -22,8 +22,8 @@ class BoardMenu extends Component {
           <li className={styles.MenuList}>Background Image</li>
           <li className={styles.MenuList} onClick={this.toggleLabels}>
             Labels
-            {this.state.openLabelsMenu ? <LabelsMenu /> : null}
           </li>
+          {this.state.openLabelsMenu ? <LabelsMenu /> : null}
         </ul>
       </div>
     );

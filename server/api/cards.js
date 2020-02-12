@@ -14,6 +14,33 @@ router.delete("/:id", (req, res) => {
     });
 });
 
+router.put("/labels/:id", (req, res) => {
+  let labels = req.body.label_ids;
+  return req.database.Card.where({ id: req.params.id })
+    .fetch({ withRelated: ["labels"] })
+    .then(results => {
+      return results.labels().detach();
+    })
+    .then(results => {
+      return results.attach(labels);
+    })
+    .then(results => {
+      return req.database.Card.where({ id: req.params.id })
+        .fetch({
+          withRelated: ["labels", "createdBy", "assignedTo", "cardImages"]
+        })
+        .then(results => {
+          return res.json(results);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.put("/:id", (req, res) => {
   return req.database.Card.where({ id: req.params.id })
     .save(req.body, { method: "update", patch: true })

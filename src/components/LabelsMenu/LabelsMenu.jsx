@@ -6,28 +6,8 @@ import { actionsCreateLabel, actionsUpdateLabel } from "../../actions";
 class LabelsMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      "#61be4f": { color: "#61be4f" },
-      "#f2d600": { color: "#f2d600" },
-      "#ff9f1a": { color: "#ff9f1a" },
-      "#eb5946": { color: "#eb5946" },
-      "#c377e0": { color: "#c377e0" },
-      "#0079bf": { color: "#0079bf" },
-      "#00c2e0": { color: "#00c2e0" },
-      "#ff77cb": { color: "#ff77cb" },
-      "#344562": { color: "#344562" }
-    };
+    this.state = {};
   }
-
-  componentDidMount = () => {
-    //merges saved labels into state
-    let state = { ...this.state };
-    let { labels } = this.props;
-    for (let i = 0; i < labels.length; i++) {
-      state[labels[i].color] = labels[i];
-    }
-    return this.setState(state);
-  };
 
   createOrUpdateLabel = e => {
     e.preventDefault();
@@ -37,7 +17,7 @@ class LabelsMenu extends Component {
 
       let formData = {
         color: name,
-        name: this.state[name].name,
+        name: this.state[name],
         board_id: this.props.board_id,
         id
       };
@@ -48,7 +28,7 @@ class LabelsMenu extends Component {
 
       let formData = {
         color: name,
-        name: this.state[name].name,
+        name: this.state[name],
         board_id: this.props.board_id
       };
 
@@ -58,23 +38,20 @@ class LabelsMenu extends Component {
 
   handleLabelInput = e => {
     const { value, name } = e.target;
-    let color = { ...this.state[name] };
-    color.name = value;
-    return this.setState({ [name]: color });
+
+    return this.setState({ [name]: value });
   };
 
   handleInputClick = e => {
-    const { placeholder, name } = e.target;
-    let color = { ...this.state[name] };
-    color.name = placeholder;
-    return this.setState({ [name]: color });
+    const { name, value } = e.target;
+    return this.setState({ [name]: value });
   };
 
   render() {
     return (
       <div className={styles.LabelsMenu}>
         {/* Labels */}
-        {Object.values(this.state).map(label => {
+        {Object.values(this.props.labels).map(label => {
           let color = { backgroundColor: label.color };
           return (
             <form
@@ -87,8 +64,8 @@ class LabelsMenu extends Component {
               <input
                 type="text"
                 name={label.color}
-                placeholder={label.name}
-                value={this.state[label.color].name}
+                defaultValue={label.name}
+                value={this.state[label.color]}
                 onChange={this.handleLabelInput}
                 onClick={this.handleInputClick}
               />

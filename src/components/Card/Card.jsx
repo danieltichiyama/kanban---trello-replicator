@@ -69,9 +69,10 @@ class Card extends Component {
         {this.props.card.labels
           ? this.props.card.labels.map(label => {
               let color = { backgroundColor: label.color };
+              let labelName = this.props.labels[label.color].name;
               return (
                 <div className={styles.Label} key={label.color} style={color}>
-                  Label: {label.name}
+                  {labelName}
                 </div>
               );
             })
@@ -90,6 +91,12 @@ class Card extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    labels: state.labels
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateCard: formData => {
@@ -98,4 +105,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default Card = connect(null, mapDispatchToProps)(Card);
+export default Card = connect(mapStateToProps, mapDispatchToProps)(Card);

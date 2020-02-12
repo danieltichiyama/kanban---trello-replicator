@@ -42,6 +42,10 @@ class CardMenu extends Component {
     return this.setState({ is_archived: true }, this.updateCard);
   };
 
+  addLabels = () => {
+    return;
+  };
+
   render() {
     return (
       <div className={styles.CardMenu}>
@@ -92,10 +96,17 @@ class CardMenu extends Component {
             }
           />
           <button onClick={this.toggleLabelsMenu}>Labels</button>
-          {this.state.openCardLabels ? <CardLabels /> : null}
-
           <input type="submit" value="Save" />
         </form>
+
+        {this.state.openCardLabels ? (
+          <CardLabels
+            card={this.props.card}
+            labels={this.props.labels}
+            addLabels={this.addLabels}
+            toggleLabelsMenu={this.toggleLabelsMenu}
+          />
+        ) : null}
         <input type="button" value="Archive" onClick={this.archiveCard} />
       </div>
     );

@@ -30,6 +30,22 @@ const putConfig = data => {
   };
 };
 
+export const actionsAddLabels = formData => async dispatch => {
+  await fetch(`/api/cards/labels/${formData.card_id}`, putConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
+      return dispatch({
+        type: UPDATE_CARD,
+        payload: json
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
 export const actionsUpdateLabel = formData => async dispatch => {
   await fetch(`/api/labels/${formData.id}`, putConfig(formData))
     .then(response => {
