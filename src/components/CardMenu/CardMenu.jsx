@@ -49,8 +49,10 @@ class CardMenu extends Component {
   render() {
     return (
       <div className={styles.CardMenu}>
+        <input type="button" value="Cancel" onClick={this.props.toggleMenu} />
+
+        {/* Edit Name */}
         <form onSubmit={this.updateCard}>
-          <input type="button" value="Cancel" onClick={this.props.toggleMenu} />
           <input
             type="text"
             name="name"
@@ -59,6 +61,8 @@ class CardMenu extends Component {
             onChange={this.handleCardInput}
             placeholder={this.props.card.name}
           />
+
+          {/* Edit Details */}
           <textarea
             name="details"
             cols="30"
@@ -67,15 +71,21 @@ class CardMenu extends Component {
             defaultValue={this.props.card.details}
             value={this.state.details}
           ></textarea>
+
+          {/* Edit Due Date */}
           <input
             type="date"
             name="due_date"
             onChange={this.handleCardInput}
-            defaultValue={new Date(this.props.card.due_date)
-              .toISOString()
-              .substr(0, 10)}
+            defaultValue={
+              this.props.card.due_date
+                ? new Date(this.props.card.due_date).toISOString().substr(0, 10)
+                : null
+            }
             value={this.state.due_date}
           />
+
+          {/* Edit List */}
           <select name="list_id" onChange={this.handleCardInput}>
             {this.props.lists.map(list => {
               return (
@@ -85,6 +95,8 @@ class CardMenu extends Component {
               );
             })}
           </select>
+
+          {/* Display Created By */}
           <input
             type="text"
             name="created_by"
@@ -95,10 +107,13 @@ class CardMenu extends Component {
               this.props.card.createdBy.last_name
             }
           />
+
+          {/* Toggle Labels Menu */}
           <button onClick={this.toggleLabelsMenu}>Labels</button>
           <input type="submit" value="Save" />
         </form>
 
+        {/* Labels Menu */}
         {this.state.openCardLabels ? (
           <CardLabels
             card={this.props.card}
@@ -107,6 +122,8 @@ class CardMenu extends Component {
             toggleLabelsMenu={this.toggleLabelsMenu}
           />
         ) : null}
+
+        {/* Archive Card Button */}
         <input type="button" value="Archive" onClick={this.archiveCard} />
       </div>
     );
