@@ -12,13 +12,16 @@ import {
 } from "../actions";
 
 let initialState = {
-  labelsObjINIT: {
-    "#218b8d": { color: "#218b8d" },
-    "#6bcdcc": { color: "#6bcdcc" },
-    "#f8e559": { color: "#f8e559" },
-    "#ef7124": { color: "#ef7124" },
-    "#90dc9e": { color: "#90dc9e" },
-    "#473e3e": { color: "#473e3e" }
+  initLabels: {
+    "#61be4f": { color: "#61be4f" },
+    "#f2d600": { color: "#f2d600" },
+    "#ff9f1a": { color: "#ff9f1a" },
+    "#eb5946": { color: "#eb5946" },
+    "#c377e0": { color: "#c377e0" },
+    "#0079bf": { color: "#0079bf" },
+    "#00c2e0": { color: "#00c2e0" },
+    "#ff77cb": { color: "#ff77cb" },
+    "#344562": { color: "#344562" }
   }
 };
 
@@ -27,79 +30,69 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case UPDATE_CARD:
-      return state;
-
-    case UPDATE_LABEL:
-      let updateMutableLabels = [...state.labels];
-      for (let i = 0; i < updateMutableLabels.length; i++) {
-        if (updateMutableLabels[i].id === action.payload.id) {
-          updateMutableLabels.splice(i, 1, action.payload);
-          return Object.assign({}, state, { labels: updateMutableLabels });
+      let updateCards = [...state.cards];
+      for (let i = 0; i < updateCards.length; i++) {
+        if (updateCards[i].id === action.payload.id) {
+          updateCards.splice(i, 1, action.payload);
+          return Object.assign({}, state, { cards: updateCards });
         }
       }
       break;
 
+    case UPDATE_LABEL:
+      let updateLabel = { ...state.labels };
+      updateLabel[action.payload.color] = action.payload;
+      return Object.assign({}, state, { labels: updateLabel });
+
     case UPDATE_LIST:
-      let updateMutableLists = [...state.lists];
-      for (let i = 0; i < updateMutableLists.length; i++) {
-        if (updateMutableLists[i].id === action.payload.id) {
-          updateMutableLists.splice(i, 1, action.payload);
-          return Object.assign({}, state, { lists: updateMutableLists });
+      let updateList = [...state.lists];
+      for (let i = 0; i < updateList.length; i++) {
+        if (updateList[i].id === action.payload.id) {
+          updateList.splice(i, 1, action.payload);
+          return Object.assign({}, state, { lists: updateList });
         }
       }
       break;
 
     case UPDATE_BOARD:
-      let mutableBoards = [...state.boards];
-      console.log(mutableBoards);
-      for (let i = 0; i < mutableBoards.length; i++) {
-        if (mutableBoards[i].id === action.payload.id) {
-          mutableBoards.splice(i, 1, action.payload);
-          return Object.assign({}, state, { boards: mutableBoards });
+      let updateBoard = [...state.boards];
+      for (let i = 0; i < updateBoard.length; i++) {
+        if (updateBoard[i].id === action.payload.id) {
+          updateBoard.splice(i, 1, action.payload);
+          return Object.assign({}, state, { boards: updateBoard });
         }
       }
       break;
 
     case CREATE_LABEL:
-      let createMutableLabels = [...state.labels];
-      for (let i = 0; i < createMutableLabels.length; i++) {
-        if (createMutableLabels[i].id === action.payload.id) {
-          createMutableLabels.splice(i, 1, action.payload);
-          return Object.assign({}, state, { labels: createMutableLabels });
-        }
-      }
-      break;
+      let createLabel = { ...state.labels };
+      createLabel[action.payload.color] = action.payload;
+      return Object.assign({}, state, { labels: createLabel });
 
     case CREATE_CARD:
-      let addCardToList = [...state.lists];
-      for (let i = 0; i < addCardToList.length; i++) {
-        if (addCardToList[i].id === action.payload.list_id) {
-          let newList = Object.assign({}, addCardToList[i]);
-          newList.cards.push(action.payload);
-          addCardToList[i] = newList;
-          return Object.assign({}, state, { lists: addCardToList });
-        }
-      }
-      break;
+      let createCard = [...state.cards];
+      createCard.push(action.payload);
+      return Object.assign({}, state, { cards: createCard });
 
     case CREATE_LIST:
-      let mutableLists = [...state.lists];
-      mutableLists.push(action.payload);
-      return Object.assign({}, state, { lists: mutableLists });
+      let createList = [...state.lists];
+      createList.push(action.payload);
+      return Object.assign({}, state, { lists: createList });
 
     case CREATE_BOARD:
-      let boards = [...state.boards];
-      boards.push(action.payload);
-      return Object.assign({}, state, { boards: boards });
+      let createBoard = [...state.boards];
+      createBoard.push(action.payload);
+      return Object.assign({}, state, { boards: createBoard });
 
     case GET_BOARD_DATA:
-      let getBoardDataLabels = [...action.payload.labels];
-      for (let i = 0; i < getBoardDataLabels.length; i++) {
-        state.labelsObjINIT[getBoardDataLabels[i].color] =
-          getBoardDataLabels[i];
-      }
-      action.payload.labels = Object.values(state.labelsObjINIT);
+      let getBoardDataInitLabels = { ...state.initLabels };
+      let { labels } = action.payload;
 
+      for (let i = 0; i < labels.length; i++) {
+        getBoardDataInitLabels[labels[i].color] = labels[i];
+      }
+
+      action.payload.labels = getBoardDataInitLabels;
       return Object.assign({}, state, action.payload);
 
     case GET_BOARDS:

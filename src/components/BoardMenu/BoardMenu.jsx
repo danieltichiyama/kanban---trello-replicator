@@ -6,25 +6,24 @@ class BoardMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isLabelsOpen: false
+      openLabelsMenu: false
     };
   }
 
   toggleLabels = () => {
-    this.setState({ isLabelsOpen: !this.state.isLabelsOpen });
+    this.setState({ openLabelsMenu: !this.state.openLabelsMenu });
   };
 
   render() {
     return (
       <div className={styles.BoardMenu}>
-        {this.state.isLabelsOpen ? <LabelsMenu /> : null}
         <ul>
-          This Board
           <li className={styles.MenuList}>General Information</li>
           <li className={styles.MenuList}>Background Image</li>
           <li className={styles.MenuList} onClick={this.toggleLabels}>
             Labels
           </li>
+          {this.state.openLabelsMenu ? <LabelsMenu /> : null}
         </ul>
       </div>
     );

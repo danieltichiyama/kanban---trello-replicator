@@ -9,6 +9,7 @@ exports.seed = function(knex) {
           name: "Make the board",
           details: "This is a seeded card.",
           position: 1,
+          board_id: 1,
           list_id: 2,
           created_by: 1,
           assigned_to: 1
@@ -17,6 +18,7 @@ exports.seed = function(knex) {
           name: "Make the board better",
           details: "This is a seeded card.",
           position: 1,
+          board_id: 1,
           list_id: 1,
           created_by: 1,
           assigned_to: 1
@@ -25,6 +27,7 @@ exports.seed = function(knex) {
           name: "Make the board like trello.",
           details: "This is a seeded card.",
           position: 2,
+          board_id: 1,
           list_id: 1,
           created_by: 1,
           assigned_to: 1
@@ -33,6 +36,7 @@ exports.seed = function(knex) {
           name: "Setup database seeds and migrations",
           details: "This is a seeded card.",
           position: 1,
+          board_id: 1,
           list_id: 3,
           created_by: 1,
           assigned_to: 1

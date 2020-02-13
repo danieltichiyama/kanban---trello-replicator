@@ -24,6 +24,10 @@ class Board extends bookshelf.Model {
   labels() {
     return this.hasMany("Label");
   }
+
+  cards() {
+    return this.hasMany("Card");
+  }
 }
 
 module.exports = bookshelf.model("Board", Board);

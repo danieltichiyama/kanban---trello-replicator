@@ -8,8 +8,12 @@ import styles from "./Board.module.scss";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: {}, list: {} };
+    this.state = { board: {}, list: {}, showMenu: false };
   }
+
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
+  };
 
   updateBoard = e => {
     e.preventDefault();
@@ -36,7 +40,7 @@ class Board extends Component {
     };
 
     this.props.dispatchCreateList(formData);
-    return this.setState({ name: "" });
+    return this.setState({ list: { name: "" } });
   };
 
   handleBoardInput = e => {
@@ -49,27 +53,41 @@ class Board extends Component {
     return this.setState({ list: { [name]: value } });
   };
 
+  handleInputClick = e => {
+    const { placeholder } = e.target;
+    return this.setState({ board: { name: placeholder } });
+  };
+
   render() {
     return (
       <div className={styles.Board}>
-        <BoardMenu />
+        <button onClick={this.toggleMenu}>Menu</button>
+        {this.state.showMenu ? <BoardMenu /> : null}
+
+        {/* Board Name */}
         <form onSubmit={this.updateBoard}>
           <input
             type="text"
             name="name"
             value={this.state.board.name}
-            defaultValue={this.props.name}
             placeholder={this.props.name}
             onChange={this.handleBoardInput}
+            onClick={this.handleInputClick}
           />
           <input type="submit" value="Change" />
         </form>
+
+        {/* Lists */}
         <ul className={styles.Lists}>
           {this.props.lists
             ? this.props.lists.map(list => {
-                return <List list={list} key={list.id} cards={list.cards} />;
+                return (
+                  <List list={list} key={list.id} cards={this.props.cards} />
+                );
               })
             : null}
+
+          {/* Add List */}
           <form onSubmit={this.createList}>
             <input
               className={styles.AddList}
@@ -91,7 +109,8 @@ const mapStateToProps = state => {
     name: state.name,
     lists: state.lists,
     labels: state.labels,
-    board_id: state.id
+    board_id: state.id,
+    cards: state.cards
   };
 };
 

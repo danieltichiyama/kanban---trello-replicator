@@ -11,6 +11,7 @@ class LabelsMenu extends Component {
 
   createOrUpdateLabel = e => {
     e.preventDefault();
+    // update
     if (e.target.id) {
       let { name, id } = e.target;
 
@@ -20,10 +21,9 @@ class LabelsMenu extends Component {
         board_id: this.props.board_id,
         id
       };
-      console.log(formData);
-
       return this.props.dispatchUpdateLabel(formData);
     } else {
+      // create
       let { name } = e.target;
 
       let formData = {
@@ -31,7 +31,6 @@ class LabelsMenu extends Component {
         name: this.state[name],
         board_id: this.props.board_id
       };
-      console.log(formData);
 
       return this.props.dispatchCreateLabel(formData);
     }
@@ -39,48 +38,41 @@ class LabelsMenu extends Component {
 
   handleLabelInput = e => {
     const { value, name } = e.target;
+
+    return this.setState({ [name]: value });
+  };
+
+  handleInputClick = e => {
+    const { name, value } = e.target;
     return this.setState({ [name]: value });
   };
 
   render() {
     return (
       <div className={styles.LabelsMenu}>
-        <h3>Labels</h3>
-        {this.props.labels
-          ? this.props.labels.map(label => {
-              let color = { backgroundColor: label.color };
-              return (
-                <form
-                  onSubmit={this.createOrUpdateLabel}
-                  style={color}
-                  key={label.color}
-                  name={label.color}
-                  id={label.id}
-                >
-                  <input
-                    type="text"
-                    name={label.color}
-                    defaultValue={label.name}
-                    value={this.state.name}
-                    onChange={this.handleLabelInput}
-                  />
-                  <input type="submit" value="Edit" />
-                </form>
-              );
-            })
-          : null}
-
-        {/* <form onSubmit={this.createLabel}>
-          <input
-            className={styles.AddLabel}
-            name="name"
-            value={this.state.list}
-            placeholder="New Label"
-            onChange={this.handleInput}
-          />
-          <input type="color" name="color" onChange={this.handleInput} />
-          <input type="submit" value="Submit" />
-        </form> */}
+        {/* Labels */}
+        {Object.values(this.props.labels).map(label => {
+          let color = { backgroundColor: label.color };
+          return (
+            <form
+              onSubmit={this.createOrUpdateLabel}
+              style={color}
+              key={label.color}
+              name={label.color}
+              id={label.id}
+            >
+              <input
+                type="text"
+                name={label.color}
+                defaultValue={label.name}
+                value={this.state[label.color]}
+                onChange={this.handleLabelInput}
+                onClick={this.handleInputClick}
+              />
+              <input type="submit" value="Edit" />
+            </form>
+          );
+        })}
       </div>
     );
   }

@@ -6,6 +6,10 @@ exports.up = function(knex) {
     table.decimal("position");
     table.datetime("due_date");
     table
+      .integer("board_id")
+      .references("boards.id")
+      .notNullable();
+    table
       .integer("list_id")
       .references("lists.id")
       .notNullable();
