@@ -15,11 +15,17 @@ class Card extends Component {
   }
 
   updateCard = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     let formData = { ...this.state, id: this.props.card.id };
     delete formData.label;
     delete formData.showMenu;
     return this.props.dispatchUpdateCard(formData);
+  };
+
+  unarchive = () => {
+    return this.setState({ is_archived: false }, this.updateCard);
   };
 
   toggleMenu = e => {
@@ -60,10 +66,14 @@ class Card extends Component {
           <input type="submit" value="Edit" />
         </form>
 
-        {/* Show Card Editor Menu */}
-        <button onClick={this.toggleMenu}>
-          {!this.state.showMenu ? "More" : "Less"}
-        </button>
+        {/* Show Card Editor Menu or Unarchive Card Button*/}
+        {this.props.card.is_archived ? (
+          <button onClick={this.unarchive}>Unarchive</button>
+        ) : (
+          <button onClick={this.toggleMenu}>
+            {!this.state.showMenu ? "More" : "Less"}
+          </button>
+        )}
 
         {/* Card's Labels */}
         {this.props.card.labels

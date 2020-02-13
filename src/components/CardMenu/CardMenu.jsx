@@ -38,8 +38,8 @@ class CardMenu extends Component {
     return this.props.toggleMenu();
   };
 
-  archiveCard = () => {
-    return this.setState({ is_archived: true }, this.updateCard);
+  toggleArchive = () => {
+    return this.setState({ is_archived: !this.state.is_archived });
   };
 
   addLabels = () => {
@@ -124,7 +124,11 @@ class CardMenu extends Component {
         ) : null}
 
         {/* Archive Card Button */}
-        <input type="button" value="Archive" onClick={this.archiveCard} />
+        <input
+          type="button"
+          value={this.state.is_archived ? "Unarchive" : "Archive"}
+          onClick={this.toggleArchive}
+        />
       </div>
     );
   }

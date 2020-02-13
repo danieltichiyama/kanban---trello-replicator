@@ -1,17 +1,19 @@
 import React, { Component } from "react";
 import styles from "./BoardMenu.module.scss";
 import LabelsMenu from "../LabelsMenu";
+import ArchivedItems from "../ArchivedItems";
 
 class BoardMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      openLabelsMenu: false
+      labelsMenu: false
     };
   }
 
-  toggleLabels = () => {
-    this.setState({ openLabelsMenu: !this.state.openLabelsMenu });
+  toggle = e => {
+    let { id } = e.target;
+    this.setState({ [id]: !this.state[id] });
   };
 
   render() {
@@ -20,10 +22,19 @@ class BoardMenu extends Component {
         <ul>
           <li className={styles.MenuList}>General Information</li>
           <li className={styles.MenuList}>Background Image</li>
-          <li className={styles.MenuList} onClick={this.toggleLabels}>
+          <li className={styles.MenuList} id="labelsMenu" onClick={this.toggle}>
             Labels
           </li>
-          {this.state.openLabelsMenu ? <LabelsMenu /> : null}
+          {this.state.labelsMenu ? <LabelsMenu /> : null}
+
+          <li
+            className={styles.MenuList}
+            id="archivedItems"
+            onClick={this.toggle}
+          >
+            Archived Items
+          </li>
+          {this.state.archivedItems ? <ArchivedItems /> : null}
         </ul>
       </div>
     );
