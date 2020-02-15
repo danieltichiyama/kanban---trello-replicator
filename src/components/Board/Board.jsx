@@ -132,7 +132,7 @@ class Board extends Component {
         <ul className={styles.Lists}>
           <DragDropContext onDragEnd={this.onDragEnd}>
             {this.props.lists
-              ? this.props.lists.map(list => {
+              ? this.props.lists.map((list, index) => {
                   if (list.is_archived) {
                     return null;
                   } else {
@@ -141,6 +141,7 @@ class Board extends Component {
                         list={list}
                         key={list.id}
                         cards={this.props.cards}
+                        listIndex={index}
                       />
                     );
                   }
