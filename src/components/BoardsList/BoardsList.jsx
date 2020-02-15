@@ -46,6 +46,7 @@ class BoardsList extends Component {
                   />
                 );
               }
+              return null;
             })
           : null}
 
@@ -71,6 +72,7 @@ class BoardsList extends Component {
                   />
                 );
               }
+              return null;
             })
           : null}
         {/* Add New Board Modal */}
