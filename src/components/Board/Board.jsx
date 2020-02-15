@@ -81,9 +81,13 @@ class Board extends Component {
         <ul className={styles.Lists}>
           {this.props.lists
             ? this.props.lists.map(list => {
-                return (
-                  <List list={list} key={list.id} cards={this.props.cards} />
-                );
+                if (list.is_archived) {
+                  return null;
+                } else {
+                  return (
+                    <List list={list} key={list.id} cards={this.props.cards} />
+                  );
+                }
               })
             : null}
 

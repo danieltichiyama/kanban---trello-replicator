@@ -8,12 +8,15 @@ class List extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      list: {}
+      list: {},
+      showMenu: false
     };
   }
 
   updateList = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     let formData = { ...this.state.list, id: this.props.list.id };
     return this.props.dispatchUpdateList(formData);
   };
@@ -36,6 +39,7 @@ class List extends Component {
     };
 
     delete formData.list;
+    delete formData.showMenu;
 
     this.props.dispatchCreateCard(formData);
     return this.setState({ name: "" });
@@ -57,6 +61,29 @@ class List extends Component {
     return this.setState({ list: { name: placeholder } });
   };
 
+  showMenu = () => {
+    return this.setState({ showMenu: !this.state.showMenu });
+  };
+
+  archiveList = e => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    if (this.state.list.is_archived) {
+      return this.setState({
+        list: { is_archived: !this.state.list.is_archived }
+      });
+    } else {
+      return this.setState({ list: { is_archived: true } });
+    }
+  };
+
+  unarchive = () => {
+    return this.setState({ list: { is_archived: false } }, this.updateList);
+  };
+
   render() {
     return (
       <div className={styles.List} key={this.props.list.id}>
@@ -70,38 +97,59 @@ class List extends Component {
             value={this.state.list.name}
             name="name"
           />
-          <input type="submit" value="Change" />
+          {this.props.list.is_archived ? null : (
+            <input type="submit" value="Change" />
+          )}
         </form>
 
-        {/* Cards */}
-        <ul>
-          {this.props.cards
-            ? this.props.cards.map(card => {
-                if (
-                  card.is_archived === false &&
-                  card.list_id === this.props.list.id
-                ) {
-                  return <Card card={card} key={card.id} />;
-                } else {
-                  return null;
-                }
-              })
-            : null}
+        {!this.props.list.is_archived ? (
+          <button onClick={this.showMenu}>Menu</button>
+        ) : (
+          <button onClick={this.unarchive}>Unarchive</button>
+        )}
 
-          {/* Add Card */}
-          <li className={styles.AddCard}>
-            <form onSubmit={this.createCard}>
-              <input
-                type="text"
-                name="name"
-                value={this.state.name}
-                placeholder="+ Add Card"
-                onChange={this.handleCardInput}
-              />
-              <input type="submit" value="Add" />
-            </form>
-          </li>
-        </ul>
+        {/* List Menu */}
+        {!this.state.showMenu ? null : (
+          <form onSubmit={this.updateList}>
+            <button onClick={this.archiveList}>
+              {this.state.list.is_archived ? "Unarchive" : "Archive"}
+            </button>
+            <input type="submit" value="Save" />
+          </form>
+        )}
+
+        {/* Cards */}
+        {this.props.list.is_archived ? null : (
+          <ul>
+            {this.props.cards
+              ? this.props.cards.map(card => {
+                  if (
+                    card.is_archived === false &&
+                    card.list_id === this.props.list.id
+                  ) {
+                    return <Card card={card} key={card.id} />;
+                  } else {
+                    return null;
+                  }
+                })
+              : null}
+
+            {/* Add Card */}
+
+            <li className={styles.AddCard}>
+              <form onSubmit={this.createCard}>
+                <input
+                  type="text"
+                  name="name"
+                  value={this.state.name}
+                  placeholder="+ Add Card"
+                  onChange={this.handleCardInput}
+                />
+                <input type="submit" value="Add" />
+              </form>
+            </li>
+          </ul>
+        )}
       </div>
     );
   }
