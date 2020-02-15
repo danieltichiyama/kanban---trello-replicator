@@ -102,6 +102,7 @@ class List extends Component {
           )}
         </form>
 
+        {/* Menu/Unarchive Button */}
         {!this.props.list.is_archived ? (
           <button onClick={this.showMenu}>Menu</button>
         ) : (
@@ -135,7 +136,6 @@ class List extends Component {
               : null}
 
             {/* Add Card */}
-
             <li className={styles.AddCard}>
               <form onSubmit={this.createCard}>
                 <input

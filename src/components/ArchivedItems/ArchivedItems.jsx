@@ -19,6 +19,7 @@ class ArchivedItems extends Component {
   render() {
     return (
       <div className={styles.ArchivedItems}>
+        {/* Lists/Cards Toggle */}
         {this.state.showLists ? "Archived Lists" : "Archived Cards"}
         <button onClick={this.toggleItems}>
           Show {this.state.showLists ? "Cards" : "Lists"}

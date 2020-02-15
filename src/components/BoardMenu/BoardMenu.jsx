@@ -22,11 +22,13 @@ class BoardMenu extends Component {
         <ul>
           <li className={styles.MenuList}>General Information</li>
           <li className={styles.MenuList}>Background Image</li>
+          {/* Labels */}
           <li className={styles.MenuList} id="labelsMenu" onClick={this.toggle}>
             Labels
           </li>
           {this.state.labelsMenu ? <LabelsMenu /> : null}
 
+          {/* Archived Items */}
           <li
             className={styles.MenuList}
             id="archivedItems"

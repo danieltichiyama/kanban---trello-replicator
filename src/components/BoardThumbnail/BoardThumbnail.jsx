@@ -12,7 +12,9 @@ class BoardThumbnail extends Component {
   }
 
   updateBoard = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+    }
     let formData = { ...this.state };
     delete formData.showMenu;
     formData.id = this.props.board.id;
@@ -33,13 +35,31 @@ class BoardThumbnail extends Component {
     return this.setState({ showMenu: !this.state.showMenu });
   };
 
+  archive = e => {
+    e.stopPropagation();
+    e.preventDefault();
+    if (this.state.is_archived) {
+      return this.setState({ is_archived: !this.state.is_archived });
+    } else {
+      return this.setState({ is_archived: true });
+    }
+  };
+
+  unarchive = e => {
+    return this.setState({ is_archived: false }, this.updateBoard);
+  };
+
   render() {
     let { board, getBoardData } = this.props;
     return (
       <div className={styles.BoardThumbnail}>
         <div id={board.id} className={styles.boardName} onClick={getBoardData}>
           {board.name}
-          <button onClick={this.toggleMenu}>Edit</button>
+          {!this.props.board.is_archived ? (
+            <button onClick={this.toggleMenu}>Edit</button>
+          ) : (
+            <button onClick={this.unarchive}>Unarchive</button>
+          )}
         </div>
         {this.state.showMenu ? (
           <form onSubmit={this.updateBoard}>
@@ -61,8 +81,12 @@ class BoardThumbnail extends Component {
               onChange={this.handleInput}
               defaultValue={this.props.board.description}
             ></textarea>
-            <input type="submit" value="Edit" />
-            <input type="button" value="Archive" />
+            <input
+              type="button"
+              value={this.state.is_archived ? "Unarchive" : "Archive"}
+              onClick={this.archive}
+            />
+            <input type="submit" value="Save" />
           </form>
         ) : null}
       </div>
