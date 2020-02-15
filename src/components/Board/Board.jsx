@@ -13,7 +13,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: {}, list: {} };
+    this.state = { board: {}, list: {}, showMenu: false };
   }
 
   onDragEnd = result => {
@@ -62,6 +62,9 @@ class Board extends Component {
 
     //also, dragging it to another list doesn't work.
   };
+  toggleMenu = () => {
+    this.setState({ showMenu: !this.state.showMenu });
+  };
 
   updateBoard = e => {
     e.preventDefault();
@@ -88,7 +91,7 @@ class Board extends Component {
     };
 
     this.props.dispatchCreateList(formData);
-    return this.setState({ name: "" });
+    return this.setState({ list: { name: "" } });
   };
 
   handleBoardInput = e => {
@@ -101,47 +104,62 @@ class Board extends Component {
     return this.setState({ list: { [name]: value } });
   };
 
+  handleInputClick = e => {
+    const { placeholder } = e.target;
+    return this.setState({ board: { name: placeholder } });
+  };
+
   render() {
     return (
       <div className={styles.Board}>
-        <BoardMenu />
+        <button onClick={this.toggleMenu}>Menu</button>
+        {this.state.showMenu ? <BoardMenu /> : null}
+
+        {/* Board Name */}
         <form onSubmit={this.updateBoard}>
           <input
             type="text"
             name="name"
             value={this.state.board.name}
-            defaultValue={this.props.name}
             placeholder={this.props.name}
             onChange={this.handleBoardInput}
+            onClick={this.handleInputClick}
           />
           <input type="submit" value="Change" />
         </form>
-        <DragDropContext onDragEnd={this.onDragEnd}>
-          <ul className={styles.Lists}>
+
+        {/* Lists */}
+        <ul className={styles.Lists}>
+          <DragDropContext onDragEnd={this.onDragEnd}>
             {this.props.lists
-              ? this.props.lists.map((list, index) => {
-                  return (
-                    <List
-                      list={list}
-                      key={list.id}
-                      cards={list.cards}
-                      listIndex={index}
-                    />
-                  );
+              ? this.props.lists.map(list => {
+                  if (list.is_archived) {
+                    return null;
+                  } else {
+                    return (
+                      <List
+                        list={list}
+                        key={list.id}
+                        cards={this.props.cards}
+                      />
+                    );
+                  }
                 })
               : null}
-            <form onSubmit={this.createList}>
-              <input
-                className={styles.AddList}
-                name="name"
-                value={this.state.list.name}
-                placeholder="+ Add List"
-                onChange={this.handleListInput}
-              />
-              <input type="submit" value="Add" />
-            </form>
-          </ul>
-        </DragDropContext>
+          </DragDropContext>
+
+          {/* Add List */}
+          <form onSubmit={this.createList}>
+            <input
+              className={styles.AddList}
+              name="name"
+              value={this.state.list.name}
+              placeholder="+ Add List"
+              onChange={this.handleListInput}
+            />
+            <input type="submit" value="Add" />
+          </form>
+        </ul>
       </div>
     );
   }
@@ -152,7 +170,8 @@ const mapStateToProps = state => {
     name: state.name,
     lists: state.lists,
     labels: state.labels,
-    board_id: state.id
+    board_id: state.id,
+    cards: state.cards
   };
 };
 

@@ -4,20 +4,29 @@ import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
 import { Draggable } from "react-beautiful-dnd";
 
+import CardMenu from "../CardMenu";
+
 class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
       showMenu: false,
-      card: {},
       label: {}
     };
   }
 
   updateCard = e => {
-    e.preventDefault();
-    let formData = { ...this.state.card, id: this.props.card.id };
+    if (e) {
+      e.preventDefault();
+    }
+    let formData = { ...this.state, id: this.props.card.id };
+    delete formData.label;
+    delete formData.showMenu;
     return this.props.dispatchUpdateCard(formData);
+  };
+
+  unarchive = () => {
+    return this.setState({ is_archived: false }, this.updateCard);
   };
 
   toggleMenu = e => {
@@ -29,12 +38,17 @@ class Card extends Component {
 
   handleCardInput = e => {
     const { value, name } = e.target;
-    return this.setState({ card: { [name]: value } });
+    return this.setState({ [name]: value });
   };
 
   handleLabelInput = e => {
     const { value, name } = e.target;
     return this.setState({ label: { [name]: value } });
+  };
+
+  handleInputClick = e => {
+    const { placeholder, name } = e.target;
+    return this.setState({ [name]: placeholder });
   };
 
   render() {
@@ -51,32 +65,51 @@ class Card extends Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
+              {" "}
+              {/* Card Name */}
               <form onSubmit={this.updateCard}>
                 <input
                   type="text"
                   name="name"
-                  defaultValue={this.props.card.name}
                   placeholder={this.props.card.name}
-                  value={this.state.card.name}
+                  value={this.state.name}
                   onChange={this.handleCardInput}
+                  onClick={this.handleInputClick}
                 />
-                <button onClick={this.toggleMenu}>Edit</button>
+                <input type="submit" value="Edit" />
               </form>
-
+              {/* Show Card Editor Menu or Unarchive Card Button*/}
+              {this.props.card.is_archived ? (
+                <button onClick={this.unarchive}>Unarchive</button>
+              ) : (
+                <button onClick={this.toggleMenu}>
+                  {!this.state.showMenu ? "More" : "Less"}
+                </button>
+              )}
+              {/* Card's Labels */}
               {this.props.card.labels
                 ? this.props.card.labels.map(label => {
                     let color = { backgroundColor: label.color };
+                    let labelName = this.props.labels[label.color].name;
                     return (
                       <div
                         className={styles.Label}
                         key={label.color}
                         style={color}
                       >
-                        Label: {label.name}
+                        {labelName}
                       </div>
                     );
                   })
                 : null}
+              {/* Card Menu */}
+              {!this.state.showMenu ? null : (
+                <CardMenu
+                  card={this.props.card}
+                  toggleMenu={this.toggleMenu}
+                  updateCard={this.updateCard}
+                />
+              )}
             </div>
           );
         }}
@@ -84,6 +117,12 @@ class Card extends Component {
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    labels: state.labels
+  };
+};
 
 const mapDispatchToProps = dispatch => {
   return {
@@ -93,4 +132,4 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default Card = connect(null, mapDispatchToProps)(Card);
+export default Card = connect(mapStateToProps, mapDispatchToProps)(Card);

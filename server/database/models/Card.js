@@ -28,6 +28,10 @@ class Card extends bookshelf.Model {
   cardImages() {
     return this.hasMany("CardImage");
   }
+
+  board() {
+    return this.belongsTo("Board", "board_id");
+  }
 }
 
 module.exports = bookshelf.model("Card", Card);
