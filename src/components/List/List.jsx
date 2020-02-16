@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import Card from "../Card";
 import { actionsCreateCard, actionsUpdateList } from "../../actions";
 
+import { Droppable } from "react-beautiful-dnd";
+
 class List extends Component {
   constructor(props) {
     super(props);
@@ -28,7 +30,7 @@ class List extends Component {
     if (!this.props.cards || cards.length === 0) {
       position = 1;
     } else {
-      position = parseInt(parseFloat(cards[cards.length - 1].position) + 1);
+      position = parseFloat(parseFloat(cards[cards.length - 1].position) + 1);
     }
     let formData = {
       ...this.state,
@@ -101,14 +103,12 @@ class List extends Component {
             <input type="submit" value="Change" />
           )}
         </form>
-
         {/* Menu/Unarchive Button */}
         {!this.props.list.is_archived ? (
           <button onClick={this.showMenu}>Menu</button>
         ) : (
           <button onClick={this.unarchive}>Unarchive</button>
         )}
-
         {/* List Menu */}
         {!this.state.showMenu ? null : (
           <form onSubmit={this.updateList}>
@@ -118,38 +118,45 @@ class List extends Component {
             <input type="submit" value="Save" />
           </form>
         )}
-
         {/* Cards */}
         {this.props.list.is_archived ? null : (
-          <ul>
-            {this.props.cards
-              ? this.props.cards.map(card => {
-                  if (
-                    card.is_archived === false &&
-                    card.list_id === this.props.list.id
-                  ) {
-                    return <Card card={card} key={card.id} />;
-                  } else {
-                    return null;
-                  }
-                })
-              : null}
-
-            {/* Add Card */}
-            <li className={styles.AddCard}>
-              <form onSubmit={this.createCard}>
-                <input
-                  type="text"
-                  name="name"
-                  value={this.state.name}
-                  placeholder="+ Add Card"
-                  onChange={this.handleCardInput}
-                />
-                <input type="submit" value="Add" />
-              </form>
-            </li>
-          </ul>
+          <Droppable droppableId={this.props.list.id.toString()}>
+            {provided => {
+              return (
+                <ul ref={provided.innerRef} {...provided.droppableProps}>
+                  {this.props.cards
+                    ? this.props.cards.map((card, index) => {
+                        if (
+                          card.is_archived === false &&
+                          card.list_id === this.props.list.id
+                        ) {
+                          return (
+                            <Card card={card} key={card.id} index={index} />
+                          );
+                        } else {
+                          return null;
+                        }
+                      })
+                    : null}
+                  {provided.placeholder}
+                </ul>
+              );
+            }}
+          </Droppable>
         )}
+        {/* Add Card */}
+        <div className={styles.AddCard}>
+          <form onSubmit={this.createCard}>
+            <input
+              type="text"
+              name="name"
+              value={this.state.name}
+              placeholder="+ Add Card"
+              onChange={this.handleCardInput}
+            />
+            <input type="submit" value="Add" />
+          </form>
+        </div>
       </div>
     );
   }
