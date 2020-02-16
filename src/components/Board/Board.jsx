@@ -81,26 +81,79 @@ class Board extends Component {
       return;
     }
 
-    let cardsInList = this.props.cards.filter(card => {
-      return card.list_id === parseInt(source.droppableId);
-    });
+    let cardsInOldList;
 
-    const list = this.props.lists[source.droppableId];
-    const newListIds = Array.from(cardsInList);
+    // if card is moved to a new list
+    if (destination.droppableId !== source.droppableId) {
+      cardsInOldList = this.props.cards
+        .filter(card => {
+          return card.list_id === parseInt(source.droppableId);
+        })
+        .sort((a, b) => {
+          return parseFloat(a.position) - parseFloat(b.position);
+        });
+    }
 
-    newListIds.splice(source.index, 1);
-    newListIds.splice(destination.index, 0, cardsInList[source.index]);
+    // creates an array of the cards in the destination list
+    let cardsInList = this.props.cards
+      .filter(card => {
+        return card.list_id === parseInt(destination.droppableId);
+      })
+      .sort((a, b) => {
+        return parseFloat(a.position) - parseFloat(b.position);
+      });
 
-    let newCard = this.updateCardPosition(newListIds, destination.index);
+    const newCardsInList = [...cardsInList];
+    debugger;
 
-    return this.props.dispatchUpdateCard(newCard);
+    console.log("newCardsInList", newCardsInList);
+
+    // removes the card from it's old position in the list
+    if (destination.droppableId !== source.droppableId) {
+      if (newCardsInList.length === 0) {
+        newCardsInList.push(cardsInOldList[source.index]);
+      } else {
+        newCardsInList.splice(
+          destination.index,
+          0,
+          cardsInOldList[source.index]
+        );
+      }
+      cardsInOldList.splice(source.index, 1);
+    } else {
+      newCardsInList.splice(source.index, 1);
+      console.log("newCardsInList after splicing out", newCardsInList);
+      newCardsInList.splice(destination.index, 0, cardsInList[source.index]);
+    }
+
+    let newCard = this.updateCardPosition(newCardsInList, destination.index);
+
+    if (destination.droppableId !== source.droppableId) {
+      newCard.list_id = parseInt(destination.droppableId);
+    }
+
+    let formData = Object.assign(
+      {},
+      { id: newCard.id, list_id: newCard.list_id, position: newCard.position }
+    );
+
+    console.log("formData", formData);
+
+    return this.props.dispatchUpdateCard(formData);
   };
 
   updateCardPosition = (array, destinationIndex) => {
+    console.log("updateCardPosition arguments");
+    console.log(array, destinationIndex);
+
     if (destinationIndex === 0) {
-      array[destinationIndex].position = (
-        parseFloat(array[1].position) / 2
-      ).toString();
+      if (array.length === 1) {
+        array[0].position = "1.00";
+      } else {
+        array[destinationIndex].position = (
+          parseFloat(array[1].position) / 2
+        ).toString();
+      }
     } else if (destinationIndex === array.length - 1) {
       array[destinationIndex].position = (
         parseFloat(array[destinationIndex - 1].position) + 1
@@ -148,7 +201,15 @@ class Board extends Component {
                       <List
                         list={list}
                         key={list.id}
-                        cards={this.props.cards}
+                        cards={this.props.cards
+                          .filter(card => {
+                            return card.list_id === list.id;
+                          })
+                          .sort((a, b) => {
+                            return (
+                              parseFloat(a.position) - parseFloat(b.position)
+                            );
+                          })}
                       />
                     );
                   }

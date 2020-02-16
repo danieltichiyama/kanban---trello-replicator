@@ -30,7 +30,7 @@ class List extends Component {
     if (!this.props.cards || cards.length === 0) {
       position = 1;
     } else {
-      position = parseInt(parseFloat(cards[cards.length - 1].position) + 1);
+      position = parseFloat(parseFloat(cards[cards.length - 1].position) + 1);
     }
     let formData = {
       ...this.state,
@@ -125,27 +125,18 @@ class List extends Component {
               return (
                 <ul ref={provided.innerRef} {...provided.droppableProps}>
                   {this.props.cards
-                    ? this.props.cards
-                        .filter(card => {
-                          return card.list_id === this.props.list.id;
-                        })
-                        .sort((a, b) => {
+                    ? this.props.cards.map((card, index) => {
+                        if (
+                          card.is_archived === false &&
+                          card.list_id === this.props.list.id
+                        ) {
                           return (
-                            parseFloat(a.position) - parseFloat(b.position)
+                            <Card card={card} key={card.id} index={index} />
                           );
-                        })
-                        .map((card, index) => {
-                          if (
-                            card.is_archived === false &&
-                            card.list_id === this.props.list.id
-                          ) {
-                            return (
-                              <Card card={card} key={card.id} index={index} />
-                            );
-                          } else {
-                            return null;
-                          }
-                        })
+                        } else {
+                          return null;
+                        }
+                      })
                     : null}
                   {provided.placeholder}
                 </ul>
