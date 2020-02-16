@@ -63,7 +63,6 @@ export const actionsUpdateLabel = formData => async dispatch => {
 };
 
 export const actionsUpdateCard = formData => async dispatch => {
-  console.log("formData", formData);
   await fetch(`/api/cards/${formData.id}`, putConfig(formData))
     .then(response => {
       return response.json();

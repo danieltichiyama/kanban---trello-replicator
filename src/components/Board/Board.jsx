@@ -64,12 +64,7 @@ class Board extends Component {
   };
 
   onDragEnd = result => {
-    const { destination, source, draggableId } = result;
-
-    console.log("destination", destination);
-    console.log("source", source);
-    console.log("draggableId", draggableId);
-
+    const { destination, source } = result;
     if (!destination) {
       return;
     }
@@ -104,9 +99,6 @@ class Board extends Component {
       });
 
     const newCardsInList = [...cardsInList];
-    debugger;
-
-    console.log("newCardsInList", newCardsInList);
 
     // removes the card from it's old position in the list
     if (destination.droppableId !== source.droppableId) {
@@ -122,7 +114,6 @@ class Board extends Component {
       cardsInOldList.splice(source.index, 1);
     } else {
       newCardsInList.splice(source.index, 1);
-      console.log("newCardsInList after splicing out", newCardsInList);
       newCardsInList.splice(destination.index, 0, cardsInList[source.index]);
     }
 
@@ -137,15 +128,10 @@ class Board extends Component {
       { id: newCard.id, list_id: newCard.list_id, position: newCard.position }
     );
 
-    console.log("formData", formData);
-
     return this.props.dispatchUpdateCard(formData);
   };
 
   updateCardPosition = (array, destinationIndex) => {
-    console.log("updateCardPosition arguments");
-    console.log(array, destinationIndex);
-
     if (destinationIndex === 0) {
       if (array.length === 1) {
         array[0].position = "1.00";
