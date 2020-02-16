@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./Card.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
+import { Draggable } from "react-beautiful-dnd";
 
 import CardMenu from "../CardMenu";
 
@@ -52,51 +53,69 @@ class Card extends Component {
 
   render() {
     return (
-      <div className={styles.Card}>
-        {/* Card Name */}
-        <form onSubmit={this.updateCard}>
-          <input
-            type="text"
-            name="name"
-            placeholder={this.props.card.name}
-            value={this.state.name}
-            onChange={this.handleCardInput}
-            onClick={this.handleInputClick}
-          />
-          <input type="submit" value="Edit" />
-        </form>
+      <Draggable
+        draggableId={this.props.card.id.toString()}
+        index={this.props.index}
+      >
+        {provided => {
+          return (
+            <div
+              className={styles.Card}
+              {...provided.draggableProps}
+              {...provided.dragHandleProps}
+              ref={provided.innerRef}
+            >
+              {/* Card Name */}
+              <form onSubmit={this.updateCard}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder={this.props.card.name}
+                  value={this.state.name}
+                  onChange={this.handleCardInput}
+                  onClick={this.handleInputClick}
+                />
+                <input type="submit" value="Edit" />
+              </form>
 
-        {/* Show Card Editor Menu or Unarchive Card Button*/}
-        {this.props.card.is_archived ? (
-          <button onClick={this.unarchive}>Unarchive</button>
-        ) : (
-          <button onClick={this.toggleMenu}>
-            {!this.state.showMenu ? "More" : "Less"}
-          </button>
-        )}
+              {/* Show Card Editor Menu or Unarchive Card Button*/}
+              {this.props.card.is_archived ? (
+                <button onClick={this.unarchive}>Unarchive</button>
+              ) : (
+                <button onClick={this.toggleMenu}>
+                  {!this.state.showMenu ? "More" : "Less"}
+                </button>
+              )}
 
-        {/* Card's Labels */}
-        {this.props.card.labels
-          ? this.props.card.labels.map(label => {
-              let color = { backgroundColor: label.color };
-              let labelName = this.props.labels[label.color].name;
-              return (
-                <div className={styles.Label} key={label.color} style={color}>
-                  {labelName}
-                </div>
-              );
-            })
-          : null}
+              {/* Card's Labels */}
+              {this.props.card.labels
+                ? this.props.card.labels.map(label => {
+                    let color = { backgroundColor: label.color };
+                    let labelName = this.props.labels[label.color].name;
+                    return (
+                      <div
+                        className={styles.Label}
+                        key={label.color}
+                        style={color}
+                      >
+                        {labelName}
+                      </div>
+                    );
+                  })
+                : null}
 
-        {/* Card Menu */}
-        {!this.state.showMenu ? null : (
-          <CardMenu
-            card={this.props.card}
-            toggleMenu={this.toggleMenu}
-            updateCard={this.updateCard}
-          />
-        )}
-      </div>
+              {/* Card Menu */}
+              {!this.state.showMenu ? null : (
+                <CardMenu
+                  card={this.props.card}
+                  toggleMenu={this.toggleMenu}
+                  updateCard={this.updateCard}
+                />
+              )}
+            </div>
+          );
+        }}
+      </Draggable>
     );
   }
 }

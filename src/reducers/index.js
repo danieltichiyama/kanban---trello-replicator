@@ -92,6 +92,13 @@ const reducer = (state = initialState, action) => {
         getBoardDataInitLabels[labels[i].color] = labels[i];
       }
 
+      if (action.payload.lists) {
+        let getBoardDataLists = [...action.payload.lists];
+        action.payload.lists = getBoardDataLists.sort((a, b) => {
+          return parseFloat(a.position) - parseFloat(b.position);
+        });
+      }
+
       action.payload.labels = getBoardDataInitLabels;
       return Object.assign({}, state, action.payload);
 
