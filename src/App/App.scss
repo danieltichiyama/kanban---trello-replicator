@@ -10,6 +10,13 @@ html {
 
 .App {
   text-align: center;
+  background-color: white;
+
+  .header {
+    background-color: rgba($color: #000000, $alpha: 0.2);
+    height: 5vh;
+    width: 100%;
+  }
 }
 
 .App-logo {

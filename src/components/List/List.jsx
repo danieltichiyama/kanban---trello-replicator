@@ -11,7 +11,8 @@ class List extends Component {
     super(props);
     this.state = {
       list: {},
-      showMenu: false
+      showMenu: false,
+      showCancelButton: false
     };
   }
 
@@ -20,6 +21,7 @@ class List extends Component {
       e.preventDefault();
     }
     let formData = { ...this.state.list, id: this.props.list.id };
+
     return this.props.dispatchUpdateList(formData);
   };
 
@@ -42,6 +44,7 @@ class List extends Component {
 
     delete formData.list;
     delete formData.showMenu;
+    delete formData.showCancelButton;
 
     this.props.dispatchCreateCard(formData);
     return this.setState({ name: "" });
@@ -54,13 +57,14 @@ class List extends Component {
 
   handleListInput = e => {
     const { value, name } = e.target;
-
     return this.setState({ list: { [name]: value } });
   };
 
   handleInputClick = e => {
     const { placeholder } = e.target;
-    return this.setState({ list: { name: placeholder } });
+    return this.setState({
+      list: { name: placeholder }
+    });
   };
 
   showMenu = () => {
@@ -86,32 +90,45 @@ class List extends Component {
     return this.setState({ list: { is_archived: false } }, this.updateList);
   };
 
+  showCancelButton = () => {
+    return this.setState({ showCancelButton: true });
+  };
+
+  hideCancelButton = e => {
+    e.preventDefault();
+    return this.setState({ showCancelButton: false });
+  };
+
   render() {
     return (
       <div className={styles.List} key={this.props.list.id}>
         {/* List Name */}
-        <form onSubmit={this.updateList}>
-          <input
-            type="text"
-            placeholder={this.props.list.name}
-            onChange={this.handleListInput}
-            onClick={this.handleInputClick}
-            value={this.state.list.name}
-            name="name"
-          />
-          {this.props.list.is_archived ? null : (
-            <input type="submit" value="Change" />
+        <div className={styles.listHeader}>
+          <form onSubmit={this.updateList}>
+            <input
+              type="text"
+              placeholder={this.props.list.name}
+              onChange={this.handleListInput}
+              onClick={this.handleInputClick}
+              value={this.state.list.name}
+              name="name"
+              onKeyPress={this.props.handleKeyPress}
+              className={styles.listName}
+            />
+          </form>
+          {/* Menu/Unarchive Button */}
+          {!this.props.list.is_archived ? (
+            <button
+              onClick={this.showMenu}
+              className={styles.menuButton}
+            ></button>
+          ) : (
+            <button onClick={this.unarchive}>Unarchive</button>
           )}
-        </form>
-        {/* Menu/Unarchive Button */}
-        {!this.props.list.is_archived ? (
-          <button onClick={this.showMenu}>Menu</button>
-        ) : (
-          <button onClick={this.unarchive}>Unarchive</button>
-        )}
+        </div>
         {/* List Menu */}
         {!this.state.showMenu ? null : (
-          <form onSubmit={this.updateList}>
+          <form onSubmit={this.updateList} className={styles.listMenu}>
             <button onClick={this.archiveList}>
               {this.state.list.is_archived ? "Unarchive" : "Archive"}
             </button>
@@ -123,7 +140,11 @@ class List extends Component {
           <Droppable droppableId={this.props.list.id.toString()}>
             {provided => {
               return (
-                <ul ref={provided.innerRef} {...provided.droppableProps}>
+                <ul
+                  ref={provided.innerRef}
+                  {...provided.droppableProps}
+                  className={styles.listOfCards}
+                >
                   {this.props.cards
                     ? this.props.cards.map((card, index) => {
                         if (
@@ -131,7 +152,12 @@ class List extends Component {
                           card.list_id === this.props.list.id
                         ) {
                           return (
-                            <Card card={card} key={card.id} index={index} />
+                            <Card
+                              card={card}
+                              key={card.id}
+                              index={index}
+                              handleKeyPress={this.props.handleKeyPress}
+                            />
                           );
                         } else {
                           return null;
@@ -146,16 +172,24 @@ class List extends Component {
         )}
         {/* Add Card */}
         <div className={styles.AddCard}>
-          <form onSubmit={this.createCard}>
+          <form onSubmit={this.createCard} className={styles.addCardForm}>
             <input
               type="text"
               name="name"
+              className={styles.addCardInput}
               value={this.state.name}
-              placeholder="+ Add Card"
+              placeholder="+ Add a card"
               onChange={this.handleCardInput}
+              onKeyPress={this.props.handleKeyPress}
+              onClick={this.showCancelButton}
             />
-            <input type="submit" value="Add" />
           </form>
+          {this.state.showCancelButton ? (
+            <button
+              onClick={this.hideCancelButton}
+              className={styles.exitButton}
+            ></button>
+          ) : null}
         </div>
       </div>
     );

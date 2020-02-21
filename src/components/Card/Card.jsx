@@ -65,31 +65,10 @@ class Card extends Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              {/* Card Name */}
-              <form onSubmit={this.updateCard}>
-                <input
-                  type="text"
-                  name="name"
-                  placeholder={this.props.card.name}
-                  value={this.state.name}
-                  onChange={this.handleCardInput}
-                  onClick={this.handleInputClick}
-                />
-                <input type="submit" value="Edit" />
-              </form>
-
-              {/* Show Card Editor Menu or Unarchive Card Button*/}
-              {this.props.card.is_archived ? (
-                <button onClick={this.unarchive}>Unarchive</button>
-              ) : (
-                <button onClick={this.toggleMenu}>
-                  {!this.state.showMenu ? "More" : "Less"}
-                </button>
-              )}
-
               {/* Card's Labels */}
-              {this.props.card.labels
-                ? this.props.card.labels.map(label => {
+              {this.props.card.labels ? (
+                <div className={styles.labelsContainer}>
+                  {this.props.card.labels.map(label => {
                     let color = { backgroundColor: label.color };
                     let labelName = this.props.labels[label.color].name;
                     return (
@@ -101,8 +80,35 @@ class Card extends Component {
                         {labelName}
                       </div>
                     );
-                  })
-                : null}
+                  })}
+                </div>
+              ) : null}
+
+              {/* Card Name */}
+              <div className={styles.cardBody}>
+                <form onSubmit={this.updateCard}>
+                  <textarea
+                    className={styles.cardName}
+                    type="text"
+                    name="name"
+                    placeholder={this.props.card.name}
+                    value={this.state.name}
+                    onChange={this.handleCardInput}
+                    onClick={this.handleInputClick}
+                    onKeyPress={this.props.handleKeyPress}
+                  />
+                </form>
+
+                {/* Show Card Editor Menu or Unarchive Card Button*/}
+                {this.props.card.is_archived ? (
+                  <button onClick={this.unarchive}>Unarchive</button>
+                ) : (
+                  <button
+                    onClick={this.toggleMenu}
+                    className={styles.menuButton}
+                  ></button>
+                )}
+              </div>
 
               {/* Card Menu */}
               {!this.state.showMenu ? null : (

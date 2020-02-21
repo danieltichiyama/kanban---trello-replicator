@@ -18,6 +18,9 @@ router.put("/:id", (req, res) => {
   return req.database.Board.where({ id: req.params.id })
     .save(req.body, { method: "update", patch: true })
     .then(results => {
+      return results.load(["boardImage"]);
+    })
+    .then(results => {
       return res.json(results);
     })
     .catch(err => {
@@ -40,7 +43,7 @@ router.post("/new", (req, res) => {
 
 router.get("/all/:id", (req, res) => {
   return req.database.Board.where({ created_by: req.params.id })
-    .fetchAll()
+    .fetchAll({ withRelated: ["boardImage"] })
     .then(results => {
       return res.json(results);
     })

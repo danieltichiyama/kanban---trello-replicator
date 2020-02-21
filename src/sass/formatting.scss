@@ -1,0 +1,7 @@
+$borders: true;
+
+@mixin border($color: red) {
+  @if ($borders) {
+    border: dotted 1px $color;
+  }
+}

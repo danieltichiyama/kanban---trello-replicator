@@ -1,0 +1,92 @@
+@import "../../sass/inputs.scss";
+@import "../../sass/formatting.scss";
+
+.List {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ebecf0;
+  border-radius: 5px;
+  width: 272px;
+  height: fit-content;
+  margin: 10px 5px;
+  padding: 5px 10px;
+
+  .listHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 5px 0;
+
+    .listName {
+      height: 30px;
+      border-radius: 2px;
+      border: none;
+      padding: 0 5px;
+      color: #162b4d;
+      font-size: 14px;
+      font-weight: 700;
+      background: none;
+
+      &::placeholder {
+        color: #162b4d;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:focus {
+        background-color: white;
+      }
+    }
+
+    .menuButton {
+      @include menuButton(dark);
+      margin-right: 0;
+    }
+  }
+  .AddCard {
+    width: 100%;
+    justify-self: end;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 10px;
+
+    .addCardForm {
+      width: 100%;
+      flex-grow: 1;
+
+      .addCardInput {
+        height: 35px;
+        width: 100%;
+        padding: 10px;
+        font-size: 15px;
+        font-weight: 500;
+        // margin-right: 5px;
+
+        @include hidden_input_focus;
+
+        &::placeholder {
+          font-size: 15px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .exitButton {
+      @include exitButton(2em);
+      margin-left: 5px;
+    }
+  }
+
+  .listOfCards {
+    width: 100%;
+    padding: 10px 0;
+  }
+}

@@ -16,26 +16,50 @@ class BoardMenu extends Component {
     this.setState({ [id]: !this.state[id] });
   };
 
+  stopPropagation = e => {
+    return e.stopPropagation();
+  };
+
   render() {
     return (
-      <div className={styles.BoardMenu}>
-        <ul>
-          <li className={styles.MenuList}>General Information</li>
-          <li className={styles.MenuList}>Background Image</li>
+      <div
+        className={styles.BoardMenuContainer}
+        onClick={this.props.toggleMenu}
+      >
+        <ul className={styles.BoardMenu} onClick={this.stopPropagation}>
+          <div className={styles.menuHeader}>
+            <h3>Menu </h3>
+            <button
+              className={styles.exitButton}
+              onClick={this.props.toggleMenu}
+            ></button>
+          </div>
+          <hr></hr>
+          {/* General Board Information */}
+          <li className={styles.MenuOption}>General Information</li>
+
+          {/* Background Image */}
+          <li className={styles.MenuOption}>Background Image</li>
+
           {/* Labels */}
-          <li className={styles.MenuList} id="labelsMenu" onClick={this.toggle}>
+          <li
+            className={styles.MenuOption}
+            id="labelsMenu"
+            onClick={this.toggle}
+          >
             Labels
           </li>
           {this.state.labelsMenu ? <LabelsMenu /> : null}
 
           {/* Archived Items */}
           <li
-            className={styles.MenuList}
+            className={styles.MenuOption}
             id="archivedItems"
             onClick={this.toggle}
           >
             Archived Items
           </li>
+
           {this.state.archivedItems ? <ArchivedItems /> : null}
         </ul>
       </div>

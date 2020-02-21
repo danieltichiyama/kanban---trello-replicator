@@ -21,10 +21,22 @@ class AddNewBoard extends Component {
     return this.setState({ [name]: value });
   };
 
+  stopPropagation = e => {
+    return e.stopPropagation();
+  };
+
   render() {
     return (
-      <div className={styles.AddNewBoard}>
-        <form onSubmit={this.createBoard}>
+      <div
+        className={styles.AddNewBoard}
+        onClick={this.props.toggleAddNewBoard}
+      >
+        <form
+          onSubmit={this.createBoard}
+          className={styles.addNewBoardForm}
+          onClick={this.stopPropagation}
+        >
+          <h3>Add Board</h3>
           <input
             type="text"
             name="name"
@@ -32,15 +44,17 @@ class AddNewBoard extends Component {
             placeholder="Board Name"
             onChange={this.handleInput}
           />
-          <input
+          <textarea
             type="text"
             name="description"
             value={this.state.description}
             placeholder="What is this board for?"
             onChange={this.handleInput}
           />
-          <input type="submit" value="Create" />
-          <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
+          <div className={styles.buttonsContainer}>
+            <button type="submit">Create</button>
+            <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
+          </div>
         </form>
       </div>
     );

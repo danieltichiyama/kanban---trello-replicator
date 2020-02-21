@@ -3,7 +3,8 @@ import { connect } from "react-redux";
 import {
   actionsCreateList,
   actionsUpdateBoard,
-  actionsUpdateCard
+  actionsUpdateCard,
+  actionsGetBoardData
 } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
@@ -16,7 +17,16 @@ class Board extends Component {
     this.state = { board: {}, list: {}, showMenu: false };
   }
 
-  toggleMenu = () => {
+  // only need this during dev
+  componentDidMount = () => {
+    return this.props.dispatchGetBoardData(1);
+  };
+
+  toggleMenu = e => {
+    if (e) {
+      e.stopPropagation();
+      e.preventDefault();
+    }
     this.setState({ showMenu: !this.state.showMenu });
   };
 
@@ -155,24 +165,56 @@ class Board extends Component {
     return array[destinationIndex];
   };
 
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
+      return e.target.blur();
+    }
+  };
+
   render() {
     return (
-      <div className={styles.Board}>
-        <button onClick={this.toggleMenu}>Menu</button>
-        {this.state.showMenu ? <BoardMenu /> : null}
+      <div
+        className={styles.Board}
+        style={
+          this.props.boardImage
+            ? {
+                backgroundImage: `url(${this.props.boardImage.url})`,
+                backgroundSize: "cover",
+                backgroundRepeat: "no-repeat"
+              }
+            : {
+                backgroundColor: Object.keys(this.props.labelColors)[
+                  Math.floor(
+                    Math.random() *
+                      Math.floor(Object.keys(this.props.labelColors).length)
+                  )
+                ]
+              }
+        }
+      >
+        <div className={styles.boardHeader}>
+          {/* Board Name */}
+          <form onSubmit={this.updateBoard}>
+            <input
+              className={styles.boardName}
+              type="text"
+              name="name"
+              value={this.state.board.name}
+              placeholder={this.props.name}
+              onChange={this.handleBoardInput}
+              onClick={this.handleInputClick}
+              onKeyPress={this.handleKeyPress}
+            />
+          </form>
+          <button
+            onClick={this.toggleMenu}
+            className={styles.boardMenuButton}
+          ></button>
+        </div>
 
-        {/* Board Name */}
-        <form onSubmit={this.updateBoard}>
-          <input
-            type="text"
-            name="name"
-            value={this.state.board.name}
-            placeholder={this.props.name}
-            onChange={this.handleBoardInput}
-            onClick={this.handleInputClick}
-          />
-          <input type="submit" value="Change" />
-        </form>
+        {this.state.showMenu ? (
+          <BoardMenu toggleMenu={this.toggleMenu} />
+        ) : null}
 
         {/* Lists */}
 
@@ -185,6 +227,7 @@ class Board extends Component {
                   } else {
                     return (
                       <List
+                        handleKeyPress={this.handleKeyPress}
                         list={list}
                         key={list.id}
                         cards={this.props.cards
@@ -206,13 +249,13 @@ class Board extends Component {
           {/* Add List */}
           <form onSubmit={this.createList}>
             <input
-              className={styles.AddList}
+              className={styles.addList}
               name="name"
               value={this.state.list.name}
               placeholder="+ Add List"
               onChange={this.handleListInput}
+              onKeyPress={this.handleKeyPress}
             />
-            <input type="submit" value="Add" />
           </form>
         </ul>
       </div>
@@ -226,7 +269,9 @@ const mapStateToProps = state => {
     lists: state.lists,
     labels: state.labels,
     board_id: state.id,
-    cards: state.cards
+    cards: state.cards,
+    boardImage: state.boardImage,
+    labelColors: state.initLabels
   };
 };
 
@@ -240,6 +285,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchUpdateCard: formData => {
       return dispatch(actionsUpdateCard(formData));
+    },
+    dispatchGetBoardData: boardID => {
+      return dispatch(actionsGetBoardData(boardID));
     }
   };
 };

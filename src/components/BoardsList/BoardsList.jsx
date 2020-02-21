@@ -34,47 +34,67 @@ class BoardsList extends Component {
   render() {
     return (
       <div className={styles.BoardsList}>
+        <h2>My Boards</h2>
         {/* List of Boards */}
-        {this.props.boards
-          ? this.props.boards.map(board => {
-              if (!board.is_archived) {
-                return (
-                  <BoardThumbnail
-                    board={board}
-                    key={board.id}
-                    getBoardData={this.getBoardData}
-                  />
-                );
-              }
-              return null;
-            })
-          : null}
+        <div className={styles.BoardsContainer}>
+          {this.props.boards
+            ? this.props.boards.map(board => {
+                if (!board.is_archived) {
+                  return (
+                    <BoardThumbnail
+                      board={board}
+                      key={board.id}
+                      getBoardData={this.getBoardData}
+                    />
+                  );
+                }
+                return null;
+              })
+            : null}
 
-        {/* Add New Board Button */}
-        <button className={styles.li_board} onClick={this.toggleAddNewBoard}>
-          New Board
-        </button>
-
-        {/* Show Archied Boards button */}
-        <button className={styles.li_board} onClick={this.toggleArchivedBoards}>
-          Show Archived Boards
-        </button>
+          {/* Add New Board Button */}
+          <div className={styles.container} onClick={this.toggleAddNewBoard}>
+            <div className={styles.BoardThumbnail}>Create new board</div>
+          </div>
+        </div>
 
         {/* Archived Boards List */}
-        {this.state.showArchived
-          ? this.props.boards.map(board => {
-              if (board.is_archived) {
-                return (
-                  <BoardThumbnail
-                    board={board}
-                    key={board.id}
-                    getBoardData={this.getBoardData}
-                  />
-                );
-              }
-              return null;
-            })
-          : null}
+        {this.state.showArchived ? (
+          <>
+            <h2>Archived Boards</h2>
+            {this.props.boards.every(board => {
+              return !board.is_archived;
+            }) ? (
+              <div className={styles.noArchivedBoardsMessage}>
+                "You have no archived boards"
+              </div>
+            ) : (
+              <div className={styles.BoardsContainer}>
+                {this.props.boards.map(board => {
+                  if (board.is_archived) {
+                    return (
+                      <BoardThumbnail
+                        board={board}
+                        key={board.id}
+                        getBoardData={this.getBoardData}
+                      />
+                    );
+                  }
+                  return null;
+                })}
+              </div>
+            )}
+          </>
+        ) : null}
+
+        {/* Show Archived Boards button */}
+        <button
+          className={styles.showArchivedButton}
+          onClick={this.toggleArchivedBoards}
+        >
+          {!this.state.showArchived ? "Show archived" : "Hide archived"}
+        </button>
+
         {/* Add New Board Modal */}
         {this.state.addNewBoard ? (
           <AddNewBoard toggleAddNewBoard={this.toggleAddNewBoard} />
