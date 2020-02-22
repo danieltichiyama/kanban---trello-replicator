@@ -206,10 +206,9 @@ class Board extends Component {
               onKeyPress={this.handleKeyPress}
             />
           </form>
-          <button
-            onClick={this.toggleMenu}
-            className={styles.boardMenuButton}
-          ></button>
+          <button onClick={this.toggleMenu} className={styles.boardMenuButton}>
+            Show Menu
+          </button>
         </div>
 
         {this.state.showMenu ? (
@@ -247,7 +246,7 @@ class Board extends Component {
           </DragDropContext>
 
           {/* Add List */}
-          <form onSubmit={this.createList}>
+          <form onSubmit={this.createList} className={styles.addListForm}>
             <input
               className={styles.addList}
               name="name"

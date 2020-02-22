@@ -10,33 +10,33 @@
   align-items: center;
 
   .addNewBoardForm {
-    border-radius: 5px;
-    padding: 10px;
+    border-radius: 4px;
+    padding: 8px;
     background: white;
     display: flex;
     flex-direction: column;
-    width: 350px;
+    width: 360px;
     height: 400px;
     justify-content: flex-start;
     align-items: center;
 
     input {
       height: 40px;
-      width: 300px;
-      padding-left: 10px;
+      width: 320px;
+      padding-left: 8px;
       font-weight: 700;
       border: 1px gray solid;
-      border-radius: 3px;
-      margin-bottom: 10px;
+      border-radius: 4px;
+      margin-bottom: 8px;
     }
 
     textarea {
-      width: 300px;
-      padding: 10px 5px 5px 5px;
+      width: 320px;
+      padding: 8px 4px 4px 4px;
       resize: none;
       height: 200px;
       border: 1px gray solid;
-      border-radius: 3px;
+      border-radius: 4px;
       margin-bottom: 20px;
     }
 
@@ -45,14 +45,14 @@
       flex-direction: row;
       width: 100%;
       justify-content: space-around;
-      padding: 0 15px;
+      padding: 0 16px;
 
       button {
-        padding: 15px;
-        width: 90px;
+        padding: 16px;
+        width: 96px;
         border: none;
         background-color: #61be4f;
-        border-radius: 3px;
+        border-radius: 4px;
         color: white;
         font-weight: 700;
 

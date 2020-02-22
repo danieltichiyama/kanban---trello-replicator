@@ -3,14 +3,14 @@
 
 .Card {
   width: 100%;
-  margin-bottom: 10px;
-  padding: 10px;
+  margin-bottom: 8px;
+  padding: 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   background-color: white;
-  border-radius: 5px;
+  border-radius: 4px;
   box-shadow: 0 1px 0 0 rgba($color: #000000, $alpha: 0.05);
 
   .labelsContainer {
@@ -18,12 +18,12 @@
     flex-direction: row;
     width: 100%;
     justify-content: flex-start;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
 
     .Label {
-      margin-right: 5px;
-      padding: 1px 10px;
-      border-radius: 3px;
+      margin-right: 4px;
+      padding: 2px 8px;
+      border-radius: 4px;
       font-size: 12px;
       font-weight: 800;
       color: white;
@@ -70,6 +70,6 @@
 
   .menuButton {
     @include menuButton(dark);
-    margin-left: 10px;
+    margin-left: 8px;
   }
 }

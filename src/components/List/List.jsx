@@ -132,7 +132,7 @@ class List extends Component {
             <button onClick={this.archiveList}>
               {this.state.list.is_archived ? "Unarchive" : "Archive"}
             </button>
-            <input type="submit" value="Save" />
+            <button type="submit">Save</button>
           </form>
         )}
         {/* Cards */}
