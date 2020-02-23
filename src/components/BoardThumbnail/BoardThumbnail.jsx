@@ -35,7 +35,10 @@ class BoardThumbnail extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-    return this.setState({ showMenu: !this.state.showMenu });
+    return this.setState({
+      showMenu: !this.state.showMenu,
+      is_archived: false
+    });
   };
 
   archive = e => {

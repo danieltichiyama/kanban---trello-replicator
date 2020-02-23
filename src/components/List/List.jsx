@@ -9,11 +9,36 @@ import { Droppable } from "react-beautiful-dnd";
 class List extends Component {
   constructor(props) {
     super(props);
+
+    this.setWrapperRef = this.setWrapperRef.bind(this);
+    this.handleClickOutside = this.handleClickOutside.bind(this);
+
     this.state = {
       list: {},
       showMenu: false,
       showCancelButton: false
     };
+  }
+
+  componentDidMount() {
+    document.addEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  /**
+   * Set the wrapper ref
+   */
+  setWrapperRef(node) {
+    this.wrapperRef = node;
+  }
+
+  handleClickOutside(event) {
+    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+      return this.setState({ showMenu: !this.state.showMenu });
+    }
   }
 
   updateList = e => {
@@ -67,7 +92,7 @@ class List extends Component {
     });
   };
 
-  showMenu = () => {
+  toggleMenu = () => {
     return this.setState({ showMenu: !this.state.showMenu });
   };
 
@@ -119,7 +144,7 @@ class List extends Component {
           {/* Menu/Unarchive Button */}
           {!this.props.list.is_archived ? (
             <button
-              onClick={this.showMenu}
+              onClick={this.toggleMenu}
               className={styles.menuButton}
             ></button>
           ) : (
@@ -128,12 +153,23 @@ class List extends Component {
         </div>
         {/* List Menu */}
         {!this.state.showMenu ? null : (
-          <form onSubmit={this.updateList} className={styles.listMenu}>
-            <button onClick={this.archiveList}>
-              {this.state.list.is_archived ? "Unarchive" : "Archive"}
+          <ul className={styles.listMenu} ref={this.setWrapperRef}>
+            <li className={styles.listHeader}>
+              <h4>List Actions</h4>
+              <button className={styles.exitButton} onClick={this.toggleMenu} />
+            </li>
+            <hr />
+            <li className={styles.li_listMenuOption}>Add Card...</li>
+            <li className={styles.li_listMenuOption}>Sort By...</li>
+            <li className={styles.li_listMenuOption}>Copy All Cards To...</li>
+            <li className={styles.li_listMenuOption}>Archive All Cards...</li>
+            <li className={styles.li_listMenuOption} onClick={this.archiveList}>
+              {this.state.list.is_archived ? "Unarchive List" : "Archive List"}
+            </li>
+            <button className={styles.saveButton} onClick={this.updateList}>
+              Save
             </button>
-            <button type="submit">Save</button>
-          </form>
+          </ul>
         )}
         {/* Cards */}
         {this.props.list.is_archived ? null : (
