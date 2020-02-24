@@ -70,7 +70,7 @@
   }
 }
 
-@mixin exitButton($size) {
+@mixin exitButton($size: 2em) {
   background: none;
   border: none;
   border-radius: 5px;
@@ -83,6 +83,7 @@
 
   &:hover {
     background-color: #ff9688;
+    cursor: pointer;
 
     &::before {
       color: white;

@@ -65,28 +65,33 @@ class CardMenu extends Component {
             className={styles.updateCardForm}
             onClick={this.stopPropagation}
           >
-            <input
-              type="text"
-              name="name"
-              value={this.state.name}
-              defaultValue={this.props.card.name}
-              onChange={this.handleCardInput}
-              placeholder={this.props.card.name}
-              className={styles.updateCardName}
-            />
+            <div className={styles.cardMenuHeader}>
+              <div className={styles.cardMenuHeaderInputs}>
+                <input
+                  type="text"
+                  name="name"
+                  value={this.state.name}
+                  defaultValue={this.props.card.name}
+                  onChange={this.handleCardInput}
+                  placeholder={this.props.card.name}
+                  className={styles.updateCardName}
+                />
 
-            {/* Edit List */}
-            <div className={styles.listsContainer}>
-              in list
-              <select name="list_id" onChange={this.handleCardInput}>
-                {this.props.lists.map(list => {
-                  return (
-                    <option value={list.id} key={list.id}>
-                      {list.name}
-                    </option>
-                  );
-                })}
-              </select>
+                {/* Edit List */}
+                <div className={styles.listsContainer}>
+                  in list
+                  <select name="list_id" onChange={this.handleCardInput}>
+                    {this.props.lists.map(list => {
+                      return (
+                        <option value={list.id} key={list.id}>
+                          {list.name}
+                        </option>
+                      );
+                    })}
+                  </select>
+                </div>
+              </div>
+              <button className={styles.exitButton} />
             </div>
 
             {/* Edit Details */}
@@ -124,8 +129,15 @@ class CardMenu extends Component {
             </div>
 
             {/* Toggle Labels Menu */}
-            <button onClick={this.toggleLabelsMenu}>Labels</button>
-            <button type="submit">Save</button>
+            <button
+              onClick={this.toggleLabelsMenu}
+              className={styles.labelsButton}
+            >
+              Labels
+            </button>
+            <button type="submit" className={styles.saveButon}>
+              Save
+            </button>
           </form>
 
           {/* Labels Menu */}

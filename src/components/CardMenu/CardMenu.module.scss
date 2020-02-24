@@ -33,34 +33,60 @@
       width: 100%;
       padding: 0 8px 8px 8px;
 
-      .updateCardName {
-        font-size: 16px;
-        @include hidden_input_focus;
-        padding: 4px;
+      .cardMenuHeader {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
 
-        &:hover {
-          background: none;
-        }
-      }
+        .cardMenuHeaderInputs {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-start;
 
-      .listsContainer {
-        font-size: 12px;
-        color: gray;
-        position: relative;
+          .updateCardName {
+            font-size: 16px;
+            @include hidden_input_focus;
+            padding: 4px;
 
-        select {
-          border: none;
-          background: none;
-          text-decoration: underline;
-          margin: 0 4px 8px 4px;
-          -webkit-appearance: none;
-          -moz-appearance: none;
-          text-indent: 0.01px;
-          text-overflow: "";
-
-          &:focus {
-            outline: none;
+            &:hover {
+              background: none;
+              cursor: pointer;
+            }
           }
+
+          .listsContainer {
+            font-size: 12px;
+            color: gray;
+            position: relative;
+
+            select {
+              border: none;
+              background: none;
+              text-decoration: underline;
+              margin: 0 4px 8px 4px;
+              -webkit-appearance: none;
+              -moz-appearance: none;
+              text-indent: 0.01px;
+              text-overflow: "";
+
+              &:focus {
+                outline: none;
+              }
+
+              &:hover {
+                cursor: pointer;
+              }
+            }
+          }
+        }
+
+        .exitButton {
+          @include exitButton();
+          margin-right: 4px;
+          height: 30px;
+          width: 30px;
         }
       }
 
@@ -90,11 +116,6 @@
         &:hover {
           cursor: default;
         }
-      }
-
-      button {
-        @include modal_button();
-        margin-bottom: 10px;
       }
     }
   }
