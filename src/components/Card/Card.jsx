@@ -10,7 +10,7 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMenu: false,
+      showMenu: true,
       label: {}
     };
   }
@@ -91,6 +91,7 @@ class Card extends Component {
                     className={styles.cardName}
                     type="text"
                     name="name"
+                    rows="2"
                     placeholder={this.props.card.name}
                     value={this.state.name}
                     onChange={this.handleCardInput}
@@ -116,7 +117,9 @@ class Card extends Component {
                   card={this.props.card}
                   toggleMenu={this.toggleMenu}
                   updateCard={this.updateCard}
-                />
+                >
+                  test
+                </CardMenu>
               )}
             </div>
           );

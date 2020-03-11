@@ -54,25 +54,41 @@ class CardLabels extends Component {
     return (
       <div className={styles.CardLabels}>
         {/* Close button */}
-        <button onClick={this.props.toggleLabelsMenu}>Close</button>
+        <div className={styles.cardLabelsHeader}>
+          <h5>Labels</h5>
+          <button
+            onClick={this.props.toggleLabelsMenu}
+            className={styles.exitButton}
+          />
+        </div>
 
         {/* Label Selector */}
-        <form onSubmit={this.addLabels}>
+        <form onSubmit={this.addLabels} className={styles.cardLabelsForm}>
           {Object.values(this.props.labels).map(label => {
             if (label.hasOwnProperty("id")) {
               let color = { backgroundColor: label.color };
               return (
-                <li key={label.color} style={color}>
+                <label
+                  key={label.color}
+                  style={color}
+                  className={styles.labelContainer}
+                  htmlFor={label.id}
+                  onClick={this.toggleSelect}
+                  name={label.color}
+                >
                   <input
-                    type="radio"
+                    type="checkbox"
                     name={label.color}
                     id={label.color}
                     value={label.color}
                     checked={this.state[label.color]}
-                    onClick={this.toggleSelect}
+                    // onClick={this.toggleSelect}
+                    className={styles.checkbox}
                   />
-                  <label htmlFor={label.id}>{label.name}</label>
-                </li>
+                  <span className={styles.checkmark}></span>
+
+                  {label.name}
+                </label>
               );
             }
             return null;

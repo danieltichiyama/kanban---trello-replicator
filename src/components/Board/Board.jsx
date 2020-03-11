@@ -4,7 +4,8 @@ import {
   actionsCreateList,
   actionsUpdateBoard,
   actionsUpdateCard,
-  actionsGetBoardData
+  actionsGetBoardData,
+  actionsUpdateCardStore
 } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
@@ -137,6 +138,8 @@ class Board extends Component {
       {},
       { id: newCard.id, list_id: newCard.list_id, position: newCard.position }
     );
+
+    this.props.dispatchUpdateCardStore(formData);
 
     return this.props.dispatchUpdateCard(formData);
   };
@@ -287,6 +290,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchGetBoardData: boardID => {
       return dispatch(actionsGetBoardData(boardID));
+    },
+    dispatchUpdateCardStore: formData => {
+      return dispatch(actionsUpdateCardStore(formData));
     }
   };
 };

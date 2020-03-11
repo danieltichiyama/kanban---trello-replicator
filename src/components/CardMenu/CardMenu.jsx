@@ -9,13 +9,17 @@ class CardMenu extends Component {
     super(props);
     this.state = {
       is_archived: false,
-      openCardLabels: false
+      openCardLabels: true
     };
   }
 
+  onInput = () => {
+    this.style.height = "auto";
+    this.style.height = this.scrollHeight + "px";
+  };
+
   toggleLabelsMenu = e => {
     e.preventDefault();
-    e.stopPropagation();
     return this.setState({ openCardLabels: !this.state.openCardLabels });
   };
 
@@ -38,7 +42,9 @@ class CardMenu extends Component {
     return this.props.toggleMenu();
   };
 
-  toggleArchive = () => {
+  toggleArchive = e => {
+    e.preventDefault();
+    e.stopPropagation();
     return this.setState({ is_archived: !this.state.is_archived });
   };
 
@@ -67,38 +73,80 @@ class CardMenu extends Component {
           >
             <div className={styles.cardMenuHeader}>
               <div className={styles.cardMenuHeaderInputs}>
-                <input
-                  type="text"
+                <textarea
                   name="name"
+                  rows="1"
                   value={this.state.name}
                   defaultValue={this.props.card.name}
                   onChange={this.handleCardInput}
                   placeholder={this.props.card.name}
                   className={styles.updateCardName}
-                />
+                />{" "}
+                <button className={styles.exitButton} />
+              </div>
+              {/* Edit List */}
 
-                {/* Edit List */}
-                <div className={styles.listsContainer}>
-                  in list
-                  <select name="list_id" onChange={this.handleCardInput}>
-                    {this.props.lists.map(list => {
+              <div className={styles.listsContainer}>
+                in list
+                <select name="list_id" onChange={this.handleCardInput}>
+                  {this.props.lists.map(list => {
+                    if (this.props.card.list_id !== list.id) {
                       return (
                         <option value={list.id} key={list.id}>
                           {list.name}
                         </option>
                       );
-                    })}
-                  </select>
-                </div>
+                    } else {
+                      return (
+                        <option value={list.id} key={list.id} selected>
+                          {list.name}
+                        </option>
+                      );
+                    }
+                  })}
+                </select>
               </div>
-              <button className={styles.exitButton} />
             </div>
 
+            <h4>Labels</h4>
+            {/* Toggle Labels Menu */}
+            {this.props.card.labels ? (
+              <div className={styles.labelsContainer}>
+                {this.props.card.labels.map(label => {
+                  let color = { backgroundColor: label.color };
+                  let labelName = this.props.labels[label.color].name;
+                  return (
+                    <div
+                      className={styles.Label}
+                      key={label.color}
+                      style={color}
+                    >
+                      {labelName}
+                    </div>
+                  );
+                })}
+                <button
+                  onClick={this.toggleLabelsMenu}
+                  className={styles.labelsButton}
+                />
+                {/* Labels Menu */}
+                {this.state.openCardLabels ? (
+                  <CardLabels
+                    card={this.props.card}
+                    labels={this.props.labels}
+                    addLabels={this.addLabels}
+                    toggleLabelsMenu={this.toggleLabelsMenu}
+                  />
+                ) : null}
+              </div>
+            ) : null}
+
             {/* Edit Details */}
+            <h4>Description</h4>
             <textarea
               name="details"
               cols="30"
-              rows="10"
+              rows="5"
               onChange={this.handleCardInput}
               defaultValue={this.props.card.details}
               value={this.state.details}
@@ -106,7 +154,7 @@ class CardMenu extends Component {
             ></textarea>
 
             {/* Edit Due Date */}
-            <input
+            {/* <input
               type="date"
               name="due_date"
               className={styles.dueDate}
@@ -119,43 +167,31 @@ class CardMenu extends Component {
                   : null
               }
               value={this.state.due_date}
-            />
-
+            /> */}
             {/* Display Created By */}
-            <div className={styles.createdBy}>
+            {/* <div className={styles.createdBy}>
               {this.props.card.createdBy.first_name +
                 " " +
                 this.props.card.createdBy.last_name}
+            </div> */}
+            <div className={styles.buttonsContainer}>
+              <button
+                onClick={this.toggleArchive}
+                style={
+                  this.state.is_archived
+                    ? { backgroundColor: "#eb5946", color: "white" }
+                    : null
+                }
+              >
+                {this.state.is_archived ? "Unarchive" : "Archive"}
+              </button>
+              <button type="submit" className={styles.saveButton}>
+                Save
+              </button>
             </div>
-
-            {/* Toggle Labels Menu */}
-            <button
-              onClick={this.toggleLabelsMenu}
-              className={styles.labelsButton}
-            >
-              Labels
-            </button>
-            <button type="submit" className={styles.saveButon}>
-              Save
-            </button>
           </form>
 
-          {/* Labels Menu */}
-          {this.state.openCardLabels ? (
-            <CardLabels
-              card={this.props.card}
-              labels={this.props.labels}
-              addLabels={this.addLabels}
-              toggleLabelsMenu={this.toggleLabelsMenu}
-            />
-          ) : null}
-
           {/* Archive Card Button */}
-          <input
-            type="button"
-            value={this.state.is_archived ? "Unarchive" : "Archive"}
-            onClick={this.toggleArchive}
-          />
         </div>
       </div>
     );

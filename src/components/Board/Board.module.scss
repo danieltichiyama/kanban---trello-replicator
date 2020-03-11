@@ -65,6 +65,10 @@
     height: 100%;
     overflow: auto;
 
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
     .addListForm {
       display: flex;
       flex-direction: row;

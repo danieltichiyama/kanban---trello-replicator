@@ -1,0 +1,66 @@
+@import "../../sass/formatting.scss";
+@import "../../sass/inputs.scss";
+
+.CardLabels {
+  position: absolute;
+  width: 300px;
+  height: auto;
+  background-color: white;
+  @include border();
+  padding: 8px;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+
+  .cardLabelsHeader {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    .exitButton {
+      @include exitButton();
+    }
+  }
+
+  .cardLabelsForm {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+
+    .labelContainer {
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      height: 25px;
+      width: 100%;
+      margin-bottom: 4px;
+
+      // .checkbox {
+      //   opacity: 0;
+      //   display: none;
+      // }
+
+      .checkmark {
+        @include border();
+        height: 24px;
+        width: 24px;
+        background: none;
+        margin-right: 12px;
+
+        &:checked {
+          background-color: #2196f3;
+
+          &::before {
+            content: "\2713";
+          }
+        }
+
+        &::before {
+          content: "";
+        }
+      }
+    }
+  }
+}

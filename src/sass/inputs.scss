@@ -70,10 +70,32 @@
   }
 }
 
+@mixin plusButton($size: 2em) {
+  background: rgba($color: #000000, $alpha: 0.05);
+  border: none;
+  border-radius: 4px;
+  line-height: $size;
+
+  &::before {
+    content: "\0002B";
+    font-size: $size;
+    color: gray;
+  }
+
+  &:hover {
+    background-color: rgba($color: #000000, $alpha: 0.1);
+    cursor: pointer;
+
+    &::before {
+      color: gray;
+    }
+  }
+}
+
 @mixin exitButton($size: 2em) {
   background: none;
   border: none;
-  border-radius: 5px;
+  border-radius: 4px;
 
   &::before {
     content: "\2716";
