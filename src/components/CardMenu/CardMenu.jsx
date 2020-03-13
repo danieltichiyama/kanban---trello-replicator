@@ -13,11 +13,6 @@ class CardMenu extends Component {
     };
   }
 
-  onInput = () => {
-    this.style.height = "auto";
-    this.style.height = this.scrollHeight + "px";
-  };
-
   toggleLabelsMenu = e => {
     if (e) {
       e.preventDefault();
@@ -91,21 +86,17 @@ class CardMenu extends Component {
 
               <div className={styles.listsContainer}>
                 in list
-                <select name="list_id" onChange={this.handleCardInput}>
+                <select
+                  name="list_id"
+                  onChange={this.handleCardInput}
+                  defaultValue={this.props.card.list_id}
+                >
                   {this.props.lists.map(list => {
-                    if (this.props.card.list_id !== list.id) {
-                      return (
-                        <option value={list.id} key={list.id}>
-                          {list.name}
-                        </option>
-                      );
-                    } else {
-                      return (
-                        <option value={list.id} key={list.id} selected>
-                          {list.name}
-                        </option>
-                      );
-                    }
+                    return (
+                      <option value={list.id} key={list.id}>
+                        {list.name}
+                      </option>
+                    );
                   })}
                 </select>
               </div>

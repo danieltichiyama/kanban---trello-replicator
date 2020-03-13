@@ -9,8 +9,17 @@ class CardLabels extends Component {
     this.state = {};
   }
 
+  componentDidMount = () => {
+    let newState = this.props.labels.reduce((acc, curr) => {
+      return Object.assign(acc, { [curr]: false });
+    }, {});
+
+    return this.setState(newState);
+  };
+
   addLabels = e => {
     e.preventDefault();
+    e.stopPropagation();
     let formData = {
       card_id: this.props.card.id,
       label_ids: []
@@ -64,7 +73,7 @@ class CardLabels extends Component {
         </div>
 
         {/* Label Selector */}
-        <form onSubmit={this.addLabels} className={styles.cardLabelsForm}>
+        <div className={styles.cardLabelsForm}>
           {Object.values(this.props.labels).map(label => {
             if (label.hasOwnProperty("id")) {
               let color = { backgroundColor: label.color };
@@ -79,8 +88,7 @@ class CardLabels extends Component {
                   <input
                     type="checkbox"
                     name={label.color}
-                    value={label.color}
-                    checked={this.state[label.color]}
+                    defaultChecked={this.state[label.color]}
                     className={styles.checkboxInput}
                   />
                   <span className={styles.checkboxCustom}></span>
@@ -90,8 +98,14 @@ class CardLabels extends Component {
             }
             return null;
           })}
-          <input type="submit" value="Save" className={styles.saveButton} />
-        </form>
+          <button
+            type="submit"
+            onClick={this.addLabels}
+            className={styles.saveButton}
+          >
+            Save{" "}
+          </button>
+        </div>
       </div>
     );
   }

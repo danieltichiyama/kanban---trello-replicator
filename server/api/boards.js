@@ -62,6 +62,7 @@ router.get("/:boardID", (req, res) => {
         "cards.cardImages",
         "cards.createdBy",
         "cards.assignedTo",
+        "cards.list",
         "labels",
         "lists"
       ]
