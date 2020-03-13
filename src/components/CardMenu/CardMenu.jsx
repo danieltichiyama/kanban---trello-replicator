@@ -19,7 +19,10 @@ class CardMenu extends Component {
   };
 
   toggleLabelsMenu = e => {
-    e.preventDefault();
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     return this.setState({ openCardLabels: !this.state.openCardLabels });
   };
 
@@ -125,19 +128,21 @@ class CardMenu extends Component {
                     </div>
                   );
                 })}
-                <button
-                  onClick={this.toggleLabelsMenu}
-                  className={styles.labelsButton}
-                />
-                {/* Labels Menu */}
-                {this.state.openCardLabels ? (
-                  <CardLabels
-                    card={this.props.card}
-                    labels={this.props.labels}
-                    addLabels={this.addLabels}
-                    toggleLabelsMenu={this.toggleLabelsMenu}
-                  />
-                ) : null}
+                <div>
+                  <button
+                    onClick={this.toggleLabelsMenu}
+                    className={styles.labelsButton}
+                  ></button>
+                  {/* Labels Menu */}
+                  {this.state.openCardLabels ? (
+                    <CardLabels
+                      card={this.props.card}
+                      labels={this.props.labels}
+                      addLabels={this.addLabels}
+                      toggleLabelsMenu={this.toggleLabelsMenu}
+                    />
+                  ) : null}
+                </div>
               </div>
             ) : null}
 

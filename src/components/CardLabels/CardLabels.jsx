@@ -22,7 +22,8 @@ class CardLabels extends Component {
       }
     }
 
-    return this.props.dispatchAddLabels(formData);
+    this.props.dispatchAddLabels(formData);
+    return this.props.toggleLabelsMenu();
   };
 
   toggleSelect = e => {
@@ -71,29 +72,25 @@ class CardLabels extends Component {
                 <label
                   key={label.color}
                   style={color}
-                  className={styles.labelContainer}
-                  htmlFor={label.id}
+                  className={styles.checkboxLabel}
                   onClick={this.toggleSelect}
                   name={label.color}
                 >
                   <input
                     type="checkbox"
                     name={label.color}
-                    id={label.color}
                     value={label.color}
                     checked={this.state[label.color]}
-                    // onClick={this.toggleSelect}
-                    className={styles.checkbox}
+                    className={styles.checkboxInput}
                   />
-                  <span className={styles.checkmark}></span>
-
+                  <span className={styles.checkboxCustom}></span>
                   {label.name}
                 </label>
               );
             }
             return null;
           })}
-          <input type="submit" value="Save" />
+          <input type="submit" value="Save" className={styles.saveButton} />
         </form>
       </div>
     );
