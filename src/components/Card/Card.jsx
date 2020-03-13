@@ -10,7 +10,7 @@ class Card extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMenu: true,
+      showMenu: false,
       label: {}
     };
   }

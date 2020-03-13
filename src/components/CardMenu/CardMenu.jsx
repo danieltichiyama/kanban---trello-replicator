@@ -9,7 +9,7 @@ class CardMenu extends Component {
     super(props);
     this.state = {
       is_archived: false,
-      openCardLabels: true
+      openCardLabels: false
     };
   }
 
