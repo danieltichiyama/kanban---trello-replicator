@@ -33,19 +33,28 @@ class ArchivedItems extends Component {
     return (
       <div className={styles.ArchivedItems}>
         {/* Lists/Cards Toggle */}
-        {this.state.showLists ? "Archived Lists" : "Archived Cards"}
-        <button onClick={this.toggleItems}>
-          Show {this.state.showLists ? "Cards" : "Lists"}
-        </button>
+        <div className={styles.menuContainer}>
+          <h4>{this.state.showLists ? "Archived Lists" : "Archived Cards"}</h4>
+          <button
+            onClick={this.toggleItems}
+            className={styles.cardsListsToggleButton}
+          >
+            Show {this.state.showLists ? "Cards" : "Lists"}
+          </button>
+        </div>
 
         {/* List of Items */}
         <ul className={styles.itemsList}>
           {this.state.showLists
             ? this.props.lists.map(list => {
                 return (
-                  <div className={styles.archivedListContainer} key={list.id}>
-                    <h4>{list.name}</h4>
-                    <button onClick={this.unarchiveList} id={list.id}>
+                  <div className={styles.archivedContainer} key={list.id}>
+                    {list.name}
+                    <button
+                      onClick={this.unarchiveList}
+                      id={list.id}
+                      className={styles.unarchiveButton}
+                    >
                       Unarchive
                     </button>
                   </div>
@@ -53,9 +62,13 @@ class ArchivedItems extends Component {
               })
             : this.props.cards.map(card => {
                 return (
-                  <div className={styles.archivedCardContainer} key={card.id}>
-                    {card.name}
-                    <button onClick={this.unarchiveCard} id={card.id}>
+                  <div className={styles.archivedContainer} key={card.id}>
+                    <p>{card.name}</p>
+                    <button
+                      onClick={this.unarchiveCard}
+                      id={card.id}
+                      className={styles.unarchiveButton}
+                    >
                       Unarchive
                     </button>
                   </div>
