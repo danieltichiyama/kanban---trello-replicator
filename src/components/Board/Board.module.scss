@@ -1,0 +1,97 @@
+@import "../../sass/formatting.scss";
+@import "../../sass/inputs.scss";
+
+.Board {
+  height: 95vh;
+  width: 100vw;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+
+  .boardHeader {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: auto;
+    padding: 8px auto;
+    align-items: center;
+    justify-content: space-between;
+
+    .boardName {
+      height: 32px;
+      max-width: 400px;
+      width: auto;
+      border-radius: 4px;
+      border: none;
+      padding: 0 8px;
+      color: #162b4d;
+      font-size: 20px;
+      font-weight: 700;
+      background: none;
+
+      &::placeholder {
+        color: #162b4d;
+        width: fit-content;
+        font-size: 20px;
+        font-weight: 700;
+        text-shadow: 0 0 20px rgba($color: #000000, $alpha: 0.05);
+      }
+
+      &:hover {
+        background-color: rgba($color: #000000, $alpha: 0.1);
+        cursor: pointer;
+      }
+
+      &:focus {
+        background-color: white;
+      }
+    }
+
+    .boardMenuButton {
+      @include menuButton(dark);
+      width: auto;
+      font-size: 14px;
+      background-color: rgba($color: #000000, $alpha: 0.05);
+      margin: 8px;
+    }
+  }
+
+  .Lists {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+
+    ::-webkit-scrollbar {
+      display: none;
+    }
+
+    .addListForm {
+      display: flex;
+      flex-direction: row;
+      border-radius: 4px;
+
+      .addList {
+        @include hidden_input_focus;
+        height: 48px;
+        width: 240px;
+        border-radius: 4px;
+        background-color: rgba($color: black, $alpha: 0.09);
+        color: #162b4d;
+        padding: 24px;
+        font-size: 16px;
+        font-weight: 500;
+        margin: 8px 4px;
+
+        &::placeholder {
+          color: #162b4d;
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+  }
+}

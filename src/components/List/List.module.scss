@@ -1,0 +1,145 @@
+@import "../../sass/inputs.scss";
+@import "../../sass/formatting.scss";
+
+.List {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: #ebecf0;
+  border-radius: 4px;
+  min-width: 272px;
+  height: fit-content;
+  margin: 8px 4px;
+  padding: 4px 8px;
+
+  .listHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin: 4px 0;
+
+    .listName {
+      height: 32px;
+      border-radius: 2px;
+      border: none;
+      padding: 0 4px;
+      color: #162b4d;
+      font-size: 14px;
+      font-weight: 700;
+      background: none;
+
+      &::placeholder {
+        color: #162b4d;
+        font-size: 14px;
+        font-weight: 700;
+      }
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:focus {
+        background-color: white;
+      }
+    }
+
+    .menuButton {
+      @include menuButton(dark);
+      margin-right: 0;
+    }
+  }
+
+  .listMenu {
+    border-radius: 4px;
+    height: auto;
+    width: 272px;
+    position: absolute;
+    top: 48px;
+    right: -232px;
+    z-index: 2;
+    background-color: white;
+    justify-content: center;
+    padding: 8px;
+    box-shadow: 0 0 12px rgba($color: #000000, $alpha: 0.2);
+
+    .listHeader {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+
+      h4 {
+        text-align: center;
+        margin: 8px 0 4px 4px;
+      }
+
+      .exitButton {
+        @include exitButton(2em);
+        margin-right: 4px;
+      }
+    }
+
+    .li_listMenuOption {
+      padding: 8px;
+      margin-bottom: 4px;
+      border-radius: 4px 0 0 4px;
+      list-style: none;
+
+      &:hover {
+        cursor: pointer;
+        background: rgba($color: #000000, $alpha: 0.1);
+      }
+    }
+
+    .saveButton {
+      @include modal_button();
+      margin: 4px;
+    }
+  }
+
+  .AddCard {
+    width: 100%;
+    justify-self: end;
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 8px;
+
+    .addCardForm {
+      width: 100%;
+      flex-grow: 1;
+
+      .addCardInput {
+        height: 32px;
+        width: 100%;
+        padding: 8px;
+        font-size: 16px;
+        font-weight: 500;
+
+        @include hidden_input_focus;
+
+        &:hover {
+          background-color: rgba($color: #000000, $alpha: 0.1);
+        }
+
+        &::placeholder {
+          font-size: 16px;
+          font-weight: 500;
+        }
+      }
+    }
+
+    .exitButton {
+      @include exitButton(2em);
+      margin-left: 4px;
+    }
+  }
+
+  .listOfCards {
+    width: 100%;
+    padding: 8px 0;
+  }
+}
