@@ -14,7 +14,7 @@ class List extends Component {
     this.handleClickOutside = this.handleClickOutside.bind(this);
 
     this.state = {
-      list: {},
+      list: { name: "" },
       showMenu: false,
       showCancelButton: false
     };
@@ -93,7 +93,6 @@ class List extends Component {
   };
 
   toggleMenu = e => {
-    console.log("toggled");
     return this.setState({ showMenu: !this.state.showMenu });
   };
 
@@ -160,10 +159,6 @@ class List extends Component {
               <button className={styles.exitButton} onClick={this.toggleMenu} />
             </li>
             <hr />
-            {/* <li className={styles.li_listMenuOption}>Add Card...</li>
-            <li className={styles.li_listMenuOption}>Sort By...</li>
-            <li className={styles.li_listMenuOption}>Copy All Cards To...</li>
-            <li className={styles.li_listMenuOption}>Archive All Cards...</li> */}
             <li
               style={
                 this.state.list.is_archived
