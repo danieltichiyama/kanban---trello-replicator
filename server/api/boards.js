@@ -41,6 +41,19 @@ router.post("/new", (req, res) => {
     });
 });
 
+// let labels = [
+//   { board_id: results.id, color: "#61be4f" },
+//   { board_id: results.id, color: "#61be4f" },
+//   { board_id: results.id, color: "#f2d600" },
+//   { board_id: results.id, color: "#ff9f1a" },
+//   { board_id: results.id, color: "#eb5946" },
+//   { board_id: results.id, color: "#c377e0" },
+//   { board_id: results.id, color: "#0079bf" },
+//   { board_id: results.id, color: "#00c2e0" },
+//   { board_id: results.id, color: "#ff77cb" },
+//   { board_id: results.id, color: "#344562" }
+// ];
+
 router.get("/all/:id", (req, res) => {
   return req.database.Board.where({ created_by: req.params.id })
     .fetchAll({ withRelated: ["boardImage"] })

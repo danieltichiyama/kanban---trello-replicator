@@ -15,7 +15,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: { name: "" }, list: {}, showMenu: false };
+    this.state = { board: { name: "" }, list: {}, showMenu: true };
   }
 
   // only need this during dev

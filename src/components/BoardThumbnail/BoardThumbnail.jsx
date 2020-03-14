@@ -69,7 +69,7 @@ class BoardThumbnail extends Component {
     let { board, getBoardData, labelColors } = this.props;
     let BoardThumbnailBG;
 
-    if (board.boardImage.url) {
+    if (board.boardImage && board.boardImage.url) {
       BoardThumbnailBG = {
         background: `url(${board.boardImage.url})`,
         backgroundSize: "cover",

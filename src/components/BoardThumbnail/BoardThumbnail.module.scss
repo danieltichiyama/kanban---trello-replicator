@@ -32,8 +32,13 @@
     .unarchiveButton {
       align-self: flex-end;
       @include menuButton(light);
+
+      &::before {
+        content: none;
+      }
       letter-spacing: normal;
       width: auto;
+      margin-right: 4px;
     }
   }
 
