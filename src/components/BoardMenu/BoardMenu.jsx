@@ -13,7 +13,11 @@ class BoardMenu extends Component {
 
   toggle = e => {
     let { id } = e.target;
-    this.setState({ [id]: !this.state[id] });
+    if (this.state[id]) {
+      return this.setState({ [id]: !this.state[id] });
+    } else {
+      return this.setState({ [id]: true });
+    }
   };
 
   stopPropagation = e => {

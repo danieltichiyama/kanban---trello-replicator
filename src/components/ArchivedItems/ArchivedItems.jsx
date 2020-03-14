@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./ArchivedItems.module.scss";
-import Card from "../Card";
-import List from "../List";
+import { actionsUpdateCard, actionsUpdateList } from "../../actions";
 
 class ArchivedItems extends Component {
   constructor(props) {
@@ -14,6 +13,20 @@ class ArchivedItems extends Component {
 
   toggleItems = () => {
     return this.setState({ showLists: !this.state.showLists });
+  };
+
+  unarchiveCard = e => {
+    let { id } = e.target;
+    let formData = { id, is_archived: false };
+
+    return this.props.dispatchUpdateCard(formData);
+  };
+
+  unarchiveList = e => {
+    let { id } = e.target;
+    let formData = { id, is_archived: false };
+
+    return this.props.dispatchUpdateList(formData);
   };
 
   render() {
@@ -29,10 +42,24 @@ class ArchivedItems extends Component {
         <ul className={styles.itemsList}>
           {this.state.showLists
             ? this.props.lists.map(list => {
-                return <List key={list.id} list={list} />;
+                return (
+                  <div className={styles.archivedListContainer} key={list.id}>
+                    <h4>{list.name}</h4>
+                    <button onClick={this.unarchiveList} id={list.id}>
+                      Unarchive
+                    </button>
+                  </div>
+                );
               })
             : this.props.cards.map(card => {
-                return <Card card={card} key={card.id} />;
+                return (
+                  <div className={styles.archivedCardContainer} key={card.id}>
+                    {card.name}
+                    <button onClick={this.unarchiveCard} id={card.id}>
+                      Unarchive
+                    </button>
+                  </div>
+                );
               })}
         </ul>
       </div>
@@ -50,4 +77,18 @@ const mapStateToProps = state => {
   };
 };
 
-export default ArchivedItems = connect(mapStateToProps, null)(ArchivedItems);
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchUpdateCard: formData => {
+      return dispatch(actionsUpdateCard(formData));
+    },
+    dispatchUpdateList: formData => {
+      return dispatch(actionsUpdateList(formData));
+    }
+  };
+};
+
+export default ArchivedItems = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArchivedItems);

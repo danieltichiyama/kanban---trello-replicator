@@ -111,10 +111,6 @@ class List extends Component {
     }
   };
 
-  unarchive = () => {
-    return this.setState({ list: { is_archived: false } }, this.updateList);
-  };
-
   showCancelButton = () => {
     return this.setState({ showCancelButton: true });
   };
@@ -142,14 +138,10 @@ class List extends Component {
             />
           </form>
           {/* Menu/Unarchive Button */}
-          {!this.props.list.is_archived ? (
-            <button
-              onClick={this.toggleMenu}
-              className={styles.menuButton}
-            ></button>
-          ) : (
-            <button onClick={this.unarchive}>Unarchive</button>
-          )}
+          <button
+            onClick={this.toggleMenu}
+            className={styles.menuButton}
+          ></button>
         </div>
         {/* List Menu */}
         {!this.state.showMenu ? null : (

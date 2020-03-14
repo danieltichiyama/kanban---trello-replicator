@@ -25,10 +25,6 @@ class Card extends Component {
     return this.props.dispatchUpdateCard(formData);
   };
 
-  unarchive = () => {
-    return this.setState({ is_archived: false }, this.updateCard);
-  };
-
   toggleMenu = e => {
     if (e) {
       e.stopPropagation();
@@ -101,14 +97,11 @@ class Card extends Component {
                 </form>
 
                 {/* Show Card Editor Menu or Unarchive Card Button*/}
-                {this.props.card.is_archived ? (
-                  <button onClick={this.unarchive}>Unarchive</button>
-                ) : (
-                  <button
-                    onClick={this.toggleMenu}
-                    className={styles.menuButton}
-                  ></button>
-                )}
+
+                <button
+                  onClick={this.toggleMenu}
+                  className={styles.menuButton}
+                ></button>
               </div>
 
               {/* Card Menu */}
