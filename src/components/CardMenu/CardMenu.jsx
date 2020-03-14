@@ -148,28 +148,6 @@ class CardMenu extends Component {
               value={this.state.details}
               className={styles.editDetails}
             ></textarea>
-
-            {/* Edit Due Date */}
-            {/* <input
-              type="date"
-              name="due_date"
-              className={styles.dueDate}
-              onChange={this.handleCardInput}
-              defaultValue={
-                this.props.card.due_date
-                  ? new Date(this.props.card.due_date)
-                      .toISOString()
-                      .substr(0, 10)
-                  : null
-              }
-              value={this.state.due_date}
-            /> */}
-            {/* Display Created By */}
-            {/* <div className={styles.createdBy}>
-              {this.props.card.createdBy.first_name +
-                " " +
-                this.props.card.createdBy.last_name}
-            </div> */}
             <div className={styles.buttonsContainer}>
               <button
                 onClick={this.toggleArchive}
