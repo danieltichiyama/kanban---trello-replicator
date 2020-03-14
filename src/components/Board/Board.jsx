@@ -186,12 +186,7 @@ class Board extends Component {
                 backgroundRepeat: "no-repeat"
               }
             : {
-                backgroundColor: Object.keys(this.props.labelColors)[
-                  Math.floor(
-                    Math.random() *
-                      Math.floor(Object.keys(this.props.labelColors).length)
-                  )
-                ]
+                backgroundColor: "#eb5946"
               }
         }
       >

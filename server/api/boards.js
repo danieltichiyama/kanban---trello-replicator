@@ -1,4 +1,8 @@
 const express = require("express");
+//used to create a transaction in post route
+const Promise = require("bluebird");
+const bookshelf = require("../database/bookshelf");
+//used to create a transaction in post route
 
 const router = express.Router();
 
@@ -29,30 +33,41 @@ router.put("/:id", (req, res) => {
 });
 
 router.post("/new", (req, res) => {
-  //req.body = {name, [description], created_by}
-  return req.database.Board.forge(req.body)
-    .save()
+  return bookshelf
+    .transaction(t => {
+      // the 't' is used as part of any interaction with the database, i.e. save({transacting: t})
+      return req.database.Board.forge(req.body)
+        .save(null, { transacting: t })
+        .tap(model => {
+          let labels = [
+            { color: "#61be4f" },
+            { color: "#f2d600" },
+            { color: "#ff9f1a" },
+            { color: "#eb5946" },
+            { color: "#c377e0" },
+            { color: "#0079bf" },
+            { color: "#00c2e0" },
+            { color: "#ff77cb" },
+            { color: "#344562" }
+          ];
+
+          return Promise.map(labels, label => {
+            return req.database.Label.forge(label).save(
+              { board_id: model.id },
+              {
+                transacting: t
+              }
+            );
+          });
+        });
+    })
     .then(results => {
-      //returns a copy of the saved data, if no description, {description:null}
       return res.json(results);
     })
     .catch(err => {
       console.log(err);
     });
 });
-
-// let labels = [
-//   { board_id: results.id, color: "#61be4f" },
-//   { board_id: results.id, color: "#61be4f" },
-//   { board_id: results.id, color: "#f2d600" },
-//   { board_id: results.id, color: "#ff9f1a" },
-//   { board_id: results.id, color: "#eb5946" },
-//   { board_id: results.id, color: "#c377e0" },
-//   { board_id: results.id, color: "#0079bf" },
-//   { board_id: results.id, color: "#00c2e0" },
-//   { board_id: results.id, color: "#ff77cb" },
-//   { board_id: results.id, color: "#344562" }
-// ];
 
 router.get("/all/:id", (req, res) => {
   return req.database.Board.where({ created_by: req.params.id })
