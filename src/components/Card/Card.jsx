@@ -16,6 +16,16 @@ class Card extends Component {
     };
   }
 
+  componentDidMount = () => {
+    return this.setState({ name: this.props.card.name });
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.card !== this.props.card) {
+      return this.setState({ name: this.props.card.name });
+    }
+  };
+
   updateCard = e => {
     if (e) {
       e.preventDefault();
@@ -23,7 +33,11 @@ class Card extends Component {
     let formData = { ...this.state, id: this.props.card.id };
     delete formData.label;
     delete formData.showMenu;
-    console.log(formData);
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.card.name;
+    }
+
     return this.props.dispatchUpdateCard(formData);
   };
 
@@ -44,10 +58,10 @@ class Card extends Component {
     return this.setState({ label: { [name]: value } });
   };
 
-  handleInputClick = e => {
-    const { placeholder, name } = e.target;
-    return this.setState({ [name]: placeholder });
-  };
+  // handleInputClick = e => {
+  //   const { placeholder, name } = e.target;
+  //   return this.setState({ [name]: placeholder });
+  // };
 
   handleKeyPress = e => {
     if (e.key === "Enter") {
@@ -96,7 +110,7 @@ class Card extends Component {
                   type="text"
                   name="name"
                   minRows={1}
-                  placeholder={this.props.card.name}
+                  // placeholder={this.props.card.name}
                   value={this.state.name}
                   onChange={this.handleCardInput}
                   onClick={this.handleInputClick}
