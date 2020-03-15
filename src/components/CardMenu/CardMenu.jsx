@@ -3,6 +3,7 @@ import styles from "./CardMenu.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
 import CardLabels from "../CardLabels";
+import TextareaAutosize from "react-textarea-autosize";
 
 class CardMenu extends Component {
   constructor(props) {
@@ -71,7 +72,7 @@ class CardMenu extends Component {
           >
             <div className={styles.cardMenuHeader}>
               <div className={styles.cardMenuHeaderInputs}>
-                <textarea
+                <TextareaAutosize
                   name="name"
                   rows="1"
                   value={this.state.name}
@@ -139,15 +140,16 @@ class CardMenu extends Component {
 
             {/* Edit Details */}
             <h4>Description</h4>
-            <textarea
+            <TextareaAutosize
               name="details"
               cols="30"
-              rows="5"
+              minRows="5"
+              maxRows="40"
               onChange={this.handleCardInput}
               defaultValue={this.props.card.details}
               value={this.state.details}
               className={styles.editDetails}
-            ></textarea>
+            />
 
             <div className={styles.buttonsContainer}>
               <button

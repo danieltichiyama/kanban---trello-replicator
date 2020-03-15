@@ -3,6 +3,7 @@ import styles from "./Card.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
 import { Draggable } from "react-beautiful-dnd";
+import TextareaAutosize from "react-textarea-autosize";
 
 import CardMenu from "../CardMenu";
 
@@ -83,11 +84,11 @@ class Card extends Component {
               {/* Card Name */}
               <div className={styles.cardBody}>
                 <form onSubmit={this.updateCard}>
-                  <textarea
+                  <TextareaAutosize
                     className={styles.cardName}
                     type="text"
                     name="name"
-                    rows="2"
+                    minRows="1"
                     placeholder={this.props.card.name}
                     value={this.state.name}
                     onChange={this.handleCardInput}
