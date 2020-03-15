@@ -39,12 +39,6 @@ class BoardMenu extends Component {
             ></button>
           </div>
           <hr></hr>
-          {/* General Board Information */}
-          <li className={styles.MenuOption}>General Information</li>
-
-          {/* Background Image */}
-          <li className={styles.MenuOption}>Background Image</li>
-
           {/* Labels */}
           <li
             className={styles.MenuOption}

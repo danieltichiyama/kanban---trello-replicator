@@ -9,7 +9,7 @@ class BoardsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addNewBoard: true,
+      addNewBoard: false,
       showArchived: false
     };
   }
@@ -106,7 +106,12 @@ class BoardsList extends Component {
 
 const mapStateToProps = state => {
   return {
+    //this doesn't work
     boards: state.boards
+      ? state.boards.sort((a, b) => {
+          return a.updated_at < b.updated_at ? 1 : -1;
+        })
+      : null
   };
 };
 
