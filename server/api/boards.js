@@ -45,6 +45,7 @@ router.post("/new", (req, res) => {
       return req.database.Board.forge(boardData)
         .save(null, { transacting: t })
         .tap(model => {
+          //.tap is a bluebird specific method that allows you to use the model you created without returning a different result (like .then() would);
           let labels = [
             { color: "#61be4f" },
             { color: "#f2d600" },

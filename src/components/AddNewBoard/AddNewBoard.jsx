@@ -50,37 +50,45 @@ class AddNewBoard extends Component {
             value={this.state.name}
             placeholder="Board Name"
             onChange={this.handleInput}
+            className={styles.nameInput}
           />
-          <textarea
-            type="text"
-            name="description"
-            value={this.state.description}
-            placeholder="What is this board for?"
-            onChange={this.handleInput}
-          />
+          <div className={styles.descriptionContainer}>
+            <h4 className={styles.subHeader}>Description</h4>
+            <textarea
+              type="text"
+              name="description"
+              value={this.state.description}
+              placeholder="What is this board for?"
+              onChange={this.handleInput}
+            />
+          </div>
+
           <div className={styles.colorPickerContainer}>
-            {!this.props.colors
-              ? null
-              : Object.keys(this.props.colors).map(color => {
-                  let style = { backgroundColor: color };
-                  return (
-                    <label
-                      key={color}
-                      className={styles.colorPickerLabel}
-                      style={style}
-                      onClick={this.toggleColor}
-                      name={color}
-                    >
-                      <input
-                        type="radio"
-                        className={styles.colorPickerInput}
-                        name="color"
-                        id={color}
-                      />
-                      <span className={styles.colorPickerCustomCheckbox}></span>
-                    </label>
-                  );
-                })}
+            <h4 className={styles.subHeader}>Background Color</h4>
+            <div className={styles.colorPickerOptionsContainer}>
+              {!this.props.colors
+                ? null
+                : Object.keys(this.props.colors).map(color => {
+                    let style = { backgroundColor: color };
+                    return (
+                      <label
+                        key={color}
+                        className={styles.colorPickerLabel}
+                        style={style}
+                        onClick={this.toggleColor}
+                        name={color}
+                      >
+                        <input
+                          type="radio"
+                          className={styles.colorPickerInput}
+                          name="color"
+                          id={color}
+                        />
+                        <span className={styles.colorPickerCustom}></span>
+                      </label>
+                    );
+                  })}
+            </div>
           </div>
 
           <div className={styles.buttonsContainer}>

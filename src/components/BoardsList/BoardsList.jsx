@@ -9,7 +9,7 @@ class BoardsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      addNewBoard: false,
+      addNewBoard: true,
       showArchived: false
     };
   }
