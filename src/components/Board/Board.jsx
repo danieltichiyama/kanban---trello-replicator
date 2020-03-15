@@ -11,6 +11,7 @@ import List from "../List";
 import BoardMenu from "../BoardMenu";
 import styles from "./Board.module.scss";
 import { DragDropContext } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 class Board extends Component {
   constructor(props) {
@@ -208,6 +209,9 @@ class Board extends Component {
               onKeyPress={this.handleKeyPress}
             />
           </form>
+          <Link className={styles.Link} to="/">
+            <button className={styles.homeButton} />
+          </Link>
           <button onClick={this.toggleMenu} className={styles.boardMenuButton}>
             Show Menu
           </button>
