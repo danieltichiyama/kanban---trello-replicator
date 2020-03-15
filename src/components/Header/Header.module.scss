@@ -45,6 +45,9 @@
   .HeaderTitle {
     width: 100%;
     text-align: center;
+    overflow: hidden;
+    word-wrap: none;
+    flex-grow: 2;
   }
 
   .spaceFiller {

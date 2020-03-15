@@ -10,7 +10,7 @@ function Header(props) {
           <button className={styles.homeButton} />
         </Link>
       </div>
-      <h2 className={styles.HeaderTitle}>Kanban | Productivity</h2>
+      <h2 className={styles.HeaderTitle}>Kanban</h2>
       <div className={styles.spaceFiller}></div>
     </div>
   );
