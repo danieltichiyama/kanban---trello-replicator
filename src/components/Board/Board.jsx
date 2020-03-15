@@ -37,6 +37,10 @@ class Board extends Component {
       ...this.state.board,
       id: this.props.board_id
     };
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.name;
+    }
     return this.props.dispatchUpdateBoard(formData);
   };
 

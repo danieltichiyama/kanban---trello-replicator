@@ -48,8 +48,19 @@
         cursor: pointer;
       }
 
+      &:active {
+        &::placeholder {
+          color: #162b4d;
+        }
+      }
+
       &:focus {
         background-color: white;
+        color: #162b4d;
+
+        &::placeholder {
+          color: rgba($color: #000000, $alpha: 0.5);
+        }
       }
     }
 
