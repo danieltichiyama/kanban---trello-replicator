@@ -23,6 +23,7 @@ class Card extends Component {
     let formData = { ...this.state, id: this.props.card.id };
     delete formData.label;
     delete formData.showMenu;
+    console.log(formData);
     return this.props.dispatchUpdateCard(formData);
   };
 
@@ -88,7 +89,7 @@ class Card extends Component {
                     className={styles.cardName}
                     type="text"
                     name="name"
-                    minRows="1"
+                    minRows={1}
                     placeholder={this.props.card.name}
                     value={this.state.name}
                     onChange={this.handleCardInput}

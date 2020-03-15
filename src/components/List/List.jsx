@@ -22,10 +22,17 @@ class List extends Component {
 
   componentDidMount() {
     document.addEventListener("mousedown", this.handleClickOutside);
+    return this.setState({ list: { ...this.props.list } });
   }
 
   componentWillUnmount() {
     document.removeEventListener("mousedown", this.handleClickOutside);
+  }
+
+  componentDidUpdate(prevProps) {
+    if (this.props.list !== prevProps.list) {
+      return this.setState({ list: this.props.list });
+    }
   }
 
   /**
@@ -50,6 +57,10 @@ class List extends Component {
       e.preventDefault();
     }
     let formData = { ...this.state.list, id: this.props.list.id };
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.list.name;
+    }
 
     return this.props.dispatchUpdateList(formData);
   };
@@ -89,13 +100,6 @@ class List extends Component {
     return this.setState({ list: { [name]: value } });
   };
 
-  handleInputClick = e => {
-    const { placeholder } = e.target;
-    return this.setState({
-      list: { name: placeholder }
-    });
-  };
-
   toggleMenu = e => {
     return this.setState({ showMenu: !this.state.showMenu });
   };
@@ -132,7 +136,6 @@ class List extends Component {
           <form onSubmit={this.updateList}>
             <input
               type="text"
-              placeholder={this.props.list.name}
               onChange={this.handleListInput}
               onClick={this.handleInputClick}
               value={this.state.list.name}

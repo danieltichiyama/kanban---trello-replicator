@@ -170,6 +170,7 @@ class Board extends Component {
 
   handleKeyPress = e => {
     if (e.key === "Enter") {
+      console.log(e.key);
       return e.target.blur();
     }
   };
