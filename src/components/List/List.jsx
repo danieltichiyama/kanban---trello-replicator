@@ -36,7 +36,11 @@ class List extends Component {
   }
 
   handleClickOutside(event) {
-    if (this.wrapperRef && !this.wrapperRef.contains(event.target)) {
+    if (
+      this.wrapperRef &&
+      !this.wrapperRef.contains(event.target) &&
+      event.target.id !== "listMenuButton"
+    ) {
       return this.setState({ showMenu: !this.state.showMenu });
     }
   }
@@ -139,6 +143,7 @@ class List extends Component {
           </form>
           {/* Menu/Unarchive Button */}
           <button
+            id="listMenuButton"
             onClick={this.toggleMenu}
             className={styles.menuButton}
           ></button>
