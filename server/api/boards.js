@@ -74,6 +74,9 @@ router.post("/new", (req, res) => {
         });
     })
     .then(results => {
+      return results.load("boardImage");
+    })
+    .then(results => {
       return res.json(results);
     })
     .catch(err => {

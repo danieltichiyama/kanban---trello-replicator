@@ -66,25 +66,19 @@ class BoardThumbnail extends Component {
   };
 
   render() {
-    let { board, getBoardData, labelColors } = this.props;
+    let { board, getBoardData } = this.props;
     let BoardThumbnailBG;
 
-    if (board.boardImage && board.boardImage.url) {
+    if (board.boardImage && board.boardImage.url.startsWith("#")) {
+      BoardThumbnailBG = {
+        backgroundColor: board.boardImage.url
+      };
+    } else if (board.boardImage && board.boardImage.url) {
       BoardThumbnailBG = {
         background: `url(${board.boardImage.url})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
       };
-    } else {
-      if (this.props.labelColors) {
-        let array = Object.keys(labelColors);
-
-        let number = Math.floor(Math.random() * Math.floor(array.length));
-
-        BoardThumbnailBG = {
-          backgroundColor: array[number]
-        };
-      }
     }
 
     return (
@@ -161,12 +155,6 @@ class BoardThumbnail extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {
-    labelColors: state.initLabels
-  };
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateBoard: formData => {
@@ -176,6 +164,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default BoardThumbnail = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(BoardThumbnail);

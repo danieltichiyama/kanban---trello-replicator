@@ -175,21 +175,21 @@ class Board extends Component {
   };
 
   render() {
+    let boardStyle;
+    if (this.props.boardImage && this.props.boardImage.url.startsWith("#")) {
+      boardStyle = { backgroundColor: this.props.boardImage.url };
+    } else if (this.props.boardImage) {
+      boardStyle = {
+        backgroundImage: `url(${this.props.boardImage.url})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"
+      };
+    } else {
+      boardStyle = { backgroundColor: "white" };
+    }
+
     return (
-      <div
-        className={styles.Board}
-        style={
-          this.props.boardImage
-            ? {
-                backgroundImage: `url(${this.props.boardImage.url})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat"
-              }
-            : {
-                backgroundColor: "#eb5946"
-              }
-        }
-      >
+      <div className={styles.Board} style={boardStyle}>
         <div className={styles.boardHeader}>
           {/* Board Name */}
           <form onSubmit={this.updateBoard}>
