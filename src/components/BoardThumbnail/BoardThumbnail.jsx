@@ -30,6 +30,11 @@ class BoardThumbnail extends Component {
     return this.setState({ [name]: value });
   };
 
+  toggleColor = e => {
+    let { id } = e.target;
+    return this.setState({ url: id });
+  };
+
   toggleMenu = e => {
     if (e) {
       e.stopPropagation();
@@ -125,14 +130,50 @@ class BoardThumbnail extends Component {
                 onChange={this.handleInput}
                 placeholder={this.props.board.name}
               />
+              <div className={styles.descriptionContainer}>
+                <h4 className={styles.subHeader}>Description</h4>
 
-              <textarea
-                name="description"
-                cols="10"
-                rows="5"
-                onChange={this.handleInput}
-                defaultValue={this.props.board.description}
-              ></textarea>
+                <textarea
+                  name="description"
+                  cols="10"
+                  rows="5"
+                  onChange={this.handleInput}
+                  defaultValue={this.props.board.description}
+                ></textarea>
+              </div>
+
+              <div className={styles.colorPickerContainer}>
+                <h4 className={styles.subHeader}>Background Color</h4>
+                <div className={styles.colorPickerOptionsContainer}>
+                  {!this.props.colors
+                    ? null
+                    : Object.keys(this.props.colors).map(color => {
+                        let style = { backgroundColor: color };
+                        let checked = false;
+                        if (this.props.board.boardImage.url === color) {
+                          checked = true;
+                        }
+                        return (
+                          <label
+                            key={color}
+                            className={styles.colorPickerLabel}
+                            style={style}
+                            onClick={this.toggleColor}
+                            name={color}
+                          >
+                            <input
+                              type="radio"
+                              className={styles.colorPickerInput}
+                              name="color"
+                              id={color}
+                              defaultChecked={checked}
+                            />
+                            <span className={styles.colorPickerCustom}></span>
+                          </label>
+                        );
+                      })}
+                </div>
+              </div>
               <div className={styles.buttonsContainer}>
                 <button
                   onClick={this.archive}
@@ -155,6 +196,11 @@ class BoardThumbnail extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    colors: state.initLabels
+  };
+};
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateBoard: formData => {
@@ -164,6 +210,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default BoardThumbnail = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(BoardThumbnail);

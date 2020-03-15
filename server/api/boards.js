@@ -19,8 +19,25 @@ router.delete("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  return req.database.Board.where({ id: req.params.id })
-    .save(req.body, { method: "update", patch: true })
+  return bookshelf
+    .transaction(t => {
+      let boardData = { ...req.body };
+
+      if (boardData.url) {
+        delete boardData.url;
+      }
+
+      return req.database.Board.where({ id: req.params.id })
+        .save(boardData, { method: "update", patch: true, transacting: t })
+        .tap(model => {
+          if (req.body.url) {
+            return req.database.BoardImage.where({ board_id: model.id }).save(
+              { board_id: model.id, url: req.body.url },
+              { method: "update", patch: true, transacting: t }
+            );
+          }
+        });
+    })
     .then(results => {
       return results.load(["boardImage"]);
     })

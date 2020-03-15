@@ -28,7 +28,6 @@ class AddNewBoard extends Component {
 
   toggleColor = e => {
     let { id } = e.target;
-    console.log(e.target.id);
     return this.setState({ url: id });
   };
 

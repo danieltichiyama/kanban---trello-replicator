@@ -103,6 +103,7 @@ export const actionsUpdateList = formData => async dispatch => {
 };
 
 export const actionsUpdateBoard = formData => async dispatch => {
+  console.log(formData);
   await fetch(`/api/boards/${formData.id}`, putConfig(formData))
     .then(response => {
       return response.json();
