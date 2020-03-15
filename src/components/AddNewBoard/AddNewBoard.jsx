@@ -12,8 +12,9 @@ class AddNewBoard extends Component {
 
   createBoard = e => {
     e.preventDefault();
+
     this.props.dispatchCreateBoard(this.state);
-    return this.setState({ name: "" });
+    return this.setState({ name: "", url: "" }, this.props.toggleAddNewBoard());
   };
 
   handleInput = event => {
@@ -23,6 +24,12 @@ class AddNewBoard extends Component {
 
   stopPropagation = e => {
     return e.stopPropagation();
+  };
+
+  toggleColor = e => {
+    let { id } = e.target;
+    console.log(e.target.id);
+    return this.setState({ url: id });
   };
 
   render() {
@@ -51,6 +58,31 @@ class AddNewBoard extends Component {
             placeholder="What is this board for?"
             onChange={this.handleInput}
           />
+          <div className={styles.colorPickerContainer}>
+            {!this.props.colors
+              ? null
+              : Object.keys(this.props.colors).map(color => {
+                  let style = { backgroundColor: color };
+                  return (
+                    <label
+                      key={color}
+                      className={styles.colorPickerLabel}
+                      style={style}
+                      onClick={this.toggleColor}
+                      name={color}
+                    >
+                      <input
+                        type="radio"
+                        className={styles.colorPickerInput}
+                        name="color"
+                        id={color}
+                      />
+                      <span className={styles.colorPickerCustomCheckbox}></span>
+                    </label>
+                  );
+                })}
+          </div>
+
           <div className={styles.buttonsContainer}>
             <button type="submit">Create</button>
             <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
@@ -61,16 +93,22 @@ class AddNewBoard extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    colors: state.initLabels
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateBoard: formData => {
-      console.log("dispatchCreateBoard");
-
       formData.created_by = 1;
-
       dispatch(actionsCreateBoard(formData));
     }
   };
 };
 
-export default AddNewBoard = connect(null, mapDispatchToProps)(AddNewBoard);
+export default AddNewBoard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewBoard);
