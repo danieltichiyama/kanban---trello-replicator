@@ -17,6 +17,11 @@
     padding: 8px auto;
     align-items: center;
     justify-content: space-between;
+    margin-top: 50px;
+    background: linear-gradient(
+      rgba($color: #000000, $alpha: 0.2),
+      rgba($color: #000000, $alpha: 0)
+    );
 
     .boardName {
       height: 32px;
@@ -52,8 +57,14 @@
       @include menuButton(dark);
       width: auto;
       font-size: 14px;
-      background-color: rgba($color: #000000, $alpha: 0.05);
-      margin: 8px;
+      background-color: rgba($color: #ffffff, $alpha: 0.1);
+      margin: 8px 24px;
+      padding-left: 16px;
+      padding-right: 16px;
+
+      &::before {
+        content: none;
+      }
     }
   }
 
