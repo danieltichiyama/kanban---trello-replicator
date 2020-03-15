@@ -6,8 +6,8 @@ function Header(props) {
   return (
     <div className={styles.Header}>
       <div className={styles.menu}>
-        <Link to="/">
-          <button className={styles.homeButton}>Home</button>
+        <Link className={styles.Link} to="/">
+          <button className={styles.homeButton} />
         </Link>
       </div>
       <h2 className={styles.HeaderTitle}>Kanban | Productivity</h2>
