@@ -35,8 +35,14 @@ router.put("/:id", (req, res) => {
 router.post("/new", (req, res) => {
   return bookshelf
     .transaction(t => {
+      let boardData = { ...req.body };
+
+      if (boardData.url) {
+        delete boardData.url;
+      }
+
       // the 't' is used as part of any interaction with the database, i.e. save({transacting: t})
-      return req.database.Board.forge(req.body)
+      return req.database.Board.forge(boardData)
         .save(null, { transacting: t })
         .tap(model => {
           let labels = [
@@ -59,6 +65,11 @@ router.post("/new", (req, res) => {
               }
             );
           });
+        })
+        .tap(model => {
+          return req.database.BoardImage.forge({
+            url: req.body.url
+          }).save({ board_id: model.id }, { transacting: t });
         });
     })
     .then(results => {
