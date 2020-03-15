@@ -14,6 +14,10 @@ class CardMenu extends Component {
     };
   }
 
+  componentDidMount = () => {
+    return this.setState({ name: this.props.card.name });
+  };
+
   toggleLabelsMenu = e => {
     if (e) {
       e.preventDefault();
@@ -34,6 +38,10 @@ class CardMenu extends Component {
     let formData = { ...this.state, id: this.props.card.id };
     if (formData.list_id) {
       formData.list_id = parseInt(formData.list_id);
+    }
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.card.name;
     }
     delete formData.openCardLabels;
 
@@ -76,11 +84,9 @@ class CardMenu extends Component {
                   name="name"
                   rows="1"
                   value={this.state.name}
-                  defaultValue={this.props.card.name}
                   onChange={this.handleCardInput}
-                  placeholder={this.props.card.name}
                   className={styles.updateCardName}
-                />{" "}
+                />
                 <button className={styles.exitButton} />
               </div>
               {/* Edit List */}

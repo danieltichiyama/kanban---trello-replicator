@@ -58,11 +58,6 @@ class Card extends Component {
     return this.setState({ label: { [name]: value } });
   };
 
-  // handleInputClick = e => {
-  //   const { placeholder, name } = e.target;
-  //   return this.setState({ [name]: placeholder });
-  // };
-
   handleKeyPress = e => {
     if (e.key === "Enter") {
       this.updateCard();
@@ -110,10 +105,8 @@ class Card extends Component {
                   type="text"
                   name="name"
                   minRows={1}
-                  // placeholder={this.props.card.name}
                   value={this.state.name}
                   onChange={this.handleCardInput}
-                  onClick={this.handleInputClick}
                   onKeyPress={this.handleKeyPress}
                 />
 
