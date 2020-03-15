@@ -39,31 +39,27 @@
     justify-content: flex-start;
     align-items: flex-end;
 
-    form {
+    .cardName {
+      height: auto;
       width: 100%;
+      border-radius: 2px;
+      border: none;
+      color: black;
+      font-size: 14px;
+      resize: none;
 
-      .cardName {
-        height: auto;
-        width: 100%;
-        border-radius: 2px;
-        border: none;
+      &::placeholder {
         color: black;
         font-size: 14px;
-        resize: none;
+      }
 
-        &::placeholder {
-          color: black;
-          font-size: 14px;
-        }
+      &:hover {
+        cursor: pointer;
+        background-color: white;
+      }
 
-        &:hover {
-          cursor: pointer;
-          background-color: white;
-        }
-
-        &:focus {
-          background-color: white;
-        }
+      &:focus {
+        background-color: white;
       }
     }
   }

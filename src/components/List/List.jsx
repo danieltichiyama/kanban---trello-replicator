@@ -137,7 +137,7 @@ class List extends Component {
             <input
               type="text"
               onChange={this.handleListInput}
-              onClick={this.handleInputClick}
+              // onClick={this.handleInputClick}
               value={this.state.list.name}
               name="name"
               onKeyPress={this.props.handleKeyPress}

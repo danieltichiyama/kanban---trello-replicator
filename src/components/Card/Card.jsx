@@ -49,6 +49,13 @@ class Card extends Component {
     return this.setState({ [name]: placeholder });
   };
 
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
+      this.updateCard();
+      return e.target.blur();
+    }
+  };
+
   render() {
     return (
       <Draggable
@@ -84,19 +91,17 @@ class Card extends Component {
 
               {/* Card Name */}
               <div className={styles.cardBody}>
-                <form onSubmit={this.updateCard}>
-                  <TextareaAutosize
-                    className={styles.cardName}
-                    type="text"
-                    name="name"
-                    minRows={1}
-                    placeholder={this.props.card.name}
-                    value={this.state.name}
-                    onChange={this.handleCardInput}
-                    onClick={this.handleInputClick}
-                    onKeyPress={this.props.handleKeyPress}
-                  />
-                </form>
+                <TextareaAutosize
+                  className={styles.cardName}
+                  type="text"
+                  name="name"
+                  minRows={1}
+                  placeholder={this.props.card.name}
+                  value={this.state.name}
+                  onChange={this.handleCardInput}
+                  onClick={this.handleInputClick}
+                  onKeyPress={this.handleKeyPress}
+                />
 
                 {/* Show Card Editor Menu or Unarchive Card Button*/}
 
@@ -112,9 +117,7 @@ class Card extends Component {
                   card={this.props.card}
                   toggleMenu={this.toggleMenu}
                   updateCard={this.updateCard}
-                >
-                  test
-                </CardMenu>
+                ></CardMenu>
               )}
             </div>
           );
