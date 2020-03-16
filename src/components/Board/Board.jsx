@@ -5,7 +5,9 @@ import {
   actionsUpdateBoard,
   actionsUpdateCard,
   actionsGetBoardData,
-  actionsUpdateCardStore
+  actionsUpdateCardStore,
+  actionsUpdateList,
+  actionsUpdateListStore
 } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
@@ -96,8 +98,34 @@ class Board extends Component {
     }
 
     if (type === "lists") {
-      console.log("lists");
-      return;
+      console.log(source, destination, type);
+
+      let copyOfPropsLists = [...this.props.lists];
+
+      let listToMove = this.props.lists[source.index];
+
+      if (destination.index > source.index) {
+        console.log("moved right");
+        copyOfPropsLists.splice(destination.index + 1, 0, listToMove);
+
+        copyOfPropsLists.splice(source.index, 1);
+      } else {
+        copyOfPropsLists.splice(source.index, 1);
+
+        copyOfPropsLists.splice(destination.index, 0, listToMove);
+      }
+
+      console.log(copyOfPropsLists);
+
+      let formData = this.updatePosition(copyOfPropsLists, destination.index);
+
+      delete formData.cards;
+
+      console.log(formData);
+
+      this.props.dispatchUpdateListStore(formData);
+
+      return this.props.dispatchUpdateList(formData);
     }
 
     let cardsInOldList;
@@ -141,7 +169,7 @@ class Board extends Component {
       newCardsInList.splice(destination.index, 0, cardsInList[source.index]);
     }
 
-    let newCard = this.updateCardPosition(newCardsInList, destination.index);
+    let newCard = this.updatePosition(newCardsInList, destination.index);
 
     if (destination.droppableId !== source.droppableId) {
       newCard.list_id = parseInt(destination.droppableId);
@@ -157,7 +185,7 @@ class Board extends Component {
     return this.props.dispatchUpdateCard(formData);
   };
 
-  updateCardPosition = (array, destinationIndex) => {
+  updatePosition = (array, destinationIndex) => {
     if (destinationIndex === 0) {
       if (array.length === 1) {
         array[0].position = "1.00";
@@ -324,6 +352,12 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchUpdateCardStore: formData => {
       return dispatch(actionsUpdateCardStore(formData));
+    },
+    dispatchUpdateListStore: formData => {
+      return dispatch(actionsUpdateListStore(formData));
+    },
+    dispatchUpdateList: formData => {
+      return dispatch(actionsUpdateList(formData));
     }
   };
 };

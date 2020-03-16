@@ -10,6 +10,7 @@ export const UPDATE_LIST = "UPDATE_LIST";
 export const UPDATE_CARD = "UPDATE_CARD";
 export const UPDATE_LABEL = "UPDATE_LABEL";
 export const UPDATE_CARD_IN_STORE = "UPDATE_CARD_IN_STORE";
+export const UPDATE_LIST_IN_STORE = "UPDATE_LIST_IN_STORE";
 
 const postConfig = data => {
   return {
@@ -29,6 +30,13 @@ const putConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+export const actionsUpdateListStore = formData => dispatch => {
+  return dispatch({
+    type: UPDATE_LIST_IN_STORE,
+    payload: formData
+  });
 };
 
 export const actionsUpdateCardStore = formData => dispatch => {

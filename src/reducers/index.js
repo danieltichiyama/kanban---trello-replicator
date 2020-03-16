@@ -9,7 +9,8 @@ import {
   UPDATE_LIST,
   UPDATE_CARD,
   UPDATE_LABEL,
-  UPDATE_CARD_IN_STORE
+  UPDATE_CARD_IN_STORE,
+  UPDATE_LIST_IN_STORE
 } from "../actions";
 
 let initialState = {
@@ -30,6 +31,21 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case UPDATE_LIST_IN_STORE:
+      let updateListsInStore = [...state.lists];
+
+      for (let i = 0; i < updateListsInStore.length; i++) {
+        if (updateListsInStore[i].id === action.payload.id) {
+          updateListsInStore[i] = Object.assign(
+            {},
+            { ...updateListsInStore[i] },
+            { ...action.payload }
+          );
+        }
+      }
+
+      return Object.assign({}, state, { lists: updateListsInStore });
+
     case UPDATE_CARD_IN_STORE:
       let updateCardsInStore = [...state.cards];
       for (let i = 0; i < updateCardsInStore.length; i++) {
