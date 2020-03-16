@@ -16,7 +16,7 @@ import { Link } from "react-router-dom";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: { name: "" }, list: {}, showMenu: false };
+    this.state = { board: { name: "" }, list: { name: "" }, showMenu: false };
   }
 
   // only need this during dev

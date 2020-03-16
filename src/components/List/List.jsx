@@ -63,6 +63,10 @@ class List extends Component {
       formData.name = this.props.list.name;
     }
 
+    if (formData.cards) {
+      delete formData.cards;
+    }
+
     this.props.dispatchUpdateList(formData);
     return this.setState({ showMenu: false });
   };
