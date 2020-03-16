@@ -26,10 +26,6 @@ class Board extends Component {
     return this.props.dispatchGetBoardData(1);
   };
 
-  componentDidUpdate = () => {
-    console.log("updated");
-  };
-
   toggleMenu = e => {
     if (e) {
       e.stopPropagation();
