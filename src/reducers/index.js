@@ -86,14 +86,18 @@ const reducer = (state = initialState, action) => {
       break;
 
     case UPDATE_BOARD:
-      let updateBoard = [...state.boards];
-      for (let i = 0; i < updateBoard.length; i++) {
-        if (updateBoard[i].id === action.payload.id) {
-          updateBoard.splice(i, 1, action.payload);
-          return Object.assign({}, state, { boards: updateBoard });
+      if (state.boards) {
+        let updateBoard = [...state.boards];
+        for (let i = 0; i < updateBoard.length; i++) {
+          if (updateBoard[i].id === action.payload.id) {
+            updateBoard.splice(i, 1, action.payload);
+
+            return Object.assign({}, state, { boards: updateBoard });
+          }
         }
       }
-      break;
+
+      return Object.assign({}, state, { ...action.payload });
 
     case CREATE_LABEL:
       let createLabel = { ...state.labels };
