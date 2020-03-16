@@ -63,7 +63,8 @@ class List extends Component {
       formData.name = this.props.list.name;
     }
 
-    return this.props.dispatchUpdateList(formData);
+    this.props.dispatchUpdateList(formData);
+    return this.setState({ showMenu: false });
   };
 
   createCard = e => {

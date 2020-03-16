@@ -149,8 +149,8 @@ class CardMenu extends Component {
             <TextareaAutosize
               name="details"
               cols="30"
-              minRows="5"
-              maxRows="40"
+              minRows={5}
+              maxRows={40}
               onChange={this.handleCardInput}
               defaultValue={this.props.card.details}
               value={this.state.details}

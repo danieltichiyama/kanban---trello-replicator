@@ -66,7 +66,6 @@ class LabelsMenu extends Component {
                 type="text"
                 name={label.color}
                 defaultValue={label.name}
-                value={this.state[label.color]}
                 onChange={this.handleLabelInput}
                 onClick={this.handleInputClick}
                 className={styles.labelFormTextInput}
