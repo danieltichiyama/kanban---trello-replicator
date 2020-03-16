@@ -47,6 +47,9 @@ class Board extends Component {
 
   createList = e => {
     e.preventDefault();
+    if (this.state.list.name.length === 0) {
+      return this.setState({ list: { name: "" } });
+    }
     let lists = this.props.lists;
     let position;
     if (lists.length === 0) {
@@ -261,6 +264,7 @@ class Board extends Component {
               placeholder="+ Add List"
               onChange={this.handleListInput}
               onKeyPress={this.handleKeyPress}
+              autoComplete="off"
             />
           </form>
         </ul>

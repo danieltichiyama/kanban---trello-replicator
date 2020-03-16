@@ -58,6 +58,7 @@ class List extends Component {
     }
     let formData = { ...this.state.list, id: this.props.list.id };
 
+    console.log(formData);
     if (formData.name.length === 0) {
       formData.name = this.props.list.name;
     }
@@ -112,10 +113,10 @@ class List extends Component {
 
     if (this.state.list.is_archived) {
       return this.setState({
-        list: { is_archived: !this.state.list.is_archived }
+        list: { ...this.state.list, is_archived: !this.state.list.is_archived }
       });
     } else {
-      return this.setState({ list: { is_archived: true } });
+      return this.setState({ list: { ...this.state.list, is_archived: true } });
     }
   };
 
@@ -222,6 +223,7 @@ class List extends Component {
               onChange={this.handleCardInput}
               onKeyPress={this.props.handleKeyPress}
               onClick={this.showCancelButton}
+              autoComplete="off"
             />
           </form>
           {this.state.showCancelButton ? (
