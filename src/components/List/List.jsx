@@ -68,6 +68,10 @@ class List extends Component {
 
   createCard = e => {
     e.preventDefault();
+
+    if (this.state.name.length === 0) {
+      return this.hideCancelButton();
+    }
     let cards = this.props.cards;
     let position;
     if (!this.props.cards || cards.length === 0) {
@@ -88,7 +92,7 @@ class List extends Component {
     delete formData.showCancelButton;
 
     this.props.dispatchCreateCard(formData);
-    return this.setState({ name: "" });
+    return this.setState({ name: "" }, this.hideCancelButton());
   };
 
   handleCardInput = e => {
@@ -125,8 +129,11 @@ class List extends Component {
   };
 
   hideCancelButton = e => {
-    e.preventDefault();
-    return this.setState({ showCancelButton: false });
+    if (e) {
+      e.preventDefault();
+    }
+
+    return this.setState({ showCancelButton: false, name: "" });
   };
 
   render() {
@@ -224,6 +231,7 @@ class List extends Component {
               onKeyPress={this.props.handleKeyPress}
               onClick={this.showCancelButton}
               autoComplete="off"
+              onBlur={this.createCard}
             />
           </form>
           {this.state.showCancelButton ? (
