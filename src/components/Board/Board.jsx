@@ -235,6 +235,7 @@ class Board extends Component {
               onChange={this.handleBoardInput}
               onClick={this.handleInputClick}
               onKeyPress={this.handleKeyPress}
+              autoComplete="off"
             />
           </form>
           <Link className={styles.Link} to="/">
