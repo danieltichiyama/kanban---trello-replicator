@@ -14,6 +14,12 @@
   margin: 8px 4px;
   padding: 4px 8px;
 
+  .listDragHandle {
+    height: 10px;
+    width: 100%;
+    display: block;
+  }
+
   .listHeader {
     width: 100%;
     display: flex;

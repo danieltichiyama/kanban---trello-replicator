@@ -10,7 +10,7 @@ import {
 import List from "../List";
 import BoardMenu from "../BoardMenu";
 import styles from "./Board.module.scss";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
 
 class Board extends Component {
@@ -83,7 +83,7 @@ class Board extends Component {
   };
 
   onDragEnd = result => {
-    const { destination, source } = result;
+    const { destination, source, type } = result;
     if (!destination) {
       return;
     }
@@ -92,6 +92,11 @@ class Board extends Component {
       destination.droppableId === source.droppableId &&
       destination.index === source.index
     ) {
+      return;
+    }
+
+    if (type === "lists") {
+      console.log("lists");
       return;
     }
 
@@ -224,50 +229,68 @@ class Board extends Component {
         {this.state.showMenu ? (
           <BoardMenu toggleMenu={this.toggleMenu} />
         ) : null}
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {/* Lists */}
+          <Droppable
+            droppableId="horizontalDroppable"
+            type="lists"
+            direction="horizontal"
+          >
+            {provided => {
+              return (
+                <ul
+                  className={styles.Lists}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {this.props.lists
+                    ? this.props.lists.map((list, index) => {
+                        if (list.is_archived) {
+                          return null;
+                        } else {
+                          return (
+                            <List
+                              handleKeyPress={this.handleKeyPress}
+                              list={list}
+                              key={list.id}
+                              index={index}
+                              cards={this.props.cards
+                                .filter(card => {
+                                  return card.list_id === list.id;
+                                })
+                                .sort((a, b) => {
+                                  return (
+                                    parseFloat(a.position) -
+                                    parseFloat(b.position)
+                                  );
+                                })}
+                            />
+                          );
+                        }
+                      })
+                    : null}
 
-        {/* Lists */}
-
-        <ul className={styles.Lists}>
-          <DragDropContext onDragEnd={this.onDragEnd}>
-            {this.props.lists
-              ? this.props.lists.map(list => {
-                  if (list.is_archived) {
-                    return null;
-                  } else {
-                    return (
-                      <List
-                        handleKeyPress={this.handleKeyPress}
-                        list={list}
-                        key={list.id}
-                        cards={this.props.cards
-                          .filter(card => {
-                            return card.list_id === list.id;
-                          })
-                          .sort((a, b) => {
-                            return (
-                              parseFloat(a.position) - parseFloat(b.position)
-                            );
-                          })}
-                      />
-                    );
-                  }
-                })
-              : null}
-          </DragDropContext>
-
-          {/* Add List */}
-          <form onSubmit={this.createList} className={styles.addListForm}>
-            <input
-              className={styles.addList}
-              name="name"
-              value={this.state.list.name}
-              placeholder="+ Add List"
-              onChange={this.handleListInput}
-              onKeyPress={this.handleKeyPress}
-              autoComplete="off"
-            />
-          </form>
-        </ul>
+                  {/* Add List */}
+                  <form
+                    onSubmit={this.createList}
+                    className={styles.addListForm}
+                  >
+                    <input
+                      className={styles.addList}
+                      name="name"
+                      value={this.state.list.name}
+                      placeholder="+ Add List"
+                      onChange={this.handleListInput}
+                      onKeyPress={this.handleKeyPress}
+                      autoComplete="off"
+                    />
+                  </form>
+                  {provided.placeholder}
+                </ul>
+              );
+            }}
+          </Droppable>
+        </DragDropContext>
       </div>
     );
   }

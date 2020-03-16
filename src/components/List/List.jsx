@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import Card from "../Card";
 import { actionsCreateCard, actionsUpdateList } from "../../actions";
 
-import { Droppable } from "react-beautiful-dnd";
+import { Droppable, Draggable } from "react-beautiful-dnd";
 
 class List extends Component {
   constructor(props) {
@@ -143,110 +143,141 @@ class List extends Component {
 
   render() {
     return (
-      <div className={styles.List} key={this.props.list.id}>
-        {/* List Name */}
-        <div className={styles.listHeader}>
-          <form onSubmit={this.updateList}>
-            <input
-              type="text"
-              onChange={this.handleListInput}
-              // onClick={this.handleInputClick}
-              value={this.state.list.name}
-              name="name"
-              onKeyPress={this.props.handleKeyPress}
-              className={styles.listName}
-            />
-          </form>
-          {/* Menu/Unarchive Button */}
-          <button
-            id="listMenuButton"
-            onClick={this.toggleMenu}
-            className={styles.menuButton}
-          ></button>
-        </div>
-        {/* List Menu */}
-        {!this.state.showMenu ? null : (
-          <ul className={styles.listMenu} ref={this.setWrapperRef}>
-            <li className={styles.listHeader}>
-              <h4>List Actions</h4>
-              <button className={styles.exitButton} onClick={this.toggleMenu} />
-            </li>
-            <hr />
-            <li
-              style={
-                this.state.list.is_archived
-                  ? { backgroundColor: "#eb5946", color: "white" }
-                  : null
-              }
-              className={styles.li_listMenuOption}
-              onClick={this.archiveList}
+      <Draggable
+        draggableId={this.props.list.id.toString()}
+        index={this.props.index}
+      >
+        {provided => {
+          return (
+            <div
+              className={styles.List}
+              key={this.props.list.id}
+              {...provided.draggableProps}
+              ref={provided.innerRef}
             >
-              {this.state.list.is_archived ? "Unarchive List" : "Archive List"}
-            </li>
-            <button className={styles.saveButton} onClick={this.updateList}>
-              Save
-            </button>
-          </ul>
-        )}
-        {/* Cards */}
-        {this.props.list.is_archived ? null : (
-          <Droppable droppableId={this.props.list.id.toString()}>
-            {provided => {
-              return (
-                <ul
-                  ref={provided.innerRef}
-                  {...provided.droppableProps}
-                  className={styles.listOfCards}
-                >
-                  {this.props.cards
-                    ? this.props.cards.map((card, index) => {
-                        if (
-                          card.is_archived === false &&
-                          card.list_id === this.props.list.id
-                        ) {
-                          return (
-                            <Card
-                              card={card}
-                              key={card.id}
-                              index={index}
-                              handleKeyPress={this.props.handleKeyPress}
-                            />
-                          );
-                        } else {
-                          return null;
-                        }
-                      })
-                    : null}
-                  {provided.placeholder}
+              <div
+                className={styles.listDragHandle}
+                {...provided.dragHandleProps}
+              >
+                {" "}
+              </div>
+              {/* List Name */}
+              <div className={styles.listHeader}>
+                <form onSubmit={this.updateList}>
+                  <input
+                    type="text"
+                    onChange={this.handleListInput}
+                    // onClick={this.handleInputClick}
+                    value={this.state.list.name}
+                    name="name"
+                    onKeyPress={this.props.handleKeyPress}
+                    className={styles.listName}
+                  />
+                </form>
+                {/* Menu/Unarchive Button */}
+                <button
+                  id="listMenuButton"
+                  onClick={this.toggleMenu}
+                  className={styles.menuButton}
+                ></button>
+              </div>
+              {/* List Menu */}
+              {!this.state.showMenu ? null : (
+                <ul className={styles.listMenu} ref={this.setWrapperRef}>
+                  <li className={styles.listHeader}>
+                    <h4>List Actions</h4>
+                    <button
+                      className={styles.exitButton}
+                      onClick={this.toggleMenu}
+                    />
+                  </li>
+                  <hr />
+                  <li
+                    style={
+                      this.state.list.is_archived
+                        ? { backgroundColor: "#eb5946", color: "white" }
+                        : null
+                    }
+                    className={styles.li_listMenuOption}
+                    onClick={this.archiveList}
+                  >
+                    {this.state.list.is_archived
+                      ? "Unarchive List"
+                      : "Archive List"}
+                  </li>
+                  <button
+                    className={styles.saveButton}
+                    onClick={this.updateList}
+                  >
+                    Save
+                  </button>
                 </ul>
-              );
-            }}
-          </Droppable>
-        )}
-        {/* Add Card */}
-        <div className={styles.AddCard}>
-          <form onSubmit={this.createCard} className={styles.addCardForm}>
-            <input
-              type="text"
-              name="name"
-              className={styles.addCardInput}
-              value={this.state.name}
-              placeholder="+ Add a card"
-              onChange={this.handleCardInput}
-              onKeyPress={this.props.handleKeyPress}
-              onClick={this.showCancelButton}
-              autoComplete="off"
-              onBlur={this.createCard}
-            />
-          </form>
-          {this.state.showCancelButton ? (
-            <button
-              onClick={this.hideCancelButton}
-              className={styles.exitButton}
-            ></button>
-          ) : null}
-        </div>
-      </div>
+              )}
+              {/* Cards */}
+              {this.props.list.is_archived ? null : (
+                <Droppable
+                  droppableId={this.props.list.id.toString()}
+                  type="cards"
+                >
+                  {provided => {
+                    return (
+                      <ul
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                        className={styles.listOfCards}
+                      >
+                        {this.props.cards
+                          ? this.props.cards.map((card, index) => {
+                              if (
+                                card.is_archived === false &&
+                                card.list_id === this.props.list.id
+                              ) {
+                                return (
+                                  <Card
+                                    card={card}
+                                    key={card.id}
+                                    index={index}
+                                    handleKeyPress={this.props.handleKeyPress}
+                                  />
+                                );
+                              } else {
+                                return null;
+                              }
+                            })
+                          : null}
+                        {provided.placeholder}
+                      </ul>
+                    );
+                  }}
+                </Droppable>
+              )}
+              {/* Add Card */}
+              <div className={styles.AddCard}>
+                <form onSubmit={this.createCard} className={styles.addCardForm}>
+                  <input
+                    type="text"
+                    name="name"
+                    className={styles.addCardInput}
+                    value={this.state.name}
+                    placeholder="+ Add a card"
+                    onChange={this.handleCardInput}
+                    onKeyPress={this.props.handleKeyPress}
+                    onClick={this.showCancelButton}
+                    autoComplete="off"
+                    onBlur={this.createCard}
+                  />
+                </form>
+                {this.state.showCancelButton ? (
+                  <button
+                    onClick={this.hideCancelButton}
+                    className={styles.exitButton}
+                  ></button>
+                ) : null}
+              </div>
+            </div>
+          );
+        }}
+      </Draggable>
     );
   }
 }
