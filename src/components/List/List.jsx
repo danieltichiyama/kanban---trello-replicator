@@ -144,7 +144,7 @@ class List extends Component {
   render() {
     return (
       <Draggable
-        draggableId={this.props.list.id.toString()}
+        draggableId={"draggableList_" + this.props.list.id.toString()}
         index={this.props.index}
       >
         {provided => {
