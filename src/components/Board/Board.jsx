@@ -202,6 +202,7 @@ class Board extends Component {
               className={styles.boardName}
               type="text"
               name="name"
+              size={this.props.name ? this.props.name.length : null}
               value={this.state.board.name}
               placeholder={this.props.name}
               onChange={this.handleBoardInput}
@@ -213,7 +214,7 @@ class Board extends Component {
             <button className={styles.homeButton} />
           </Link>
           <button onClick={this.toggleMenu} className={styles.boardMenuButton}>
-            Show Menu
+            Board Menu
           </button>
         </div>
 
