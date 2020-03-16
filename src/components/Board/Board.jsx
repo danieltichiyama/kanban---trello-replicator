@@ -26,6 +26,10 @@ class Board extends Component {
     return this.props.dispatchGetBoardData(1);
   };
 
+  componentDidUpdate = () => {
+    console.log("updated");
+  };
+
   toggleMenu = e => {
     if (e) {
       e.stopPropagation();
@@ -97,34 +101,25 @@ class Board extends Component {
       return;
     }
 
+    //if draggable type is a list
     if (type === "lists") {
-      console.log(source, destination, type);
-
       let copyOfPropsLists = [...this.props.lists];
-
       let listToMove = this.props.lists[source.index];
 
+      //if list was moved to the right
       if (destination.index > source.index) {
-        console.log("moved right");
         copyOfPropsLists.splice(destination.index + 1, 0, listToMove);
-
         copyOfPropsLists.splice(source.index, 1);
       } else {
+        //if list was moved to the left
         copyOfPropsLists.splice(source.index, 1);
-
         copyOfPropsLists.splice(destination.index, 0, listToMove);
       }
 
-      console.log(copyOfPropsLists);
-
       let formData = this.updatePosition(copyOfPropsLists, destination.index);
-
       delete formData.cards;
 
-      console.log(formData);
-
       this.props.dispatchUpdateListStore(formData);
-
       return this.props.dispatchUpdateList(formData);
     }
 
@@ -272,30 +267,36 @@ class Board extends Component {
                   ref={provided.innerRef}
                 >
                   {this.props.lists
-                    ? this.props.lists.map((list, index) => {
-                        if (list.is_archived) {
-                          return null;
-                        } else {
+                    ? this.props.lists
+                        .sort((a, b) => {
                           return (
-                            <List
-                              handleKeyPress={this.handleKeyPress}
-                              list={list}
-                              key={list.id}
-                              index={index}
-                              cards={this.props.cards
-                                .filter(card => {
-                                  return card.list_id === list.id;
-                                })
-                                .sort((a, b) => {
-                                  return (
-                                    parseFloat(a.position) -
-                                    parseFloat(b.position)
-                                  );
-                                })}
-                            />
+                            parseFloat(a.position) - parseFloat(b.position)
                           );
-                        }
-                      })
+                        })
+                        .map((list, index) => {
+                          if (list.is_archived) {
+                            return null;
+                          } else {
+                            return (
+                              <List
+                                handleKeyPress={this.handleKeyPress}
+                                list={list}
+                                key={list.id}
+                                index={index}
+                                cards={this.props.cards
+                                  .filter(card => {
+                                    return card.list_id === list.id;
+                                  })
+                                  .sort((a, b) => {
+                                    return (
+                                      parseFloat(a.position) -
+                                      parseFloat(b.position)
+                                    );
+                                  })}
+                              />
+                            );
+                          }
+                        })
                     : null}
 
                   {/* Add List */}
