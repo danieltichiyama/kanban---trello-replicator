@@ -49,12 +49,7 @@ const reducer = (state = initialState, action) => {
       return state;
 
     case REGISTER_USER:
-      localStorage.setItem(
-        "registeredUser",
-        JSON.stringify({
-          username: action.payload.username
-        })
-      );
+      localStorage.setItem("registeredUser", action.payload.username);
 
       return state;
 

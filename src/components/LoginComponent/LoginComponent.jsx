@@ -12,15 +12,6 @@ class LoginComponent extends Component {
     };
   }
 
-  componentDidMount = () => {
-    console.log(localStorage.getItem("registeredUser"));
-    if (localStorage.getItem("registeredUser")) {
-      return this.setState({
-        username: JSON.parse(localStorage.getItem("registeredUser")).username
-      });
-    }
-  };
-
   handleLoginSubmit = e => {
     e.preventDefault();
     this.props.dispatchLoginUser(this.state);

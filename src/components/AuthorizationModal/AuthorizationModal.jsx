@@ -78,6 +78,7 @@ class AuthorizationModal extends Component {
               <LoginComponent
                 toggleMenu={this.toggleMenu}
                 toggleAuthBox={this.props.toggleAuthBox}
+                username={this.state.username ? this.state.username : null}
               />
             )}
           </div>
