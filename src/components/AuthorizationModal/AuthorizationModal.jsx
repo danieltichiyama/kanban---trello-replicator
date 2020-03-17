@@ -23,7 +23,11 @@ class AuthorizationModal extends Component {
 
   render() {
     return (
-      <div className={styles.container} onClick={this.props.toggleAuthBox}>
+      <div
+        className={styles.container}
+        id="AuthorizationModal-toggleAuthBox"
+        onClick={this.props.toggleAuthBox}
+      >
         <div className={styles.authBox}>
           <div className={styles.toggler}>
             <div
@@ -71,7 +75,10 @@ class AuthorizationModal extends Component {
             {this.state.showRegister === true ? (
               <RegisterComponent toggleMenu={this.toggleMenu} />
             ) : (
-              <LoginComponent toggleMenu={this.toggleMenu} />
+              <LoginComponent
+                toggleMenu={this.toggleMenu}
+                toggleAuthBox={this.props.toggleAuthBox}
+              />
             )}
           </div>
           <div className={styles.options}>
@@ -107,6 +114,7 @@ class AuthorizationModal extends Component {
               <button
                 className={styles.close_button}
                 onClick={this.props.toggleAuthBox}
+                id="CloseButton - toggleAuthBox"
               >
                 Close
               </button>

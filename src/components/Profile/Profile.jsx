@@ -9,9 +9,10 @@ class Profile extends Component {
     this.state = { showLoginMenu: true };
   }
 
-  toggleMenu = () => {
-    console.log("showing");
-    return this.setState({ showLoginMenu: !this.state.showLoginMenu });
+  toggleMenu = e => {
+    if (e.target.id.includes("toggleAuthBox")) {
+      return this.setState({ showLoginMenu: !this.state.showLoginMenu });
+    }
   };
 
   render() {
@@ -20,7 +21,9 @@ class Profile extends Component {
         {sessionStorage.getItem("session") ? (
           <div className={styles.ProfileMenuButton}></div>
         ) : (
-          <div onClick={this.toggleMenu}>Login</div>
+          <div id="Profile-toggleAuthBox" onClick={this.toggleMenu}>
+            Login
+          </div>
         )}
 
         {this.state.showLoginMenu ? (

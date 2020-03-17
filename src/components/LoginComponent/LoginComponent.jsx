@@ -14,6 +14,8 @@ class LoginComponent extends Component {
 
   handleLoginSubmit = e => {
     e.preventDefault();
+    return this.props.dispatchLoginUser(this.state);
+    //this will somehow need to use the toggleAuthBox function too
   };
 
   handleInput = event => {
