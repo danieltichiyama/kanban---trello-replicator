@@ -10,8 +10,8 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("users").insert([
         {
-          first_name: "Daniel",
-          last_name: "Ichiyama",
+          firstname: "Daniel",
+          lastname: "Ichiyama",
           email: "daniel.ichiyama@gmail.com",
           username: "danielti",
           password: password
