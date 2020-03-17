@@ -24,7 +24,7 @@ class Profile extends Component {
         )}
 
         {this.state.showLoginMenu ? (
-          <AuthorizationModal></AuthorizationModal>
+          <AuthorizationModal toggleAuthBox={this.toggleMenu} />
         ) : null}
       </div>
     );

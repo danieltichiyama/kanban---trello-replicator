@@ -16,12 +16,11 @@ class LoginComponent extends Component {
     e.preventDefault();
   };
 
-  handleUsernameInput = event => {
-    return this.setState({ username: event.target.value });
-  };
-
-  handlePasswordInput = event => {
-    return this.setState({ password: event.target.value });
+  handleInput = event => {
+    const { value, name } = event.target;
+    const state = { ...this.state };
+    state[name] = value;
+    this.setState(state);
   };
 
   render() {
@@ -41,7 +40,7 @@ class LoginComponent extends Component {
                 type="text"
                 name="username"
                 value={this.state.username}
-                onChange={this.handleUsernameInput}
+                onChange={this.handleInput}
                 placeholder="Your username"
                 className={styles.form_input}
               />
@@ -58,7 +57,7 @@ class LoginComponent extends Component {
                 type="password"
                 name="password"
                 value={this.state.password}
-                onChange={this.handlePasswordInput}
+                onChange={this.handleInput}
                 placeholder="Your password"
                 className={styles.form_input}
               />

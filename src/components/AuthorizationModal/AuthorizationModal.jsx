@@ -14,8 +14,6 @@ class AuthorizationModal extends Component {
   }
 
   toggleMenu = e => {
-    console.log("triggered");
-    console.log(e.target);
     if (e.target.id.includes("login")) {
       return this.setState({ showRegister: false });
     } else if (e.target.id.includes("register")) {
@@ -23,13 +21,9 @@ class AuthorizationModal extends Component {
     }
   };
 
-  handleRegisterClick = () => {};
-
-  handleLoginClick = () => {};
-
   render() {
     return (
-      <div className={styles.container}>
+      <div className={styles.container} onClick={this.props.toggleAuthBox}>
         <div className={styles.authBox}>
           <div className={styles.toggler}>
             <div
@@ -112,7 +106,7 @@ class AuthorizationModal extends Component {
             <div>
               <button
                 className={styles.close_button}
-                onClick={this.handleClose}
+                onClick={this.props.toggleAuthBox}
               >
                 Close
               </button>

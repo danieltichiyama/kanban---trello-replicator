@@ -41,10 +41,6 @@ class RegisterComponent extends Component {
     this.setState(state);
   };
 
-  handleClose = () => {};
-
-  handleLoginClick = () => {};
-
   render() {
     return (
       <div className={styles.registerComponent}>
