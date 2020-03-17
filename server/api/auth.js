@@ -70,9 +70,12 @@ passport.deserializeUser(function(user, done) {
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
-  return res.json({
-    session: req.user
-  });
+  let response = { ...req.user };
+
+  delete response.password;
+  delete response.created_at;
+  delete response.updated_at;
+  return res.json(response);
 });
 
 router.post("/register", (req, res) => {
@@ -87,7 +90,13 @@ router.post("/register", (req, res) => {
       return new User(Object.assign({ ...req.body }, { password: hash }))
         .save()
         .then(user => {
-          return res.json(user);
+          let response = { ...user.attributes };
+
+          delete response.password;
+          delete response.created_at;
+          delete response.updated_at;
+
+          return res.json(response);
         })
         .catch(err => {
           console.log(err);
@@ -106,3 +115,22 @@ router.get("/smoke", (req, res) => {
 });
 
 module.exports = router;
+
+//   case LOGIN:
+//     let { id, user_status_id } = action.payload.session;
+//     let session = Object.assign(
+//       {},
+//       { id: id, user_status_id: user_status_id }
+//     );
+//     localStorage.setItem("session", JSON.stringify(session));
+//     return Object.assign({}, store, {
+//       isLoggedIn: true,
+//       loginError: false
+//     });
+
+//   case LOGIN_ERROR:
+//     return Object.assign({}, store, { loginError: true });
+
+//   case LOGOUT:
+//     localStorage.removeItem("session");
+//     return Object.assign({}, store, { isLoggedIn: false });

@@ -34,6 +34,27 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case LOGIN_USER:
+      if (localStorage.getItem("user")) {
+        localStorage.removeItem("user");
+      }
+      sessionStorage.setItem("user", action.payload);
+      return state;
+
+    case LOGOUT_USER:
+      if (sessionStorage.getItem("user")) {
+        sessionStorage.removeItem("user");
+      }
+
+      return state;
+
+    case REGISTER_USER:
+      localStorage.setItem("registeredUser", {
+        username: action.payload.username
+      });
+
+      return state;
+
     case UPDATE_LIST_IN_STORE:
       let updateListsInStore = [...state.lists];
 
