@@ -10,7 +10,10 @@ import {
   UPDATE_CARD,
   UPDATE_LABEL,
   UPDATE_CARD_IN_STORE,
-  UPDATE_LIST_IN_STORE
+  UPDATE_LIST_IN_STORE,
+  LOGIN_USER,
+  LOGOUT_USER,
+  REGISTER_USER
 } from "../actions";
 
 let initialState = {

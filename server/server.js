@@ -9,6 +9,7 @@ const boards = require("./api/boards");
 const users = require("./api/users");
 const labels = require("./api/labels");
 const lists = require("./api/lists");
+const auth = require("./api/auth");
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,6 +17,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(decorator);
 
 app.use("/api/users", users);
+app.use("/api/auth", auth);
 app.use("/api/cards", cards);
 app.use("/api/boards", boards);
 app.use("/api/labels", labels);

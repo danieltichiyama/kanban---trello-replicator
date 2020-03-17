@@ -11,6 +11,9 @@ export const UPDATE_CARD = "UPDATE_CARD";
 export const UPDATE_LABEL = "UPDATE_LABEL";
 export const UPDATE_CARD_IN_STORE = "UPDATE_CARD_IN_STORE";
 export const UPDATE_LIST_IN_STORE = "UPDATE_LIST_IN_STORE";
+export const LOGIN_USER = "LOGIN_USER";
+export const LOGOUT_USER = "LOGOUT_USER";
+export const REGISTER_USER = "REGISTER_USER";
 
 const postConfig = data => {
   return {
@@ -30,6 +33,49 @@ const putConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+export const actionsLoginUser = formData => async dispatch => {
+  await fetch("/api/auth/login", postConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: LOGIN_USER,
+        payload: results
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const actionsRegisterUser = formData => async dispatch => {
+  await fetch("api/auth/register", postConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({ type: REGISTER_USER, payload: results });
+    })
+    .catch(err => {
+      console.log(err);
+      return err;
+    });
+};
+
+export const actionsLogoutUser = () => async dispatch => {
+  await fetch("/api/auth/logout")
+    .then(response => {
+      response.json();
+    })
+    .then(results => {
+      return dispatch({ type: LOGOUT_USER, payload: results });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 export const actionsUpdateListStore = formData => dispatch => {
