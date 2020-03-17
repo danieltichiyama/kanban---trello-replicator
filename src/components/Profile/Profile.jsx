@@ -6,7 +6,7 @@ import AuthorizationModal from "./../AuthorizationModal";
 class Profile extends Component {
   constructor(props) {
     super(props);
-    this.state = { showLoginMenu: false };
+    this.state = { showLoginMenu: true };
   }
 
   toggleMenu = () => {

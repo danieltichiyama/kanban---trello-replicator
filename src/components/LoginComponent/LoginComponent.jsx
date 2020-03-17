@@ -7,7 +7,7 @@ class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      username: "",
       password: ""
     };
   }
@@ -16,17 +16,13 @@ class LoginComponent extends Component {
     e.preventDefault();
   };
 
-  handleEmailInput = event => {
-    return this.setState({ email: event.target.value });
+  handleUsernameInput = event => {
+    return this.setState({ username: event.target.value });
   };
 
   handlePasswordInput = event => {
     return this.setState({ password: event.target.value });
   };
-
-  handleClose = () => {};
-
-  handleRegisterClick = () => {};
 
   render() {
     return (
@@ -36,17 +32,17 @@ class LoginComponent extends Component {
             <li className={styles.form_li}>
               <div className={styles.imgContainer}>
                 <img
-                  src="https://image.flaticon.com/icons/svg/25/25236.svg"
-                  alt="email"
+                  src="https://i.postimg.cc/sXHHC5KD/man-user.png"
+                  alt="username"
                   className={styles.login_icon_img}
                 />
               </div>
               <input
                 type="text"
-                name="email"
-                value={this.state.email}
-                onChange={this.handleEmailInput}
-                placeholder="Your email"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleUsernameInput}
+                placeholder="Your username"
                 className={styles.form_input}
               />
             </li>
@@ -81,35 +77,6 @@ class LoginComponent extends Component {
             />
           </button>
         </form>
-        <div className={styles.options}>
-          <div className={styles.additionalOptions}>
-            <div className={styles.notAMember}>
-              <p>
-                Not a member?{" "}
-                <span
-                  className={styles.options_span}
-                  onClick={this.handleRegisterClick}
-                >
-                  Sign up
-                </span>
-              </p>
-            </div>
-            <div className={styles.notAMember}>
-              <p>
-                Forgot{" "}
-                <span
-                  className={styles.options_span}
-                  onClick={this.handleRegisterClick}
-                >
-                  Password
-                </span>
-              </p>
-            </div>
-          </div>
-          <button className={styles.close_button} onClick={this.handleClose}>
-            Close
-          </button>
-        </div>
       </div>
     );
   }

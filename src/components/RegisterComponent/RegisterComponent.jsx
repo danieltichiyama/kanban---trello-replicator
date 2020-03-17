@@ -108,24 +108,6 @@ class RegisterComponent extends Component {
             Register
           </button>
         </form>
-        <div className={styles.options}>
-          <div className={styles.AlreadyAMember}>
-            <p>
-              Already a member?{" "}
-              <span
-                className={styles.options_span}
-                onClick={this.handleLoginClick}
-              >
-                Login
-              </span>
-            </p>
-          </div>
-          <div>
-            <button className={styles.close_button} onClick={this.handleClose}>
-              Close
-            </button>
-          </div>
-        </div>
       </div>
     );
   }
