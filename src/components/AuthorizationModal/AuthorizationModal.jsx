@@ -14,7 +14,7 @@ class AuthorizationModal extends Component {
   }
 
   toggleMenu = e => {
-    if (e.target.id.includes("login")) {
+    if (!e || e.target.id.includes("login")) {
       return this.setState({ showRegister: false });
     } else if (e.target.id.includes("register")) {
       return this.setState({ showRegister: true });

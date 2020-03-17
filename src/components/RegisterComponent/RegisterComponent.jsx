@@ -7,7 +7,7 @@ class RegisterComponent extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      username: "",
       password: "",
       confirmPassword: "",
       error: ""
@@ -19,7 +19,7 @@ class RegisterComponent extends Component {
     for (let key in defaultState) {
       defaultState[key] = "";
     }
-    return this.setState(defaultState);
+    return this.setState(defaultState, this.props.toggleMenu);
   };
 
   handleRegisterSubmit = e => {
@@ -28,7 +28,12 @@ class RegisterComponent extends Component {
     if (this.state.password !== this.state.confirmPassword) {
       return this.setState({ error: "passwords must match" });
     } else {
-      this.props.dispatchRegisterSubmit(this.state);
+      let formData = { ...this.state };
+
+      delete formData.confirmPassword;
+      delete formData.error;
+
+      this.props.dispatchRegisterUser(formData);
       return this.clearInput();
     }
     //eventually will need to load LoginComponent
@@ -49,17 +54,17 @@ class RegisterComponent extends Component {
             <li className={styles.form_li}>
               <div className={styles.imgContainer}>
                 <img
-                  src="https://image.flaticon.com/icons/svg/25/25236.svg"
-                  alt="email"
+                  src="https://i.postimg.cc/sXHHC5KD/man-user.png"
+                  alt="username"
                   className={styles.reg_icon_img}
                 />
               </div>
               <input
                 type="text"
-                name="email"
-                value={this.state.email}
+                name="username"
+                value={this.state.username}
                 onChange={this.handleInput}
-                placeholder="Your email"
+                placeholder="Your username"
                 className={styles.form_input}
               />
             </li>

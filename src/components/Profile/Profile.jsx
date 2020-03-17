@@ -10,7 +10,7 @@ class Profile extends Component {
   }
 
   toggleMenu = e => {
-    if (e.target.id.includes("toggleAuthBox")) {
+    if (!e || e.target.id.includes("toggleAuthBox")) {
       return this.setState({ showLoginMenu: !this.state.showLoginMenu });
     }
   };

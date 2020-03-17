@@ -12,9 +12,22 @@ class LoginComponent extends Component {
     };
   }
 
+  componentDidMount = () => {
+    console.log(localStorage.getItem("registeredUser"));
+    if (localStorage.getItem("registeredUser")) {
+      return this.setState({
+        username: JSON.parse(localStorage.getItem("registeredUser")).username
+      });
+    }
+  };
+
   handleLoginSubmit = e => {
     e.preventDefault();
-    return this.props.dispatchLoginUser(this.state);
+    this.props.dispatchLoginUser(this.state);
+    return this.setState(
+      { username: "", password: "" },
+      this.props.toggleAuthBox
+    );
     //this will somehow need to use the toggleAuthBox function too
   };
 

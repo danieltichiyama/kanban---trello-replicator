@@ -35,10 +35,10 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case LOGIN_USER:
-      if (localStorage.getItem("user")) {
-        localStorage.removeItem("user");
+      if (localStorage.getItem("registeredUser")) {
+        localStorage.removeItem("registeredUser");
       }
-      sessionStorage.setItem("user", action.payload);
+      sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       return state;
 
     case LOGOUT_USER:
@@ -49,9 +49,12 @@ const reducer = (state = initialState, action) => {
       return state;
 
     case REGISTER_USER:
-      localStorage.setItem("registeredUser", {
-        username: action.payload.username
-      });
+      localStorage.setItem(
+        "registeredUser",
+        JSON.stringify({
+          username: action.payload.username
+        })
+      );
 
       return state;
 
