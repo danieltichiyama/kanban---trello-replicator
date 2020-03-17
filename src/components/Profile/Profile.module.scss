@@ -1,0 +1,16 @@
+.Profile {
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  height: auto;
+  width: auto;
+  z-index: 99;
+
+  .ProfileMenuButton {
+    width: 48px;
+    height: 48px;
+    background-color: none;
+    border-radius: 50%;
+    border: 2px gray solid;
+  }
+}
