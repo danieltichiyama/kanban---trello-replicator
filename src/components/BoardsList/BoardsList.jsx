@@ -4,6 +4,7 @@ import styles from "./BoardsList.module.scss";
 import { actionsGetBoards, actionsGetBoardData } from "../../actions";
 import AddNewBoard from "../AddNewBoard";
 import BoardThumbnail from "../BoardThumbnail";
+import session from "express-session";
 
 class BoardsList extends Component {
   constructor(props) {
@@ -15,7 +16,11 @@ class BoardsList extends Component {
   }
 
   componentDidMount = () => {
-    return this.props.dispatchGetBoards(1);
+    let session = sessionStorage.getItem("user");
+    if (session) {
+      let id = JSON.parse(sessionStorage.getItem("user")).id;
+      return this.props.dispatchGetBoards(id);
+    }
   };
 
   getBoardData = event => {
