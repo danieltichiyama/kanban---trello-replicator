@@ -16,6 +16,7 @@ let App = () => {
     <div>
       <Router>
         <Route path="/login" exact={true} component={LoginPage} />
+        <Route path="/register" exact={true} component={LoginPage} />
         <Route
           path={"/" + username + "/boards"}
           exact={true}

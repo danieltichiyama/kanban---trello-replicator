@@ -1,11 +1,13 @@
 import React from "react";
 import styles from "./LoginPage.module.scss";
-import LoginComponent from "../../components/LoginComponent";
+import AuthorizationModal from "../../components/AuthorizationModal";
 
 const LoginPage = props => {
+  let pathname = window.location.pathname;
+
   return (
     <div className={styles.LoginPage}>
-      <LoginComponent />
+      <AuthorizationModal pathname={pathname} />
     </div>
   );
 };

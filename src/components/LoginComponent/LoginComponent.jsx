@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./LoginComponent.module.scss";
 import { actionsLoginUser } from "../../actions";
+import { Link } from "react-router-dom";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -14,11 +15,12 @@ class LoginComponent extends Component {
 
   handleLoginSubmit = e => {
     e.preventDefault();
-    this.props.dispatchLoginUser(this.state);
-    return this.setState(
-      { username: "", password: "" },
-      this.props.toggleAuthBox
-    );
+
+    let formData = { ...this.state };
+
+    delete formData.isRegistered;
+    this.props.dispatchLoginUser(formData);
+    return this.setState({ username: "", password: "" });
     //this will somehow need to use the toggleAuthBox function too
   };
 
@@ -64,6 +66,17 @@ class LoginComponent extends Component {
             </li>
           </ul>
         </form>
+        <div className={styles.optionsContainer}>
+          <p>
+            Don't have an account yet?{" "}
+            <span
+              className={styles.options_span}
+              onClick={this.removeRegisteredUser}
+            >
+              <Link to="/register">Sign up</Link>
+            </span>
+          </p>{" "}
+        </div>
       </div>
     );
   }
