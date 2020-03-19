@@ -1,27 +1,34 @@
 import React from "react";
 import "./App.scss";
 import LoginPage from "../pages/LoginPage";
-import AppPage from "../pages/AppPage";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import BoardsList from "../components/BoardsList";
+import Board from "../components/Board";
+
+import { BrowserRouter as Router, Route, Redirect } from "react-router-dom";
 
 let App = () => {
-  let session = sessionStorage.getItem("user");
-  let username;
-
-  if (session) {
-    username = JSON.parse(session).username;
-  }
+  const PrivateRoute = ({ component: Component, ...rest }) => {
+    return (
+      <Route
+        {...rest}
+        render={props => {
+          return sessionStorage.getItem("user") ? (
+            <Component {...props} />
+          ) : (
+            <Redirect to="/login" />
+          );
+        }}
+      />
+    );
+  };
 
   return (
     <div>
       <Router>
         <Route path="/login" exact={true} component={LoginPage} />
         <Route path="/register" exact={true} component={LoginPage} />
-        <Route
-          path={"/" + username + "/boards"}
-          exact={true}
-          component={AppPage}
-        />
+        <PrivateRoute path="/" exact={true} component={BoardsList} />
+        <PrivateRoute path="/board" exact={true} component={Board} />
       </Router>
     </div>
   );

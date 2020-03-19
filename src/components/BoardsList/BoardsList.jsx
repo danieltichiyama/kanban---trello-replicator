@@ -4,7 +4,6 @@ import styles from "./BoardsList.module.scss";
 import { actionsGetBoards, actionsGetBoardData } from "../../actions";
 import AddNewBoard from "../AddNewBoard";
 import BoardThumbnail from "../BoardThumbnail";
-import session from "express-session";
 
 class BoardsList extends Component {
   constructor(props) {

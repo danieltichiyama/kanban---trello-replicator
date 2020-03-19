@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./LoginComponent.module.scss";
 import { actionsLoginUser } from "../../actions";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -18,10 +18,9 @@ class LoginComponent extends Component {
 
     let formData = { ...this.state };
 
-    delete formData.isRegistered;
+    delete formData.isLoggedIn;
     this.props.dispatchLoginUser(formData);
     return this.setState({ username: "", password: "" });
-    //this will somehow need to use the toggleAuthBox function too
   };
 
   handleInput = event => {
@@ -32,6 +31,9 @@ class LoginComponent extends Component {
   };
 
   render() {
+    if (this.props.isLoggedIn) {
+      return <Redirect to="/" />;
+    }
     return (
       <div className={styles.loginComponent}>
         <form>
@@ -82,6 +84,12 @@ class LoginComponent extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    isLoggedIn: state.isLoggedIn
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchLoginUser: formData => {
@@ -91,6 +99,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default LoginComponent = connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(LoginComponent);

@@ -23,7 +23,7 @@ class Board extends Component {
 
   // only need this during dev
   componentDidMount = () => {
-    return this.props.dispatchGetBoardData(1);
+    // return this.props.dispatchGetBoardData(1);
   };
 
   toggleMenu = e => {

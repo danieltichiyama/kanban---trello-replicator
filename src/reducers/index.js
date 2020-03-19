@@ -39,7 +39,7 @@ const reducer = (state = initialState, action) => {
         localStorage.removeItem("registeredUser");
       }
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
-      return state;
+      return Object.assign({}, state, { isLoggedIn: true });
 
     case LOGOUT_USER:
       if (sessionStorage.getItem("user")) {
