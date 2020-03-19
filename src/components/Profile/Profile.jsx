@@ -18,7 +18,7 @@ class Profile extends Component {
   render() {
     return (
       <div className={styles.Profile}>
-        {sessionStorage.getItem("session") ? (
+        {sessionStorage.getItem("user") ? (
           <div className={styles.ProfileMenuButton}></div>
         ) : (
           <div id="Profile-toggleAuthBox" onClick={this.toggleMenu}>

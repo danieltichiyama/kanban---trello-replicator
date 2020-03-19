@@ -28,6 +28,10 @@ class AuthorizationModal extends Component {
         id="AuthorizationModal-toggleAuthBox"
         onClick={this.props.toggleAuthBox}
       >
+        <div className={styles.authBox2}>
+          <h3>Log in to Kanban</h3>
+          <LoginComponent />
+        </div>
         <div className={styles.authBox}>
           <div className={styles.toggler}>
             <div
