@@ -20,10 +20,7 @@ class LoginComponent extends Component {
 
     delete formData.isLoggedIn;
     this.props.dispatchLoginUser(formData);
-    return this.setState(
-      { username: "", password: "" },
-      this.props.history.push("/boards")
-    );
+    return this.setState({ username: "", password: "" });
   };
 
   handleInput = event => {

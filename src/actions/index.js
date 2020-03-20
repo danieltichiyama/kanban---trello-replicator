@@ -35,7 +35,7 @@ const putConfig = data => {
   };
 };
 
-export const actionsLoginUser = formData => async dispatch => {
+export const actionsLoginUser = (formData, cb) => async dispatch => {
   await fetch("/api/auth/login", postConfig(formData))
     .then(response => {
       return response.json();

@@ -2,6 +2,7 @@ import React from "react";
 import "./App.scss";
 import LoginPage from "../pages/LoginPage";
 import ErrorPage from "../pages/ErrorPage";
+import AppPage from "../pages/AppPage";
 import BoardsList from "../components/BoardsList";
 import Board from "../components/Board";
 
@@ -37,6 +38,7 @@ let App = () => {
           <Route path="/register" exact={true} component={LoginPage} />
           <PrivateRoute path="/boards" exact={true} component={BoardsList} />
           <PrivateRoute path="/board" exact={true} component={Board} />
+          <PrivateRoute path="/app" exact={true} component={AppPage} />
           <Route component={ErrorPage} />
         </Switch>
       </Router>
