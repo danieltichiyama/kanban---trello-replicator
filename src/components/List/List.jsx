@@ -88,7 +88,7 @@ class List extends Component {
       ...this.state,
       list_id: this.props.list.id,
       position,
-      created_by: 1,
+      created_by: JSON.parse(sessionStorage.getItem("user")).id,
       board_id: this.props.list.board_id
     };
 

@@ -21,11 +21,6 @@ class Board extends Component {
     this.state = { board: { name: "" }, list: { name: "" }, showMenu: false };
   }
 
-  // only need this during dev
-  componentDidMount = () => {
-    // return this.props.dispatchGetBoardData(1);
-  };
-
   toggleMenu = e => {
     if (e) {
       e.stopPropagation();
