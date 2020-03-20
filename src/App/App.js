@@ -4,8 +4,6 @@ import "./App.scss";
 import AuthPage from "../pages/AuthPage";
 import ErrorPage from "../pages/ErrorPage";
 import AppPage from "../pages/AppPage";
-import BoardsList from "../components/BoardsList";
-import Board from "../components/Board";
 
 import { connect } from "react-redux";
 import {
@@ -41,13 +39,26 @@ class App extends Component {
       <div className="App">
         <Router>
           <Switch>
-            <PrivateRoute path="/" exact={true} component={BoardsList} />
-            <Route path="/login" exact={true} component={AuthPage} />
-            <Route path="/register" exact={true} component={AuthPage} />
-            {/* <PrivateRoute path="/boards" exact={true} component={BoardsList} /> */}
-            <PrivateRoute path="/board" exact={true} component={Board} />
-            <PrivateRoute path={"/u/"} exact={false} component={AppPage} />
-            <PrivateRoute path={"/b/"} exact={false} component={AppPage} />
+            <Route
+              path={["/login", "/register"]}
+              exact={true}
+              component={AuthPage}
+            />
+            <PrivateRoute
+              path={["/u/", "/b/"]}
+              exact={false}
+              component={AppPage}
+            />
+            <Redirect
+              from="/"
+              to={
+                sessionStorage.getItem("user")
+                  ? `/u/${
+                      JSON.parse(sessionStorage.getItem("user")).username
+                    }/boards`
+                  : "/login"
+              }
+            />
             <Route component={ErrorPage} />
           </Switch>
         </Router>

@@ -88,7 +88,10 @@ class BoardThumbnail extends Component {
 
     return (
       <div className={styles.thumbnailContainer} style={BoardThumbnailBG}>
-        <Link style={{ textDecoration: "none" }} to="/board">
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/b/${this.props.board.id}/${this.props.board.name}`}
+        >
           <div
             id={board.id}
             className={styles.BoardThumbnail}
