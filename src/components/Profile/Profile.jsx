@@ -1,37 +1,16 @@
-import React, { Component } from "react";
+import React from "react";
 import styles from "./Profile.module.scss";
 
-import AuthorizationModal from "./../AuthorizationModal";
+let Profile = props => {
+  let session = JSON.parse(sessionStorage.getItem("user"));
 
-class Profile extends Component {
-  constructor(props) {
-    super(props);
-    this.state = { showLoginMenu: true };
-  }
-
-  toggleMenu = e => {
-    if (!e || e.target.id.includes("toggleAuthBox")) {
-      return this.setState({ showLoginMenu: !this.state.showLoginMenu });
-    }
-  };
-
-  render() {
-    return (
-      <div className={styles.Profile}>
-        {sessionStorage.getItem("user") ? (
-          <div className={styles.ProfileMenuButton}></div>
-        ) : (
-          <div id="Profile-toggleAuthBox" onClick={this.toggleMenu}>
-            Login
-          </div>
-        )}
-
-        {this.state.showLoginMenu ? (
-          <AuthorizationModal toggleAuthBox={this.toggleMenu} />
-        ) : null}
-      </div>
-    );
-  }
-}
+  return (
+    <div className={styles.Profile}>
+      {session.firstname && session.lastname
+        ? session.firstname[0].toUpperCase() + session.lastname[0].toUpperCase()
+        : session.username.slice(0, 2).join("")}
+    </div>
+  );
+};
 
 export default Profile;

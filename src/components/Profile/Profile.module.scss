@@ -2,15 +2,18 @@
   position: fixed;
   top: 12px;
   right: 16px;
-  height: auto;
-  width: auto;
+  height: 48px;
+  width: 48px;
   z-index: 99;
+  border-radius: 50%;
+  background-color: rgba($color: #ffffff, $alpha: 0.5);
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
-  .ProfileMenuButton {
-    width: 48px;
-    height: 48px;
-    background-color: none;
-    border-radius: 50%;
-    border: 2px gray solid;
+  &:hover {
+    cursor: pointer;
+    background-color: rgba($color: #ffffff, $alpha: 0.6);
   }
 }

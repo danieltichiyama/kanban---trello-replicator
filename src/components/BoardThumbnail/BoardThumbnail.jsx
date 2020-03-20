@@ -71,7 +71,7 @@ class BoardThumbnail extends Component {
   };
 
   render() {
-    let { board, getBoardData } = this.props;
+    let { board } = this.props;
     let BoardThumbnailBG;
 
     if (board.boardImage && board.boardImage.url.startsWith("#")) {
@@ -92,11 +92,7 @@ class BoardThumbnail extends Component {
           style={{ textDecoration: "none" }}
           to={`/b/${this.props.board.id}/${this.props.board.name}`}
         >
-          <div
-            id={board.id}
-            className={styles.BoardThumbnail}
-            onClick={getBoardData}
-          >
+          <div id={board.id} className={styles.BoardThumbnail}>
             {board.name}
             {!this.props.board.is_archived ? (
               <button

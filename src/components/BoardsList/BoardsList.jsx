@@ -22,11 +22,6 @@ class BoardsList extends Component {
     }
   };
 
-  getBoardData = event => {
-    let { id } = event.target;
-    return this.props.dispatchGetBoardData(id);
-  };
-
   toggleAddNewBoard = () => {
     return this.setState({ addNewBoard: !this.state.addNewBoard });
   };
@@ -44,13 +39,7 @@ class BoardsList extends Component {
           {this.props.boards
             ? this.props.boards.map(board => {
                 if (!board.is_archived) {
-                  return (
-                    <BoardThumbnail
-                      board={board}
-                      key={board.id}
-                      getBoardData={this.getBoardData}
-                    />
-                  );
+                  return <BoardThumbnail board={board} key={board.id} />;
                 }
                 return null;
               })
