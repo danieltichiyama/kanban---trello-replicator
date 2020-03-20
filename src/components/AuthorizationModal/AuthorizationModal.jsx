@@ -13,15 +13,11 @@ class AuthorizationModal extends Component {
     };
   }
 
-  componentDidMount = () => {
-    return this.setState({ pathname: this.props.pathname });
-  };
-
   render() {
     return (
       <div className={styles.container}>
         <div className={styles.authBox}>
-          {this.state.pathname.includes("login") ? (
+          {this.props.pathname.includes("login") ? (
             <>
               <h3>Log in to Kanban</h3>
               <LoginComponent />
@@ -38,10 +34,6 @@ class AuthorizationModal extends Component {
   }
 }
 
-const mapStateToProps = state => {
-  return {};
-};
-
 const mapDispatchToProps = dispatch => {
   return {
     dispatchRegisterUser: () => {
@@ -54,6 +46,6 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default AuthorizationModal = connect(
-  mapStateToProps,
+  null,
   mapDispatchToProps
 )(AuthorizationModal);

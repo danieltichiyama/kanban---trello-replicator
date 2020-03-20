@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./LoginComponent.module.scss";
 import { actionsLoginUser } from "../../actions";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, withRouter } from "react-router-dom";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -20,7 +20,10 @@ class LoginComponent extends Component {
 
     delete formData.isLoggedIn;
     this.props.dispatchLoginUser(formData);
-    return this.setState({ username: "", password: "" });
+    return this.setState(
+      { username: "", password: "" },
+      this.props.history.push("/boards")
+    );
   };
 
   handleInput = event => {
@@ -32,7 +35,7 @@ class LoginComponent extends Component {
 
   render() {
     if (this.props.isLoggedIn) {
-      return <Redirect to="/" />;
+      return <Redirect to="/boards" />;
     }
     return (
       <div className={styles.loginComponent}>
@@ -98,7 +101,9 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default LoginComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(LoginComponent);
+export default withRouter(
+  (LoginComponent = connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )(LoginComponent))
+);

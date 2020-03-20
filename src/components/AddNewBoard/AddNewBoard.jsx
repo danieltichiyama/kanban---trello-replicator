@@ -13,7 +13,11 @@ class AddNewBoard extends Component {
   createBoard = e => {
     e.preventDefault();
 
-    this.props.dispatchCreateBoard(this.state);
+    let formData = { ...this.state };
+
+    formData["created_by"] = JSON.parse(sessionStorage.getItem("user")).id;
+
+    this.props.dispatchCreateBoard(formData);
     return this.setState({ name: "", url: "" }, this.props.toggleAddNewBoard());
   };
 
@@ -109,7 +113,6 @@ const mapStateToProps = state => {
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateBoard: formData => {
-      formData.created_by = 1;
       dispatch(actionsCreateBoard(formData));
     }
   };

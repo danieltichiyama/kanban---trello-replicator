@@ -32,6 +32,7 @@ let App = () => {
     <div className="App">
       <Router>
         <Switch>
+          <PrivateRoute path="/" exact={true} component={BoardsList} />
           <Route path="/login" exact={true} component={LoginPage} />
           <Route path="/register" exact={true} component={LoginPage} />
           <PrivateRoute path="/boards" exact={true} component={BoardsList} />

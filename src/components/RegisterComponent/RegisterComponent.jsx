@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { actionsRegisterUser } from "../../actions";
 import styles from "./RegisterComponent.module.scss";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
 
 class RegisterComponent extends Component {
   constructor(props) {
@@ -28,8 +28,7 @@ class RegisterComponent extends Component {
 
     this.props.dispatchRegisterUser(formData);
     this.clearInput();
-
-    console.log(this.props);
+    this.props.history.push("/login");
   };
 
   handleInput = event => {
@@ -95,7 +94,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default RegisterComponent = connect(
-  null,
-  mapDispatchToProps
-)(RegisterComponent);
+export default withRouter(
+  (RegisterComponent = connect(null, mapDispatchToProps)(RegisterComponent))
+);
