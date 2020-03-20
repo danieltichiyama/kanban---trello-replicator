@@ -17,6 +17,9 @@ import {
 } from "../actions";
 
 let initialState = {
+  username: sessionStorage.getItem("user")
+    ? JSON.parse(sessionStorage.getItem("user")).username
+    : undefined,
   initLabels: {
     "#61be4f": { color: "#61be4f" },
     "#f2d600": { color: "#f2d600" },
@@ -39,7 +42,10 @@ const reducer = (state = initialState, action) => {
         localStorage.removeItem("registeredUser");
       }
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
-      return Object.assign({}, state, { isLoggedIn: true });
+      return Object.assign({}, state, {
+        isLoggedIn: true,
+        username: action.payload.username
+      });
 
     case LOGOUT_USER:
       if (sessionStorage.getItem("user")) {
