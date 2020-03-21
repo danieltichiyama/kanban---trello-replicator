@@ -29,7 +29,7 @@ class Profile extends Component {
             session.lastname[0].toUpperCase()
           : session.username.slice(0, 2).join("")}
 
-        {!this.showProfile ? null : <UserProfile />}
+        {!this.state.showProfile ? null : <UserProfile />}
       </div>
     );
   }
