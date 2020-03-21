@@ -14,6 +14,9 @@ export const UPDATE_LIST_IN_STORE = "UPDATE_LIST_IN_STORE";
 export const LOGIN_USER = "LOGIN_USER";
 export const LOGOUT_USER = "LOGOUT_USER";
 export const REGISTER_USER = "REGISTER_USER";
+export const GET_USER = "GET_USER";
+export const UPDATE_USER = "UPDATE_USER";
+export const DELETE_USER = "DELETE_USER";
 
 const postConfig = data => {
   return {
@@ -35,7 +38,52 @@ const putConfig = data => {
   };
 };
 
-export const actionsLoginUser = (formData, cb) => async dispatch => {
+export const actionsDeleteUser = id => async dispatch => {
+  await fetch(`api/user/${id}/`)
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: DELETE_USER,
+        payload: results
+      });
+    });
+};
+
+export const actionsUpdateUser = formData => async dispatch => {
+  await fetch(`api/user/${formData.id}/`, putConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: UPDATE_USER,
+        payload: results
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const actionsGetUser = id => async dispatch => {
+  await fetch(`/api/user/${id}`)
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: GET_USER,
+        payload: results
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const actionsLoginUser = formData => async dispatch => {
   await fetch("/api/auth/login", postConfig(formData))
     .then(response => {
       return response.json();

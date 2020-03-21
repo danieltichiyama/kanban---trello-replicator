@@ -115,22 +115,3 @@ router.get("/smoke", (req, res) => {
 });
 
 module.exports = router;
-
-//   case LOGIN:
-//     let { id, user_status_id } = action.payload.session;
-//     let session = Object.assign(
-//       {},
-//       { id: id, user_status_id: user_status_id }
-//     );
-//     localStorage.setItem("session", JSON.stringify(session));
-//     return Object.assign({}, store, {
-//       isLoggedIn: true,
-//       loginError: false
-//     });
-
-//   case LOGIN_ERROR:
-//     return Object.assign({}, store, { loginError: true });
-
-//   case LOGOUT:
-//     localStorage.removeItem("session");
-//     return Object.assign({}, store, { isLoggedIn: false });
