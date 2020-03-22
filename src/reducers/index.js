@@ -32,7 +32,7 @@ let initialState = {
     "#ff77cb": { color: "#ff77cb" },
     "#344562": { color: "#344562" }
   },
-  modals: {}
+  showModal: ""
 };
 
 const reducer = (state = initialState, action) => {
@@ -40,16 +40,7 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case TOGGLE_MODAL:
-      let toggleModals = { ...state.modals };
-      let modal = action.payload;
-
-      if (toggleModals[modal]) {
-        toggleModals[modal] = !toggleModals[modal];
-      } else {
-        toggleModals[modal] = true;
-      }
-
-      return Object.assign({}, state, { modals: toggleModals });
+      return Object.assign({}, state, { showModal: action.payload });
 
     case LOGIN_USER:
       if (localStorage.getItem("registeredUser")) {

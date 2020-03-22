@@ -39,7 +39,7 @@ const putConfig = data => {
   };
 };
 
-export const actionsToggleModal = modal => dispatch => {
+export const actionsToggleModal = (modal = false) => dispatch => {
   return dispatch({
     type: TOGGLE_MODAL,
     payload: modal
