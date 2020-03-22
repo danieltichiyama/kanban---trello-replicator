@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./LoginComponent.module.scss";
 import { actionsLoginUser } from "../../actions";
-import { Link, Redirect, withRouter } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
 class LoginComponent extends Component {
   constructor(props) {
@@ -18,7 +18,6 @@ class LoginComponent extends Component {
 
     let formData = { ...this.state };
 
-    delete formData.isLoggedIn;
     this.props.dispatchLoginUser(formData);
     return this.setState({ username: "", password: "" });
   };
@@ -71,10 +70,7 @@ class LoginComponent extends Component {
         <div className={styles.optionsContainer}>
           <p>
             Don't have an account yet?{" "}
-            <span
-              className={styles.options_span}
-              onClick={this.removeRegisteredUser}
-            >
+            <span className={styles.options_span}>
               <Link to="/register">Sign up</Link>
             </span>
           </p>{" "}
@@ -98,9 +94,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default withRouter(
-  (LoginComponent = connect(
-    mapStateToProps,
-    mapDispatchToProps
-  )(LoginComponent))
-);
+export default LoginComponent = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(LoginComponent);

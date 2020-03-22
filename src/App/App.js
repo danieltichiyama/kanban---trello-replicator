@@ -25,11 +25,11 @@ class App extends Component {
         <Route
           {...rest}
           render={props => {
-            return sessionStorage.getItem("user") ? (
-              <Component {...props} />
-            ) : (
-              <Redirect to="/login" />
-            );
+            if (sessionStorage.getItem("user")) {
+              return <Component {...props} />;
+            } else {
+              return <Redirect to="/login" />;
+            }
           }}
         />
       );

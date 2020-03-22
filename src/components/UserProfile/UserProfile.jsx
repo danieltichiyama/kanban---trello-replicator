@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./UserProfile.module.scss";
 import { actionsLogoutUser } from "../../actions";
+import { withRouter } from "react-router-dom";
 
 class UserProfile extends Component {
   constructor(props) {
@@ -18,8 +19,10 @@ class UserProfile extends Component {
     return (
       <div className={styles.UserProfile}>
         User Profile
-        <ul>
-          <li onClick={this.handleLogoutClick}>Logout</li>
+        <ul className={styles.userProfile_menu}>
+          <li onClick={this.handleLogoutClick} className={styles.menu_li}>
+            Logout
+          </li>
         </ul>
       </div>
     );
@@ -38,7 +41,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default UserProfile = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserProfile);
+export default withRouter(
+  (UserProfile = connect(mapStateToProps, mapDispatchToProps)(UserProfile))
+);

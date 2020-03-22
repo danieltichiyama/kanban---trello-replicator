@@ -52,7 +52,7 @@ const reducer = (state = initialState, action) => {
         sessionStorage.removeItem("user");
       }
 
-      return state;
+      return Object.assign({}, state, { isLoggedIn: false, username: "" });
 
     case REGISTER_USER:
       localStorage.setItem("registeredUser", action.payload.username);
