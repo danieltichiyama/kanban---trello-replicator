@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./UserProfile.module.scss";
-import { actionsLogoutUser } from "../../actions";
+import { actionsLogoutUser, actionsToggleModal } from "../../actions";
 import { withRouter } from "react-router-dom";
 
 class UserProfile extends Component {
@@ -15,10 +15,19 @@ class UserProfile extends Component {
     return this.props.dispatchLogoutUser(id);
   };
 
+  handleMyProfileClick = e => {
+    if (e) {
+      e.stopPropagation();
+    }
+    return this.props.dispatchToggleModal("profile");
+  };
+
   render() {
     return (
       <ul className={styles.UserProfile}>
-        <li className={styles.menu_li}>My Profile</li>
+        <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
+          My Profile
+        </li>
         <li onClick={this.handleLogoutClick} className={styles.menu_li}>
           Logout
         </li>
@@ -35,6 +44,9 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchLogoutUser: id => {
       return dispatch(actionsLogoutUser(id));
+    },
+    dispatchToggleModal: modal => {
+      return dispatch(actionsToggleModal(modal));
     }
   };
 };

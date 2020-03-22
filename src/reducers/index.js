@@ -13,7 +13,8 @@ import {
   UPDATE_LIST_IN_STORE,
   LOGIN_USER,
   LOGOUT_USER,
-  REGISTER_USER
+  REGISTER_USER,
+  TOGGLE_MODAL
 } from "../actions";
 
 let initialState = {
@@ -30,13 +31,26 @@ let initialState = {
     "#00c2e0": { color: "#00c2e0" },
     "#ff77cb": { color: "#ff77cb" },
     "#344562": { color: "#344562" }
-  }
+  },
+  modals: {}
 };
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case TOGGLE_MODAL:
+      let toggleModals = { ...state.modals };
+      let modal = action.payload;
+
+      if (toggleModals[modal]) {
+        toggleModals[modal] = !toggleModals[modal];
+      } else {
+        toggleModals[modal] = true;
+      }
+
+      return Object.assign({}, state, { modals: toggleModals });
+
     case LOGIN_USER:
       if (localStorage.getItem("registeredUser")) {
         localStorage.removeItem("registeredUser");

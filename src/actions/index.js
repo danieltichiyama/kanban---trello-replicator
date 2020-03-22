@@ -17,6 +17,7 @@ export const REGISTER_USER = "REGISTER_USER";
 export const GET_USER = "GET_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
+export const TOGGLE_MODAL = "TOGGLE_MODAL";
 
 const postConfig = data => {
   return {
@@ -36,6 +37,13 @@ const putConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+export const actionsToggleModal = modal => dispatch => {
+  return dispatch({
+    type: TOGGLE_MODAL,
+    payload: modal
+  });
 };
 
 export const actionsDeleteUser = id => async dispatch => {
