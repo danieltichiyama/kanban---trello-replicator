@@ -17,14 +17,12 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <div className={styles.UserProfile}>
-        User Profile
-        <ul className={styles.userProfile_menu}>
-          <li onClick={this.handleLogoutClick} className={styles.menu_li}>
-            Logout
-          </li>
-        </ul>
-      </div>
+      <ul className={styles.UserProfile}>
+        <li className={styles.menu_li}>My Profile</li>
+        <li onClick={this.handleLogoutClick} className={styles.menu_li}>
+          Logout
+        </li>
+      </ul>
     );
   }
 }
