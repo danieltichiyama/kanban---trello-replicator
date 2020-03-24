@@ -33,8 +33,7 @@ let initialState = {
     "#ff77cb": { color: "#ff77cb" },
     "#344562": { color: "#344562" }
   },
-  showModal: "profile"
-  //turn off when done editing
+  showModal: false
 };
 
 const reducer = (state = initialState, action) => {

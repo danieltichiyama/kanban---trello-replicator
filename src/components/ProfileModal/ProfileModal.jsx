@@ -35,7 +35,9 @@ class ProfileModal extends Component {
   render() {
     return (
       <div className={styles.ProfileModal} onClick={this.stopPropagation}>
-        <div className={styles.ProfileModal_header}>Profile</div>
+        <div className={styles.ProfileModal_header}>
+          <h3>Profile</h3>
+        </div>
         <form onSubmit={this.submitForm} className={styles.ProfileModal_form}>
           <label className={styles.form_label}>
             Username:
