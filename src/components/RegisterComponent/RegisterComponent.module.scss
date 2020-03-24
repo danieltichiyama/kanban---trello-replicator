@@ -8,6 +8,7 @@
     color: #022c6b;
     display: block;
     margin-bottom: 4px;
+    position: relative;
   }
 
   h5 {
@@ -26,6 +27,16 @@
       padding: 0 30px;
       height: 48px;
       margin-bottom: 24px;
+
+      .form_li_error {
+        color: red;
+        font-size: 12px;
+        font-weight: 400;
+        margin: 0;
+        padding-left: 4px;
+        width: 100%;
+        text-align: left;
+      }
 
       .form_input {
         height: 100%;

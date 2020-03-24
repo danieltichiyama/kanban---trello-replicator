@@ -12,6 +12,7 @@ class RegisterComponent extends Component {
       password: "",
       firstname: "",
       lastname: "",
+      confirmPassword: "",
       email: ""
     };
   }
@@ -27,18 +28,49 @@ class RegisterComponent extends Component {
   handleStepOneSubmit = e => {
     e.preventDefault();
 
-    return this.setState({ step: 2 });
+    let errors = {};
+    if (this.state.password !== this.state.confirmPassword) {
+      errors.password = "passwords must match";
+    }
+
+    if (this.state.username === "" || this.state.username.includes(" ")) {
+      errors.username = "username is required";
+    } else if (this.state.username.includes(" ")) {
+      errors.username = "username cannot contain any spaces.";
+    }
+
+    if (Object.keys(errors).length !== 0) {
+      return this.setState({ errors: { ...errors } });
+    } else {
+      return this.setState({ step: 2, errors: {} });
+    }
   };
 
   handleRegisterSubmit = e => {
     e.preventDefault();
 
-    let formData = { ...this.state };
-    delete formData.step;
+    let errors = {};
 
-    this.props.dispatchRegisterUser(formData);
-    this.clearInput();
-    this.props.history.push("/login");
+    if (this.state.firstname === "") {
+      errors.firstname = "your first name is required.";
+    }
+
+    if (this.state.lastname === "") {
+      errors.lastname = "your last name is required.";
+    }
+
+    if (Object.keys(errors).length !== 0) {
+      return this.setState({ errors: { ...errors } });
+    } else {
+      let formData = { ...this.state };
+      delete formData.step;
+      delete formData.confirmPassword;
+      delete formData.errors;
+
+      this.props.dispatchRegisterUser(formData);
+      this.clearInput();
+      return this.props.history.push("/login");
+    }
   };
 
   handleInput = event => {
@@ -64,6 +96,11 @@ class RegisterComponent extends Component {
                   placeholder="Enter username"
                   className={styles.form_input}
                 />
+                {this.state.errors && this.state.errors.username ? (
+                  <p className={styles.form_li_error}>
+                    *{this.state.errors.username}
+                  </p>
+                ) : null}
               </li>
               <li className={styles.form_li}>
                 <input
@@ -74,6 +111,21 @@ class RegisterComponent extends Component {
                   placeholder="Enter password"
                   className={styles.form_input}
                 />
+              </li>
+              <li className={styles.form_li}>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={this.state.confirmPassword}
+                  onChange={this.handleInput}
+                  placeholder="Confirm Password"
+                  className={styles.form_input}
+                />
+                {this.state.errors && this.state.errors.password ? (
+                  <p className={styles.form_li_error}>
+                    *{this.state.errors.password}
+                  </p>
+                ) : null}
               </li>
               <li className={styles.form_li}>
                 <button
@@ -112,6 +164,11 @@ class RegisterComponent extends Component {
                   placeholder="First Name"
                   className={styles.form_input}
                 />
+                {this.state.errors && this.state.errors.firstname ? (
+                  <p className={styles.form_li_error}>
+                    *{this.state.errors.firstname}
+                  </p>
+                ) : null}
               </li>
               <li className={styles.form_li}>
                 <input
@@ -122,6 +179,11 @@ class RegisterComponent extends Component {
                   placeholder="Last Name"
                   className={styles.form_input}
                 />
+                {this.state.errors && this.state.errors.lastname ? (
+                  <p className={styles.form_li_error}>
+                    *{this.state.errors.lastname}
+                  </p>
+                ) : null}
               </li>
               <li className={styles.form_li}>
                 <input
