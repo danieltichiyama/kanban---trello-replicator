@@ -47,7 +47,7 @@ export const actionsToggleModal = (modal = false) => dispatch => {
 };
 
 export const actionsDeleteUser = id => async dispatch => {
-  await fetch(`api/user/${id}/`)
+  await fetch(`/api/users/${id}/`)
     .then(response => {
       return response.json();
     })
@@ -60,7 +60,7 @@ export const actionsDeleteUser = id => async dispatch => {
 };
 
 export const actionsUpdateUser = formData => async dispatch => {
-  await fetch(`api/user/${formData.id}/`, putConfig(formData))
+  await fetch(`/api/users/${formData.id}/`, putConfig(formData))
     .then(response => {
       return response.json();
     })
@@ -76,7 +76,7 @@ export const actionsUpdateUser = formData => async dispatch => {
 };
 
 export const actionsGetUser = id => async dispatch => {
-  await fetch(`/api/user/${id}`)
+  await fetch(`/api/users/${id}`)
     .then(response => {
       return response.json();
     })
@@ -108,7 +108,7 @@ export const actionsLoginUser = formData => async dispatch => {
 };
 
 export const actionsRegisterUser = formData => async dispatch => {
-  await fetch("api/auth/register", postConfig(formData))
+  await fetch("/api/auth/register", postConfig(formData))
     .then(response => {
       return response.json();
     })

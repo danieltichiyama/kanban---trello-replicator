@@ -42,7 +42,7 @@ const reducer = (state = initialState, action) => {
 
   switch (action.type) {
     case UPDATE_USER:
-      sessionStorage.setItem("user", action.payload);
+      sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       if (state.showModal === "profile") {
         return Object.assign({}, state, { showModal: false });
       } else {
