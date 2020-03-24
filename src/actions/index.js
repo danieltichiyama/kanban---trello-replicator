@@ -39,6 +39,15 @@ const putConfig = data => {
   };
 };
 
+const deleteConfig = data => {
+  return {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+};
+
 export const actionsToggleModal = (modal = false) => dispatch => {
   return dispatch({
     type: TOGGLE_MODAL,
@@ -47,7 +56,7 @@ export const actionsToggleModal = (modal = false) => dispatch => {
 };
 
 export const actionsDeleteUser = id => async dispatch => {
-  await fetch(`/api/users/${id}/`)
+  await fetch(`/api/users/${id}/`, deleteConfig(id))
     .then(response => {
       return response.json();
     })
@@ -56,6 +65,9 @@ export const actionsDeleteUser = id => async dispatch => {
         type: DELETE_USER,
         payload: results
       });
+    })
+    .catch(err => {
+      console.log(err);
     });
 };
 

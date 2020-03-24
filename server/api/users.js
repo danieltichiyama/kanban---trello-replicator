@@ -3,7 +3,7 @@ const express = require("express");
 const router = express.Router();
 
 router.delete("/:userID", (req, res) => {
-  return req.database.User.where({ id: req.params.userID })
+  return req.database.User.where({ id: parseInt(req.params.userID) })
     .destroy()
     .then(results => {
       return res.json(results);

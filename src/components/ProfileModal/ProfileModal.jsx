@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import styles from "./ProfileModal.module.scss";
 import { connect } from "react-redux";
-import { actionsUpdateUser } from "../../actions";
+import { actionsUpdateUser, actionsDeleteUser } from "../../actions";
 
 class ProfileModal extends Component {
   constructor(props) {
@@ -18,6 +18,17 @@ class ProfileModal extends Component {
     let { name, value } = e.target;
 
     return this.setState({ [name]: value });
+  };
+
+  handleDelete = e => {
+    if (e) e.preventDefault();
+    let confirmation = window.confirm(
+      "Are you sure? \nYour account data, including all of your boards will be deleted and unrecoverable."
+    );
+
+    if (confirmation) {
+      return this.props.dispatchDeleteUser();
+    }
   };
 
   submitForm = e => {
@@ -82,6 +93,12 @@ class ProfileModal extends Component {
           <div className={styles.form_buttons_container}>
             <button type="submit">Save</button>
             <button onClick={this.props.toggleModal}>Cancel</button>
+            <button
+              onClick={this.handleDelete}
+              className={styles.delete_account_button}
+            >
+              Delete
+            </button>
           </div>
         </form>
       </div>
@@ -93,6 +110,11 @@ const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateUser: formData => {
       return dispatch(actionsUpdateUser(formData));
+    },
+    dispatchDeleteUser: () => {
+      let userID = JSON.parse(sessionStorage.getItem("user")).id;
+
+      return dispatch(actionsDeleteUser(userID));
     }
   };
 };

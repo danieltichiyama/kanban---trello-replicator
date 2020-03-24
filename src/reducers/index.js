@@ -16,7 +16,8 @@ import {
   REGISTER_USER,
   TOGGLE_MODAL,
   GET_USER,
-  UPDATE_USER
+  UPDATE_USER,
+  DELETE_USER
 } from "../actions";
 
 let initialState = {
@@ -42,6 +43,20 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case DELETE_USER:
+      if (sessionStorage.getItem("user")) {
+        sessionStorage.removeItem("user");
+      }
+      if (localStorage.getItem("user")) {
+        localStorage.removeItem("user");
+      }
+
+      return Object.assign({}, state, {
+        isLoggedIn: false,
+        username: "",
+        showModal: false
+      });
+
     case UPDATE_USER:
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       if (state.showModal === "profile") {
@@ -76,7 +91,11 @@ const reducer = (state = initialState, action) => {
         localStorage.removeItem("user");
       }
 
-      return Object.assign({}, state, { isLoggedIn: false, username: "" });
+      return Object.assign({}, state, {
+        isLoggedIn: false,
+        username: "",
+        showModal: false
+      });
 
     case REGISTER_USER:
       localStorage.setItem("registeredUser", action.payload.username);
