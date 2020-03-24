@@ -33,7 +33,8 @@ let initialState = {
     "#ff77cb": { color: "#ff77cb" },
     "#344562": { color: "#344562" }
   },
-  showModal: false
+  showModal: false,
+  isLoggedIn: sessionStorage.getItem("user") ? true : false
 };
 
 const reducer = (state = initialState, action) => {
