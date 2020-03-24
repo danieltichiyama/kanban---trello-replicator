@@ -1,6 +1,6 @@
 const bcrypt = require("bcryptjs");
 
-let password = bcrypt.hashSync("password1234", 12);
+let password = bcrypt.hashSync("password", 12);
 
 exports.seed = function(knex) {
   // Deletes ALL existing entries
@@ -14,6 +14,13 @@ exports.seed = function(knex) {
           lastname: "Ichiyama",
           email: "daniel.ichiyama@gmail.com",
           username: "danielti",
+          password: password
+        },
+        {
+          firstname: "Mister",
+          lastname: "Pickle",
+          email: "mister_pickle@gmail.com",
+          username: "mister_pickle",
           password: password
         }
       ]);

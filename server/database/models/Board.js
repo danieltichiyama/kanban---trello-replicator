@@ -28,6 +28,15 @@ class Board extends bookshelf.Model {
   cards() {
     return this.hasMany("Card");
   }
+
+  collaborators() {
+    return this.belongsToMany(
+      "User",
+      "boards_collaborators",
+      "board_id",
+      "collaborator_id"
+    );
+  }
 }
 
 module.exports = bookshelf.model("Board", Board);

@@ -31,7 +31,9 @@ router.put("/:userID", (req, res) => {
 
 router.get("/:userID", (req, res) => {
   return req.database.User.where({ id: req.params.userID })
-    .fetch({ withRelated: ["userImage", "boards", "cardsAssigned"] })
+    .fetch({
+      withRelated: ["userImage", "boards", "cardsAssigned", "collaborations"]
+    })
     .then(results => {
       return res.json(results);
     })

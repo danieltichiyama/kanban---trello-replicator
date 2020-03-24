@@ -24,6 +24,15 @@ class User extends bookshelf.Model {
   cardsAssigned() {
     return this.hasMany("Card", "assigned_to");
   }
+
+  collaborations() {
+    return this.belongstoMany(
+      "Board",
+      "boards_collaborators",
+      "collaborator_id",
+      "board_id"
+    );
+  }
 }
 
 module.exports = bookshelf.model("User", User);

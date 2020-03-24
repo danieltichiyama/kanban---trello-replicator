@@ -124,7 +124,8 @@ router.get("/:boardID", (req, res) => {
         "cards.assignedTo",
         "cards.list",
         "labels",
-        "lists"
+        "lists",
+        "collaborators"
       ]
     })
     .then(results => {
