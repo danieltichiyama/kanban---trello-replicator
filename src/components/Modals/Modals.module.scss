@@ -6,4 +6,7 @@
   height: 100%;
   background: rgba($color: #000000, $alpha: 0.2);
   z-index: 999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -1,8 +1,8 @@
 import React, { Component } from "react";
-import styles from "./Profile.module.scss";
-import UserProfile from "../UserProfile";
+import styles from "./ProfileButton.module.scss";
+import ProfileMenu from "../ProfileMenu";
 
-class Profile extends Component {
+class ProfileButton extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -23,16 +23,16 @@ class Profile extends Component {
     let session = JSON.parse(sessionStorage.getItem("user"));
 
     return (
-      <div className={styles.Profile} onClick={this.toggleProfile}>
+      <div className={styles.ProfileButton} onClick={this.toggleProfile}>
         {session.firstname && session.lastname
           ? session.firstname[0].toUpperCase() +
             session.lastname[0].toUpperCase()
           : session.username.slice(0, 2).join("")}
 
-        {!this.state.showProfile ? null : <UserProfile />}
+        {!this.state.showProfile ? null : <ProfileMenu />}
       </div>
     );
   }
 }
 
-export default Profile;
+export default ProfileButton;

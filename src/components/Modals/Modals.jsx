@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { actionsToggleModal } from "../../actions";
 import styles from "./Modals.module.scss";
 
+import ProfileModal from "../ProfileModal";
+
 class Modals extends Component {
   constructor(props) {
     super(props);
@@ -11,22 +13,16 @@ class Modals extends Component {
     };
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.showModal !== this.props.showModal) {
-      return this.setState({ modal: this.props.showModal });
-    }
-  }
-
   toggleModal = () => {
     return this.props.dispatchToggleModal();
   };
 
   render() {
-    switch (this.state.modal) {
+    switch (this.props.showModal) {
       case "profile":
         return (
           <div className={styles.Modals} onClick={this.toggleModal}>
-            Profile
+            <ProfileModal />
           </div>
         );
 

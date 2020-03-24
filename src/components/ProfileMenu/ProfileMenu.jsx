@@ -1,10 +1,10 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import styles from "./UserProfile.module.scss";
+import styles from "./ProfileMenu.module.scss";
 import { actionsLogoutUser, actionsToggleModal } from "../../actions";
 import { withRouter } from "react-router-dom";
 
-class UserProfile extends Component {
+class ProfileMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {};
@@ -24,7 +24,7 @@ class UserProfile extends Component {
 
   render() {
     return (
-      <ul className={styles.UserProfile}>
+      <ul className={styles.ProfileMenu}>
         <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
           My Profile
         </li>
@@ -52,5 +52,5 @@ const mapDispatchToProps = dispatch => {
 };
 
 export default withRouter(
-  (UserProfile = connect(mapStateToProps, mapDispatchToProps)(UserProfile))
+  (ProfileMenu = connect(mapStateToProps, mapDispatchToProps)(ProfileMenu))
 );
