@@ -14,7 +14,8 @@ import {
   LOGIN_USER,
   LOGOUT_USER,
   REGISTER_USER,
-  TOGGLE_MODAL
+  TOGGLE_MODAL,
+  UPDATE_USER
 } from "../actions";
 
 let initialState = {
@@ -32,13 +33,22 @@ let initialState = {
     "#ff77cb": { color: "#ff77cb" },
     "#344562": { color: "#344562" }
   },
-  showModal: ""
+  showModal: "profile"
+  //turn off when done editing
 };
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case UPDATE_USER:
+      sessionStorage.setItem("user", action.payload);
+      if (state.showModal === "profile") {
+        return Object.assign({}, state, { showModal: false });
+      } else {
+        return state;
+      }
+
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });
 

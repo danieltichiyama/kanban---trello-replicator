@@ -3,4 +3,29 @@
   height: 420px;
   width: 360px;
   border-radius: 4px;
+
+  .ProfileModal_form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100%;
+    width: 100%;
+
+    .form_label {
+      width: 100%;
+      border: 1px red dotted;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      margin-bottom: 12px;
+      padding: 12px;
+
+      .form_input {
+        height: 24px;
+        width: 100%;
+      }
+    }
+  }
 }

@@ -13,7 +13,10 @@ class Modals extends Component {
     };
   }
 
-  toggleModal = () => {
+  toggleModal = e => {
+    if (e) {
+      e.preventDefault();
+    }
     return this.props.dispatchToggleModal();
   };
 
@@ -22,7 +25,7 @@ class Modals extends Component {
       case "profile":
         return (
           <div className={styles.Modals} onClick={this.toggleModal}>
-            <ProfileModal />
+            <ProfileModal toggleModal={this.toggleModal} />
           </div>
         );
 
