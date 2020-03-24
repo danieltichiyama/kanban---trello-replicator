@@ -27,7 +27,7 @@ class ProfileButton extends Component {
         {session.firstname && session.lastname
           ? session.firstname[0].toUpperCase() +
             session.lastname[0].toUpperCase()
-          : session.username.slice(0, 2).join("")}
+          : session.username.substring(0, 2).toUpperCase()}
 
         {!this.state.showProfile ? null : <ProfileMenu />}
       </div>

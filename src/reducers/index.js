@@ -15,6 +15,7 @@ import {
   LOGOUT_USER,
   REGISTER_USER,
   TOGGLE_MODAL,
+  GET_USER,
   UPDATE_USER
 } from "../actions";
 
@@ -49,6 +50,10 @@ const reducer = (state = initialState, action) => {
         return state;
       }
 
+    case GET_USER:
+      sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
+      return Object.assign({}, state, { isLoggedIn: true });
+
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });
 
@@ -56,6 +61,7 @@ const reducer = (state = initialState, action) => {
       if (localStorage.getItem("registeredUser")) {
         localStorage.removeItem("registeredUser");
       }
+      localStorage.setItem("user", JSON.stringify(action.payload.id));
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       return Object.assign({}, state, {
         isLoggedIn: true,
@@ -65,6 +71,9 @@ const reducer = (state = initialState, action) => {
     case LOGOUT_USER:
       if (sessionStorage.getItem("user")) {
         sessionStorage.removeItem("user");
+      }
+      if (localStorage.getItem("user")) {
+        localStorage.removeItem("user");
       }
 
       return Object.assign({}, state, { isLoggedIn: false, username: "" });

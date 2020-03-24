@@ -12,12 +12,21 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
+import { actionsGetUser } from "../actions";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount = () => {
+    if (localStorage.getItem("user")) {
+      return this.props.dispatchGetUser(
+        JSON.parse(localStorage.getItem("user"))
+      );
+    }
+  };
 
   render() {
     const PrivateRoute = ({ component: Component, ...rest }) => {
@@ -75,4 +84,12 @@ const mapStateToProps = state => {
   };
 };
 
-export default App = connect(mapStateToProps, null)(App);
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchGetUser: id => {
+      return dispatch(actionsGetUser(id));
+    }
+  };
+};
+
+export default App = connect(mapStateToProps, mapDispatchToProps)(App);

@@ -18,15 +18,9 @@ class AuthorizationModal extends Component {
       <div className={styles.container}>
         <div className={styles.authBox}>
           {this.props.pathname.includes("login") ? (
-            <>
-              <h3>Log in to Kanban</h3>
-              <LoginComponent />
-            </>
+            <LoginComponent />
           ) : (
-            <>
-              <h3>Register with Kanban</h3>
-              <RegisterComponent />
-            </>
+            <RegisterComponent />
           )}
         </div>
       </div>

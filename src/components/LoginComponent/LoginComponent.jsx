@@ -35,6 +35,8 @@ class LoginComponent extends Component {
     }
     return (
       <div className={styles.loginComponent}>
+        <h3>Log in to Kanban</h3>
+
         <form>
           <ul className={styles.form_ul}>
             <li className={styles.form_li}>
