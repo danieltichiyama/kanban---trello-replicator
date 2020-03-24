@@ -2,7 +2,10 @@ exports.up = function(knex) {
   return knex.schema.createTable("boardImages", table => {
     table.increments();
     table.string("url").notNullable();
-    table.integer("board_id").references("boards.id");
+    table
+      .integer("board_id")
+      .references("boards.id")
+      .onDelete("CASCADE");
     table.timestamps(true, true);
   });
 };

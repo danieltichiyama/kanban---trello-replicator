@@ -4,7 +4,10 @@ exports.up = function(knex) {
     table.string("name").notNullable();
     table.string("description");
     table.boolean("is_archived").defaultTo(false);
-    table.integer("created_by").references("users.id");
+    table
+      .integer("created_by")
+      .references("users.id")
+      .onDelete("CASCADE");
     table.timestamps(true, true);
   });
 };

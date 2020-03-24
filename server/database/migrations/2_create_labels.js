@@ -3,7 +3,10 @@ exports.up = function(knex) {
     table.increments();
     table.string("name");
     table.string("color");
-    table.integer("board_id").references("boards.id");
+    table
+      .integer("board_id")
+      .references("boards.id")
+      .onDelete("CASCADE");
     table.timestamps(true, true);
   });
 };

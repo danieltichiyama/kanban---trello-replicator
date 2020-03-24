@@ -3,7 +3,10 @@ exports.up = function(knex) {
     table.increments();
     table.string("name").notNullable();
     table.decimal("position", null).notNullable();
-    table.integer("board_id").references("boards.id");
+    table
+      .integer("board_id")
+      .references("boards.id")
+      .onDelete("CASCADE");
     table.boolean("is_archived").defaultTo(false);
     table.timestamps(true, true);
   });
