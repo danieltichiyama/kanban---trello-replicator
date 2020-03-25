@@ -22,7 +22,7 @@ class Board extends Component {
   }
 
   componentDidMount = () => {
-    let id = parseInt(window.location.pathname.split("/")[2]);
+    let id = parseInt(window.location.pathname.split("/")[1]);
 
     return this.props.dispatchGetBoardData(id);
   };

@@ -6,12 +6,12 @@ import { actionsUpdateUser, actionsDeleteUser } from "../../actions";
 class ProfileModal extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = { username: "", firstname: "", lastname: "", email: "" };
   }
 
   componentDidMount = () => {
-    let session = JSON.parse(sessionStorage.getItem("user"));
-    return this.setState({ ...session });
+    let { username, firstname, lastname, email } = this.props;
+    return this.setState({ username, firstname, lastname, email });
   };
 
   handleInput = e => {
@@ -106,6 +106,15 @@ class ProfileModal extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    username: state.username,
+    email: state.email,
+    firstname: state.firstname,
+    lastname: state.lastname
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateUser: formData => {
@@ -119,4 +128,7 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default ProfileModal = connect(null, mapDispatchToProps)(ProfileModal);
+export default ProfileModal = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProfileModal);

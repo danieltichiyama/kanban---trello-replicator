@@ -18,7 +18,11 @@ let AppPage = props => {
       <ProfileButton
         username={JSON.parse(sessionStorage.getItem("user")).username}
       />
-      {window.location.pathname.startsWith("/b/") ? <Board /> : <BoardsList />}
+      {window.location.pathname.startsWith("/dashboard/") ? (
+        <BoardsList />
+      ) : (
+        <Board />
+      )}
     </div>
   );
 };

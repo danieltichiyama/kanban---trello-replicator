@@ -54,6 +54,22 @@ class BoardsList extends Component {
             <div className={styles.BoardThumbnail}>Create new board</div>
           </div>
         </div>
+        <h2>Shared Boards</h2>
+
+        <div className={styles.BoardsContainer}>
+          {this.props.collaborations ? (
+            this.props.collaborations.map(board => {
+              if (!board.is_archived) {
+                return <BoardThumbnail board={board} key={board.id} />;
+              }
+              return null;
+            })
+          ) : (
+            <div className={styles.noArchivedBoardsMessage}>
+              "You have no shared boards"
+            </div>
+          )}
+        </div>
 
         {/* Archived Boards List */}
         {this.state.showArchived ? (
@@ -108,7 +124,13 @@ const mapStateToProps = state => {
       ? state.boards.sort((a, b) => {
           return a.updated_at < b.updated_at ? 1 : -1;
         })
-      : null
+      : null,
+    collaborations:
+      state.collaborations && state.collaborations.length > 0
+        ? state.collaborations.sort((a, b) => {
+            return a.updated_at < b.updated_at ? 1 : -1;
+          })
+        : null
   };
 };
 

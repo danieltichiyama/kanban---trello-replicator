@@ -19,21 +19,24 @@ class App extends Component {
     this.state = {};
   }
 
+  componentDidUpdate = prevProps => {
+    if (
+      prevProps.boards !== this.props.boards ||
+      prevProps.collaborations !== this.props.collaborations
+    ) {
+      return this.setState({
+        boards: [...this.props.boards],
+        collaborations: [...this.props.collaborations]
+      });
+    }
+  };
+
   render() {
-    const PrivateRoute = ({ component: Component, ...rest }) => {
-      return (
-        <Route
-          {...rest}
-          render={props => {
-            if (sessionStorage.getItem("user")) {
-              return <Component {...props} />;
-            } else {
-              return <Redirect to="/login" />;
-            }
-          }}
-        />
-      );
-    };
+    let fallBack = "/";
+    let user;
+
+    if (sessionStorage.getItem("user"))
+      user = JSON.parse(sessionStorage.getItem("user"));
 
     return (
       <div className="App">
@@ -44,16 +47,42 @@ class App extends Component {
               exact={true}
               component={AuthPage}
             />
-            <PrivateRoute
-              path={["/u/", "/b/"]}
-              exact={false}
+            <Route
+              path={user ? `/dashboard/${user.username}/boards` : fallBack}
+              exact={true}
               component={AppPage}
             />
+            {/* creates a private route for each of the user's boards */}
+            {this.state.boards
+              ? this.state.boards.map(board => {
+                  return (
+                    <Route
+                      key={board.id}
+                      path={`/${board.id}/${board.name}`}
+                      exact={true}
+                      component={AppPage}
+                    />
+                  );
+                })
+              : null}
+            {/* creates a private route for each of the user's collaborations */}
+            {this.state.collaborations
+              ? this.state.collaborations.map(board => {
+                  return (
+                    <Route
+                      key={board.id}
+                      path={`/${board.id}/${board.name}`}
+                      exact={true}
+                      component={AppPage}
+                    />
+                  );
+                })
+              : null}
             <Redirect
               from="/"
               to={
                 sessionStorage.getItem("user")
-                  ? `/u/${
+                  ? `/dashboard/${
                       JSON.parse(sessionStorage.getItem("user")).username
                     }/boards`
                   : "/login"
@@ -71,7 +100,9 @@ const mapStateToProps = state => {
   return {
     username: sessionStorage.getItem("user")
       ? JSON.parse(sessionStorage.getItem("user")).username
-      : undefined
+      : undefined,
+    boards: state.boards,
+    collaborations: state.collaborations
   };
 };
 

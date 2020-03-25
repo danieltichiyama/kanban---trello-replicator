@@ -37,7 +37,7 @@ router.get("/:userID", (req, res) => {
         "boards.boardImage",
         "boards.collaborators",
         "cardsAssigned",
-        "collaborations"
+        "collaborations.boardImage"
       ]
     })
     .then(results => {
