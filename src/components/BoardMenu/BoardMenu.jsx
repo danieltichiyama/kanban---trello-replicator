@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import styles from "./BoardMenu.module.scss";
 import LabelsMenu from "../LabelsMenu";
 import ArchivedItems from "../ArchivedItems";
+import CollaboratorsMenu from "../CollaboratorsMenu";
 
 class BoardMenu extends Component {
   constructor(props) {
@@ -39,6 +40,16 @@ class BoardMenu extends Component {
             ></button>
           </div>
           <hr></hr>
+          {/* Collaborators */}
+          <li
+            className={styles.MenuOption}
+            id="collaboratorsMenu"
+            onClick={this.toggle}
+          >
+            Collaborators
+          </li>
+          {this.state.collaboratorsMenu ? <CollaboratorsMenu /> : null}
+
           {/* Labels */}
           <li
             className={styles.MenuOption}

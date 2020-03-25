@@ -19,6 +19,7 @@ export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const LOGIN_ERROR = "LOGIN_ERROR";
+export const GET_ALL_USERS = "GET_ALL_USERS";
 
 const postConfig = data => {
   return {
@@ -47,6 +48,22 @@ const deleteConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+export const actionsGetAllUsers = searchTerm => async dispatch => {
+  await fetch(`api/users/all?search=${searchTerm}`)
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: GET_ALL_USERS,
+        payload: results
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 export const actionsToggleModal = (modal = false) => dispatch => {
