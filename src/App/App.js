@@ -20,14 +20,6 @@ class App extends Component {
     this.state = {};
   }
 
-  componentDidMount = () => {
-    if (localStorage.getItem("user")) {
-      return this.props.dispatchGetUser(
-        JSON.parse(localStorage.getItem("user"))
-      );
-    }
-  };
-
   render() {
     const PrivateRoute = ({ component: Component, ...rest }) => {
       return (

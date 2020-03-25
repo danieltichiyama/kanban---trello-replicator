@@ -66,8 +66,7 @@ const reducer = (state = initialState, action) => {
       }
 
     case GET_USER:
-      sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
-      return Object.assign({}, state, { isLoggedIn: true });
+      return Object.assign({}, state, { isLoggedIn: false });
 
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });
@@ -76,7 +75,7 @@ const reducer = (state = initialState, action) => {
       if (localStorage.getItem("registeredUser")) {
         localStorage.removeItem("registeredUser");
       }
-      localStorage.setItem("user", JSON.stringify(action.payload.id));
+      localStorage.setItem("user", JSON.stringify(action.payload.username));
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       return Object.assign({}, state, {
         isLoggedIn: true,

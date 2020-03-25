@@ -26,7 +26,7 @@ class User extends bookshelf.Model {
   }
 
   collaborations() {
-    return this.belongstoMany(
+    return this.belongsToMany(
       "Board",
       "boards_collaborators",
       "collaborator_id",
