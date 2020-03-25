@@ -37,8 +37,6 @@ passport.use(
       return new User({ username })
         .fetch({ require: false })
         .then(user => {
-          console.log("user", user);
-
           if (user === null) {
             return done(null, false, { message: "bad username or password" });
           } else {
