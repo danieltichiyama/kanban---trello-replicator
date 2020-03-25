@@ -60,9 +60,12 @@ const reducer = (state = initialState, action) => {
     case UPDATE_USER:
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       if (state.showModal === "profile") {
-        return Object.assign({}, state, { showModal: false });
+        return Object.assign({}, state, {
+          showModal: false,
+          ...action.payload
+        });
       } else {
-        return state;
+        return Object.assign({}, state, { ...action.payload });
       }
 
     case GET_USER:

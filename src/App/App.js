@@ -38,18 +38,16 @@ class App extends Component {
     if (sessionStorage.getItem("user"))
       user = JSON.parse(sessionStorage.getItem("user"));
 
+    console.log("rendering app");
+
     return (
       <div className="App">
         <Router>
           <Switch>
-            <Route
-              path={["/login", "/register"]}
-              exact={true}
-              component={AuthPage}
-            />
+            <Route path={["/login", "/register"]} exact component={AuthPage} />
             <Route
               path={user ? `/dashboard/${user.username}/boards` : fallBack}
-              exact={true}
+              exact
               component={AppPage}
             />
             {/* creates a private route for each of the user's boards */}
@@ -58,8 +56,8 @@ class App extends Component {
                   return (
                     <Route
                       key={board.id}
-                      path={`/${board.id}/${board.name}`}
-                      exact={true}
+                      path={`/b/${board.id}/${board.name}`}
+                      exact
                       component={AppPage}
                     />
                   );
@@ -72,7 +70,7 @@ class App extends Component {
                     <Route
                       key={board.id}
                       path={`/${board.id}/${board.name}`}
-                      exact={true}
+                      exact
                       component={AppPage}
                     />
                   );

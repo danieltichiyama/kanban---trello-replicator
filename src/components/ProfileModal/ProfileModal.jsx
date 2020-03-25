@@ -10,8 +10,14 @@ class ProfileModal extends Component {
   }
 
   componentDidMount = () => {
-    let { username, firstname, lastname, email } = this.props;
-    return this.setState({ username, firstname, lastname, email });
+    let { username, firstname, lastname, email, id } = this.props;
+    return this.setState({
+      username,
+      firstname,
+      lastname,
+      email,
+      id
+    });
   };
 
   handleInput = e => {
@@ -111,7 +117,8 @@ const mapStateToProps = state => {
     username: state.username,
     email: state.email,
     firstname: state.firstname,
-    lastname: state.lastname
+    lastname: state.lastname,
+    id: state.id
   };
 };
 

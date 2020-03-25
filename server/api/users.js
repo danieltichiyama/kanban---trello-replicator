@@ -14,8 +14,9 @@ router.delete("/:userID", (req, res) => {
 });
 
 router.put("/:userID", (req, res) => {
+  console.log(req.body);
   return req.database.User.where({ id: req.params.userID })
-    .save(req.body, { method: "update", patch: true })
+    .save(req.body, { method: "update", patch: true, debug: true })
     .then(results => {
       let response = { ...results.attributes };
       delete response.password;
@@ -25,6 +26,7 @@ router.put("/:userID", (req, res) => {
       return res.json(response);
     })
     .catch(err => {
+      console.log("error updating user");
       console.log(err);
     });
 });
