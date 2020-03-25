@@ -32,14 +32,13 @@ router.put("/:userID", (req, res) => {
 });
 
 router.get("/all", (req, res) => {
-  console.log(req.query.search);
   let term = "%" + req.query.search + "%";
   return req.database.User.query(qb => {
     qb.where("firstname", "LIKE", term)
       .orWhere("lastname", "LIKE", term)
       .orWhere("username", "LIKE", term);
   })
-    .fetch()
+    .fetchAll()
     .then(results => {
       return res.json(results);
     })
