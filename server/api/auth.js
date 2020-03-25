@@ -37,19 +37,27 @@ passport.use(
       return new User({ username })
         .fetch({ require: false })
         .then(user => {
+          console.log("user", user);
+
           if (user === null) {
             return done(null, false, { message: "bad username or password" });
           } else {
             user = user.toJSON();
-            bcrypt.compare(password, user.password).then(res => {
-              if (res) {
-                return done(null, user); // this is the user that goes to serializeUser()
-              } else {
-                return done(null, false, {
-                  message: "bad username or password"
-                });
-              }
-            });
+            bcrypt
+              .compare(password, user.password)
+              .then(res => {
+                if (res) {
+                  return done(null, user); // this is the user that goes to serializeUser()
+                } else {
+                  return done(null, false, {
+                    message: "bad username or password"
+                  });
+                }
+              })
+              .catch(err => {
+                console.log("error: ", err);
+                return done(err);
+              });
           }
         })
         .catch(err => {

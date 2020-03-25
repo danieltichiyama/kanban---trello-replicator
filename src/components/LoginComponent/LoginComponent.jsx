@@ -44,7 +44,9 @@ class LoginComponent extends Component {
     return (
       <div className={styles.loginComponent}>
         <h3>Log in to Kanban</h3>
-
+        {this.props.loginError ? (
+          <p className={styles.error}>* Username or password is invalid.</p>
+        ) : null}
         <form>
           <ul className={styles.form_ul}>
             <li className={styles.form_li}>
@@ -92,7 +94,8 @@ class LoginComponent extends Component {
 
 const mapStateToProps = state => {
   return {
-    isLoggedIn: state.isLoggedIn
+    isLoggedIn: state.isLoggedIn,
+    loginError: state.loginError
   };
 };
 

@@ -17,7 +17,8 @@ import {
   TOGGLE_MODAL,
   GET_USER,
   UPDATE_USER,
-  DELETE_USER
+  DELETE_USER,
+  LOGIN_ERROR
 } from "../actions";
 
 let initialState = {
@@ -43,6 +44,9 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case LOGIN_ERROR:
+      return Object.assign({}, state, { loginError: true });
+
     case DELETE_USER:
       if (sessionStorage.getItem("user")) {
         sessionStorage.removeItem("user");
