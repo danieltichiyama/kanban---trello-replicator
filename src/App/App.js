@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import "./App.scss";
 
 import AuthPage from "../pages/AuthPage";
-import ErrorPage from "../pages/ErrorPage";
 import AppPage from "../pages/AppPage";
 
 import { connect } from "react-redux";
@@ -12,12 +11,21 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
+import { actionsGetUser } from "../actions";
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {};
   }
+
+  componentDidMount = () => {
+    //necessary for refreshing the page, without it the url doesn't exist and the page goes to 404 error
+    if (sessionStorage.getItem("user")) {
+      let id = JSON.parse(sessionStorage.getItem("user")).id;
+      return this.props.dispatchGetUser(id);
+    }
+  };
 
   componentDidUpdate = prevProps => {
     if (
@@ -86,8 +94,8 @@ class App extends Component {
                     }/boards`
                   : "/login"
               }
+              exact={true}
             />
-            <Route component={ErrorPage} />
           </Switch>
         </Router>
       </div>
@@ -106,7 +114,11 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {};
+  return {
+    dispatchGetUser: id => {
+      return dispatch(actionsGetUser(id));
+    }
+  };
 };
 
 export default App = connect(mapStateToProps, mapDispatchToProps)(App);
