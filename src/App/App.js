@@ -70,7 +70,7 @@ class App extends Component {
                   return (
                     <Route
                       key={board.id}
-                      path={`/${board.id}/${board.name}`}
+                      path={`/b/${board.id}/${board.name}`}
                       exact
                       component={AppPage}
                     />
