@@ -12,7 +12,6 @@ import {
   Redirect,
   Switch
 } from "react-router-dom";
-import { actionsGetUser } from "../actions";
 
 class App extends Component {
   constructor(props) {
@@ -77,11 +76,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    dispatchGetUser: id => {
-      return dispatch(actionsGetUser(id));
-    }
-  };
+  return {};
 };
 
 export default App = connect(mapStateToProps, mapDispatchToProps)(App);

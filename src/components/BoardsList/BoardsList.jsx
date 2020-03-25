@@ -1,7 +1,11 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./BoardsList.module.scss";
-import { actionsGetBoards, actionsGetBoardData } from "../../actions";
+import {
+  actionsGetBoards,
+  actionsGetBoardData,
+  actionsGetUser
+} from "../../actions";
 import AddNewBoard from "../AddNewBoard";
 import BoardThumbnail from "../BoardThumbnail";
 
@@ -18,7 +22,7 @@ class BoardsList extends Component {
     let session = sessionStorage.getItem("user");
     if (session) {
       let id = JSON.parse(sessionStorage.getItem("user")).id;
-      return this.props.dispatchGetBoards(id);
+      return this.props.dispatchGetUser(id);
     }
   };
 
@@ -115,6 +119,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchGetBoardData: boardID => {
       return dispatch(actionsGetBoardData(boardID));
+    },
+    dispatchGetUser: userID => {
+      return dispatch(actionsGetUser(userID));
     }
   };
 };

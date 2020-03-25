@@ -66,15 +66,12 @@ const reducer = (state = initialState, action) => {
       }
 
     case GET_USER:
-      return Object.assign({}, state, { isLoggedIn: false });
+      return Object.assign({}, state, { ...action.payload });
 
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });
 
     case LOGIN_USER:
-      if (localStorage.getItem("registeredUser")) {
-        localStorage.removeItem("registeredUser");
-      }
       localStorage.setItem("user", JSON.stringify(action.payload.username));
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       return Object.assign({}, state, {
@@ -97,7 +94,7 @@ const reducer = (state = initialState, action) => {
       });
 
     case REGISTER_USER:
-      localStorage.setItem("registeredUser", action.payload.username);
+      localStorage.setItem("user", action.payload.username);
 
       return state;
 

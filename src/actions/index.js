@@ -18,6 +18,7 @@ export const GET_USER = "GET_USER";
 export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
+export const GET_COLLABORATIONS = "GET_COLLABORATIONS";
 
 const postConfig = data => {
   return {
@@ -46,6 +47,20 @@ const deleteConfig = data => {
       "Content-type": "application/json"
     }
   };
+};
+
+export const actionsGetCollaborations = userID => async dispatch => {
+  await fetch(`/api/boards/collaborations/${userID}`)
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      console.log(results);
+      // return dispatch({
+      //   type: GET_COLLABORATIONS,
+      //   payload: results
+      // });
+    });
 };
 
 export const actionsToggleModal = (modal = false) => dispatch => {
@@ -328,6 +343,7 @@ export const actionsGetBoards = userID => async dispatch => {
       return response.json();
     })
     .then(json => {
+      console.log("json", json);
       return dispatch({
         type: GET_BOARDS,
         payload: json

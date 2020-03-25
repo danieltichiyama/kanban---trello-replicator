@@ -32,10 +32,24 @@ router.put("/:userID", (req, res) => {
 router.get("/:userID", (req, res) => {
   return req.database.User.where({ id: req.params.userID })
     .fetch({
-      withRelated: ["userImage", "boards", "cardsAssigned", "collaborations"]
+      withRelated: [
+        "userImage",
+        "boards.boardImage",
+        "boards.collaborators",
+        "cardsAssigned",
+        "collaborations"
+      ]
     })
     .then(results => {
-      return res.json(results);
+      return results.toJSON();
+    })
+    .then(json => {
+      let response = { ...json };
+
+      delete response.password;
+      delete response.updated_at;
+
+      return res.json(response);
     })
     .catch(err => {
       console.log(err);

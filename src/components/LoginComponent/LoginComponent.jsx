@@ -14,7 +14,7 @@ class LoginComponent extends Component {
   }
 
   componentDidMount = () => {
-    if (localStorage.getItem("user") && !sessionStorage.getItem("user")) {
+    if (localStorage.getItem("user")) {
       return this.setState({
         username: JSON.parse(localStorage.getItem("user"))
       });

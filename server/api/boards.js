@@ -103,7 +103,20 @@ router.post("/new", (req, res) => {
 
 router.get("/all/:id", (req, res) => {
   return req.database.Board.where({ created_by: req.params.id })
-    .fetchAll({ withRelated: ["boardImage"] })
+    .fetchAll({
+      withRelated: ["boardImage", "collaborators", "createdBy.collaborations"]
+    })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
+router.get("/collaborations/:userID", (req, res) => {
+  return req.database.User.where({ id: req.params.userID })
+    .fetch({ withRelated: ["collaborations"] })
     .then(results => {
       return res.json(results);
     })

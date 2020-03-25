@@ -34,8 +34,7 @@ passport.use(
       passwordField: "password"
     },
     function(username, password, done) {
-      let lowerCaseUsername = username.toLowerCase();
-      return new User({ username: lowerCaseUsername })
+      return new User({ username })
         .fetch({ require: false })
         .then(user => {
           if (user === null) {
