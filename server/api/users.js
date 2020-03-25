@@ -16,7 +16,7 @@ router.delete("/:userID", (req, res) => {
 router.put("/:userID", (req, res) => {
   console.log(req.body);
   return req.database.User.where({ id: req.params.userID })
-    .save(req.body, { method: "update", patch: true, debug: true })
+    .save(req.body, { method: "update", patch: true })
     .then(results => {
       let response = { ...results.attributes };
       delete response.password;

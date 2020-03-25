@@ -162,7 +162,10 @@ const reducer = (state = initialState, action) => {
           if (updateBoard[i].id === action.payload.id) {
             updateBoard.splice(i, 1, action.payload);
 
-            return Object.assign({}, state, { boards: updateBoard });
+            return Object.assign({}, state, {
+              boards: updateBoard,
+              ...action.payload
+            });
           }
         }
       }

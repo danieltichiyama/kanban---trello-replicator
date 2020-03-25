@@ -56,8 +56,9 @@ class App extends Component {
                   return (
                     <Route
                       key={board.id}
-                      path={`/b/${board.id}/${board.name}`}
-                      exact
+                      path={`/b/${board.id}/`}
+                      exact={false}
+                      strict
                       component={AppPage}
                     />
                   );
