@@ -11,7 +11,17 @@ class CollaboratorsMenu extends Component {
   }
 
   componentDidMount = () => {
-    return this.setState({ collaborators: this.props.collaborators });
+    if (this.props.collaborators) {
+      let currentCollaboratorsIDs = this.props.collaborators.map(user => {
+        return user.id;
+      });
+
+      console.log(currentCollaboratorsIDs);
+      return this.setState({
+        collaborators: this.props.collaborators,
+        invited: currentCollaboratorsIDs
+      });
+    }
   };
 
   componentDidUpdate = prevProps => {
@@ -39,8 +49,33 @@ class CollaboratorsMenu extends Component {
       e.stopPropagation();
     }
 
+    console.log(e.target.name);
+
     let toggleSelect = [...this.state.invited];
     let id = parseInt(e.target.name);
+
+    console.log("id", id);
+
+    if (this.state.invited.includes(id)) {
+      toggleSelect.splice(toggleSelect.indexOf(id), 1);
+    } else if (!isNaN(id)) {
+      toggleSelect.push(id);
+    }
+
+    return this.setState({ invited: toggleSelect });
+  };
+
+  toggleSelectCollab = e => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    console.log(e.target.dataset.name);
+
+    let toggleSelect = [...this.state.invited];
+    let id = parseInt(e.target.dataset.name);
+
+    console.log("id", id);
 
     if (this.state.invited.includes(id)) {
       toggleSelect.splice(toggleSelect.indexOf(id), 1);
@@ -69,12 +104,28 @@ class CollaboratorsMenu extends Component {
         <li className={styles.collabs_container}>
           {this.state.collaborators && this.state.collaborators.length > 0 ? (
             this.state.collaborators.map(user => {
-              return (
-                <span className={styles.collaborator} key={user.id}>
-                  {user.firstname[0].toUpperCase() +
-                    user.lastname[0].toUpperCase()}
-                </span>
-              );
+              if (this.state.invited.includes(user.id)) {
+                return (
+                  <span
+                    className={styles.collaborator}
+                    key={user.id}
+                    onClick={this.toggleSelectCollab}
+                    data-name={user.id}
+                  >
+                    {user.firstname[0].toUpperCase() +
+                      user.lastname[0].toUpperCase()}
+                  </span>
+                );
+              } else {
+                return (
+                  <span
+                    className={styles.collaborator_removed}
+                    key={user.id}
+                    onClick={this.toggleSelectCollab}
+                    data-name={user.id}
+                  />
+                );
+              }
             })
           ) : (
             <div className={styles.noCollabs}>
@@ -94,18 +145,15 @@ class CollaboratorsMenu extends Component {
           />
           <ul className={styles.search_ul}>
             {this.state.users.map(user => {
-              let collaboratorIDs = this.props.collaborators.map(
-                collaborator => {
-                  return collaborator.id;
-                }
-              );
               if (user.id !== this.props.created_by) {
                 return (
                   <SearchResult
                     result={user}
                     toggleSelect={this.toggleSelect}
                     key={user.id}
-                    checked={collaboratorIDs.includes(user.id) ? true : false}
+                    checked={
+                      this.state.invited.includes(user.id) ? true : false
+                    }
                   />
                 );
               } else {

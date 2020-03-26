@@ -105,7 +105,10 @@ router.post("/invite/:boardID", (req, res) => {
   return req.database.Board.where({ id: req.params.boardID })
     .fetch({ withRelated: ["collaborators"] })
     .then(results => {
-      return results.collaborators().attach(req.body.invitations);
+      return results.collaborators().detach();
+    })
+    .then(results => {
+      return results.attach(req.body.invitations);
     })
     .then(results => {
       return req.database.Board.where({ id: req.params.boardID }).fetch({

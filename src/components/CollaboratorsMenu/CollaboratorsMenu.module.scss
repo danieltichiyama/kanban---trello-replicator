@@ -35,6 +35,25 @@
       display: flex;
       justify-content: center;
       align-items: center;
+
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    .collaborator_removed {
+      margin: 0 6px;
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+      background-color: rgba($color: #ff9688, $alpha: 1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      &::before {
+        content: "\2716";
+      }
     }
   }
 

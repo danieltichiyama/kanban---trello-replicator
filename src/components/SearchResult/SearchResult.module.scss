@@ -27,23 +27,6 @@
       opacity: 0;
       height: 0px;
       width: 0px;
-
-      &:checked ~ .checkboxCustom {
-        margin-top: 6px;
-
-        &::before {
-          content: "\02714";
-          color: black;
-          opacity: 0.3;
-          padding: 4px;
-        }
-      }
-    }
-
-    .checkboxCustom {
-      width: 24px;
-      height: 24px;
-      background: transparent;
     }
   }
 
