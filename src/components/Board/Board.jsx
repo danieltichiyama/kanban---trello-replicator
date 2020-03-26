@@ -18,12 +18,11 @@ import { Link } from "react-router-dom";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: { name: "" }, list: { name: "" }, showMenu: true };
+    this.state = { board: { name: "" }, list: { name: "" }, showMenu: false };
   }
 
   componentDidMount = () => {
     let id = parseInt(window.location.pathname.split("/")[2]);
-
     return this.props.dispatchGetBoardData(id);
   };
 

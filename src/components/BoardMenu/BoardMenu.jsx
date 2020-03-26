@@ -9,7 +9,7 @@ class BoardMenu extends Component {
     super(props);
     this.state = {
       labelsMenu: false,
-      collaboratorsMenu: true
+      collaboratorsMenu: false
     };
   }
 

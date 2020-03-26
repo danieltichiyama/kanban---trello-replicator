@@ -10,12 +10,18 @@ class CardMenu extends Component {
     super(props);
     this.state = {
       is_archived: false,
-      openCardLabels: false
+      openCardLabels: false,
+      collaborators: []
     };
   }
 
   componentDidMount = () => {
-    return this.setState({ name: this.props.card.name });
+    return this.setState({
+      name: this.props.card.name,
+      id: this.props.card.id,
+      collaborators: this.props.collaborators,
+      assigned_to: this.props.card.assigned_to
+    });
   };
 
   toggleLabelsMenu = e => {
@@ -27,7 +33,11 @@ class CardMenu extends Component {
   };
 
   handleCardInput = e => {
-    const { value, name } = e.target;
+    let { value, name } = e.target;
+
+    if (name === "list_id" || name === "assigned_to") {
+      value = parseInt(value);
+    }
     return this.setState({ [name]: value });
   };
 
@@ -35,15 +45,13 @@ class CardMenu extends Component {
     if (e) {
       e.preventDefault();
     }
-    let formData = { ...this.state, id: this.props.card.id };
-    if (formData.list_id) {
-      formData.list_id = parseInt(formData.list_id);
-    }
+    let formData = { ...this.state };
 
     if (formData.name.length === 0) {
       formData.name = this.props.card.name;
     }
     delete formData.openCardLabels;
+    delete formData.collaborators;
 
     this.props.dispatchUpdateCard(formData);
     return this.props.toggleMenu();
@@ -53,10 +61,6 @@ class CardMenu extends Component {
     e.preventDefault();
     e.stopPropagation();
     return this.setState({ is_archived: !this.state.is_archived });
-  };
-
-  addLabels = () => {
-    return;
   };
 
   stopPropagation = e => {
@@ -130,13 +134,13 @@ class CardMenu extends Component {
                   <button
                     onClick={this.toggleLabelsMenu}
                     className={styles.labelsButton}
-                  ></button>
+                  />
+
                   {/* Labels Menu */}
                   {this.state.openCardLabels ? (
                     <CardLabels
                       card={this.props.card}
                       labels={this.props.labels}
-                      addLabels={this.addLabels}
                       toggleLabelsMenu={this.toggleLabelsMenu}
                     />
                   ) : null}
@@ -149,7 +153,7 @@ class CardMenu extends Component {
             <TextareaAutosize
               name="details"
               cols="30"
-              minRows={5}
+              minRows={20}
               maxRows={40}
               onChange={this.handleCardInput}
               defaultValue={this.props.card.details}
@@ -157,7 +161,36 @@ class CardMenu extends Component {
               className={styles.editDetails}
             />
 
+            <div className={styles.assigned_created_container}>
+              {/* Assign To */}
+              <p className={styles.assignedTo}>
+                assigned to{" "}
+                <select
+                  name="assigned_to"
+                  value={this.state.assigned_to}
+                  onChange={this.handleCardInput}
+                >
+                  <option value={this.props.id}>{this.props.name}</option>
+                  {this.state.collaborators
+                    ? this.state.collaborators.map(user => {
+                        return (
+                          <option value={user.id} key={user.id}>
+                            {user.firstname + " " + user.lastname}
+                          </option>
+                        );
+                      })
+                    : null}
+                </select>
+              </p>
+              <p className={styles.createdBy}>
+                {this.props.card.createdBy.firstname +
+                  " " +
+                  this.props.card.createdBy.lastname}
+              </p>
+            </div>
+
             <div className={styles.buttonsContainer}>
+              {/* Archive Card Button */}
               <button
                 onClick={this.toggleArchive}
                 style={
@@ -173,8 +206,6 @@ class CardMenu extends Component {
               </button>
             </div>
           </form>
-
-          {/* Archive Card Button */}
         </div>
       </div>
     );
@@ -184,7 +215,10 @@ class CardMenu extends Component {
 const mapStateToProps = state => {
   return {
     lists: state.lists,
-    labels: state.labels
+    labels: state.labels,
+    collaborators: state.collaborators,
+    id: state.id,
+    name: state.firstname + " " + state.lastname
   };
 };
 

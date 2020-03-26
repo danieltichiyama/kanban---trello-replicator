@@ -46,8 +46,6 @@ class App extends Component {
     if (sessionStorage.getItem("user"))
       user = JSON.parse(sessionStorage.getItem("user"));
 
-    console.log("rendering app");
-
     return (
       <div className="App">
         <Router>
