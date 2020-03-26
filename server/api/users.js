@@ -32,7 +32,6 @@ router.put("/:userID", (req, res) => {
 });
 
 router.get("/all", (req, res) => {
-  console.log("running");
   let term = "%" + req.query.search + "%";
   return req.database.User.query(qb => {
     qb.where("firstname", "LIKE", term)
@@ -41,7 +40,6 @@ router.get("/all", (req, res) => {
   })
     .fetchAll({ columns: ["username", "firstname", "lastname", "id"] })
     .then(results => {
-      console.log(results);
       return res.json(results);
     })
     .catch(err => {
