@@ -1,5 +1,81 @@
+@import "../../sass/formatting.scss";
+@import "../../sass/inputs.scss";
+
 .CollaboratorsMenu {
   width: 100%;
   height: auto;
-  padding-left: 24px;
+  list-style: none;
+  padding: 0;
+
+  .collabs_container {
+    margin: 0;
+    width: 100%;
+    height: 48px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-bottom: 12px;
+
+    .noCollabs {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: rgba($color: #000000, $alpha: 0.2);
+    }
+
+    .collaborator {
+      margin: 0 6px;
+      height: 48px;
+      width: 48px;
+      border-radius: 50%;
+      background-color: rgba($color: #000000, $alpha: 0.1);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  .search_container {
+    height: 240px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    padding: 12px;
+    background: rgba($color: #000000, $alpha: 0.05);
+
+    .search_input {
+      height: 48px;
+      border: 2px solid rgba($color: #000000, $alpha: 0.1);
+      border-radius: 4px;
+      padding: 6px;
+    }
+
+    .search_ul {
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      width: 100%;
+      list-style: none;
+      padding: 0;
+      margin-top: 12px;
+    }
+  }
+
+  .search_buttons_li {
+    justify-self: flex-end;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    margin-top: 12px;
+
+    button {
+      @include modal_button();
+      width: auto;
+      margin-left: 12px;
+    }
+  }
 }

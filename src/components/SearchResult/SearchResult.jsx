@@ -6,7 +6,7 @@ const SearchResult = props => {
     <li className={styles.SearchResult}>
       <label
         name={props.result.id}
-        className={styles.checkboxLabel}
+        className={props.checked ? styles.checkedLabel : styles.checkboxLabel}
         onClick={props.toggleSelect}
       >
         {props.result.firstname + " " + props.result.lastname}
@@ -14,6 +14,7 @@ const SearchResult = props => {
           type="checkbox"
           name={props.result.id}
           className={styles.checkboxInput}
+          defaultChecked={props.checked ? true : false}
         />
         <span className={styles.checkboxCustom}></span>
       </label>

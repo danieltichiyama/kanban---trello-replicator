@@ -91,7 +91,8 @@ const reducer = (state = initialState, action) => {
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
       return Object.assign({}, state, {
         isLoggedIn: true,
-        username: action.payload.username
+        username: action.payload.username,
+        loginError: ""
       });
 
     case LOGOUT_USER:

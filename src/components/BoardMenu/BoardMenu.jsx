@@ -8,7 +8,8 @@ class BoardMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labelsMenu: false
+      labelsMenu: false,
+      collaboratorsMenu: true
     };
   }
 

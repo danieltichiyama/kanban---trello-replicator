@@ -96,6 +96,7 @@ class App extends Component {
               }
               exact={true}
             />
+            <Route component={AppPage} />
           </Switch>
         </Router>
       </div>

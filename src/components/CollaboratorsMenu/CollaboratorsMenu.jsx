@@ -44,7 +44,7 @@ class CollaboratorsMenu extends Component {
 
     if (this.state.invited.includes(id)) {
       toggleSelect.splice(toggleSelect.indexOf(id), 1);
-    } else {
+    } else if (!isNaN(id)) {
       toggleSelect.push(id);
     }
 
@@ -53,7 +53,10 @@ class CollaboratorsMenu extends Component {
 
   handleInvite = () => {
     let formData = { invitations: this.state.invited, id: this.props.id };
-    return this.props.dispatchInviteCollaborators(formData);
+
+    return this.setState({ searchTerm: "", users: [] }, () => {
+      return this.props.dispatchInviteCollaborators(formData);
+    });
   };
 
   handleCancel = () => {
@@ -63,53 +66,67 @@ class CollaboratorsMenu extends Component {
   render() {
     return (
       <ul className={styles.CollaboratorsMenu}>
-        <li className={styles.collabMenu_li}>
-          {this.state.collaborators.map(user => {
-            return (
-              <span className={styles.collaborator} key={user.id}>
-                {user.username}
-              </span>
-            );
-          })}
+        <li className={styles.collabs_container}>
+          {this.state.collaborators && this.state.collaborators.length > 0 ? (
+            this.state.collaborators.map(user => {
+              return (
+                <span className={styles.collaborator} key={user.id}>
+                  {user.firstname[0].toUpperCase() +
+                    user.lastname[0].toUpperCase()}
+                </span>
+              );
+            })
+          ) : (
+            <div className={styles.noCollabs}>
+              There are no collaborators yet.
+            </div>
+          )}
         </li>
-        <li className={styles.collabMenu_li}>
+        <li className={styles.search_container}>
           <input
             type="search"
             name="searchTerm"
             id="searchTerm"
-            placeholder="Find a user"
+            placeholder="Find a team member"
+            className={styles.search_input}
             value={this.state.searchTerm}
             onChange={this.handleInput}
           />
           <ul className={styles.search_ul}>
             {this.state.users.map(user => {
+              let collaboratorIDs = this.props.collaborators.map(
+                collaborator => {
+                  return collaborator.id;
+                }
+              );
               if (user.id !== this.props.created_by) {
                 return (
                   <SearchResult
                     result={user}
                     toggleSelect={this.toggleSelect}
                     key={user.id}
+                    checked={collaboratorIDs.includes(user.id) ? true : false}
                   />
                 );
               } else {
                 return null;
               }
             })}
-            <li className={styles.search_buttons_li}>
-              <button
-                className={styles.search_button}
-                onClick={this.handleInvite}
-              >
-                Invite
-              </button>
-              <button
-                className={styles.search_button}
-                onClick={this.handleCancel}
-              >
-                Cancel
-              </button>
-            </li>
           </ul>
+          <div className={styles.search_buttons_li}>
+            <button
+              className={styles.search_button}
+              onClick={this.handleInvite}
+            >
+              Update Team
+            </button>
+            <button
+              className={styles.search_button}
+              onClick={this.handleCancel}
+            >
+              Cancel
+            </button>
+          </div>
         </li>
       </ul>
     );
