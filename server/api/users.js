@@ -32,14 +32,16 @@ router.put("/:userID", (req, res) => {
 });
 
 router.get("/all", (req, res) => {
+  console.log("running");
   let term = "%" + req.query.search + "%";
   return req.database.User.query(qb => {
     qb.where("firstname", "LIKE", term)
       .orWhere("lastname", "LIKE", term)
       .orWhere("username", "LIKE", term);
   })
-    .fetchAll()
+    .fetchAll({ columns: ["username", "firstname", "lastname"] })
     .then(results => {
+      console.log(results);
       return res.json(results);
     })
     .catch(err => {
@@ -56,18 +58,18 @@ router.get("/:userID", (req, res) => {
         "boards.collaborators",
         "cardsAssigned",
         "collaborations.boardImage"
+      ],
+      columns: [
+        "username",
+        "firstname",
+        "id",
+        "lastname",
+        "email",
+        "created_at"
       ]
     })
     .then(results => {
-      return results.toJSON();
-    })
-    .then(json => {
-      let response = { ...json };
-
-      delete response.password;
-      delete response.updated_at;
-
-      return res.json(response);
+      return res.json(results);
     })
     .catch(err => {
       console.log(err);

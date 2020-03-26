@@ -51,7 +51,7 @@ const deleteConfig = data => {
 };
 
 export const actionsGetAllUsers = searchTerm => async dispatch => {
-  await fetch(`api/users/all?search=${searchTerm}`)
+  await fetch(`/api/users/all?search=${searchTerm}`)
     .then(response => {
       return response.json();
     })
