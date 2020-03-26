@@ -14,11 +14,15 @@ class BoardMenu extends Component {
   }
 
   toggle = e => {
-    let { id } = e.target;
-    if (this.state[id]) {
-      return this.setState({ [id]: !this.state[id] });
-    } else {
-      return this.setState({ [id]: true });
+    if (e) {
+      let { id } = e.target;
+      if (id) {
+        return this.setState({ [id]: !this.state[id] });
+      } else if (e.target.dataset.menu) {
+        return this.setState({
+          [e.target.dataset.menu]: !this.state[e.target.dataset.menu]
+        });
+      }
     }
   };
 
@@ -49,7 +53,9 @@ class BoardMenu extends Component {
           >
             Collaborators
           </li>
-          {this.state.collaboratorsMenu ? <CollaboratorsMenu /> : null}
+          {this.state.collaboratorsMenu ? (
+            <CollaboratorsMenu toggleMenu={this.toggle} />
+          ) : null}
 
           {/* Labels */}
           <li

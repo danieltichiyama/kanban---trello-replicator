@@ -16,7 +16,6 @@ const SearchResult = props => {
           className={styles.checkboxInput}
           defaultChecked={props.checked ? true : false}
         />
-        <span className={styles.checkboxCustom}></span>
       </label>
     </li>
   );

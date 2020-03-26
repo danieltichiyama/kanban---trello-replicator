@@ -16,7 +16,6 @@ class CollaboratorsMenu extends Component {
         return user.id;
       });
 
-      console.log(currentCollaboratorsIDs);
       return this.setState({
         collaborators: this.props.collaborators,
         invited: currentCollaboratorsIDs
@@ -30,7 +29,13 @@ class CollaboratorsMenu extends Component {
     }
 
     if (prevProps.collaborators !== this.props.collaborators) {
-      return this.setState({ collaborators: this.props.collaborators });
+      let currentCollaboratorsIDs = this.props.collaborators.map(user => {
+        return user.id;
+      });
+      return this.setState({
+        collaborators: this.props.collaborators,
+        invited: currentCollaboratorsIDs
+      });
     }
   };
 
@@ -49,12 +54,8 @@ class CollaboratorsMenu extends Component {
       e.stopPropagation();
     }
 
-    console.log(e.target.name);
-
     let toggleSelect = [...this.state.invited];
     let id = parseInt(e.target.name);
-
-    console.log("id", id);
 
     if (this.state.invited.includes(id)) {
       toggleSelect.splice(toggleSelect.indexOf(id), 1);
@@ -70,12 +71,8 @@ class CollaboratorsMenu extends Component {
       e.stopPropagation();
     }
 
-    console.log(e.target.dataset.name);
-
     let toggleSelect = [...this.state.invited];
     let id = parseInt(e.target.dataset.name);
-
-    console.log("id", id);
 
     if (this.state.invited.includes(id)) {
       toggleSelect.splice(toggleSelect.indexOf(id), 1);
@@ -94,8 +91,8 @@ class CollaboratorsMenu extends Component {
     });
   };
 
-  handleCancel = () => {
-    return this.setState({ invited: [] });
+  handleCancel = e => {
+    return this.props.toggleMenu(e);
   };
 
   render() {
@@ -171,6 +168,7 @@ class CollaboratorsMenu extends Component {
             <button
               className={styles.search_button}
               onClick={this.handleCancel}
+              data-menu="collaboratorsMenu"
             >
               Cancel
             </button>
