@@ -19,7 +19,7 @@ export const UPDATE_USER = "UPDATE_USER";
 export const DELETE_USER = "DELETE_USER";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const LOGIN_ERROR = "LOGIN_ERROR";
-export const GET_ALL_USERS = "GET_ALL_USERS";
+export const GET_USERS = "GET_USERS";
 
 const postConfig = data => {
   return {
@@ -57,7 +57,7 @@ export const actionsGetAllUsers = searchTerm => async dispatch => {
     })
     .then(results => {
       return dispatch({
-        type: GET_ALL_USERS,
+        type: GET_USERS,
         payload: results
       });
     })

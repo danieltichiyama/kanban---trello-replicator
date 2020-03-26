@@ -19,7 +19,7 @@ import {
   UPDATE_USER,
   DELETE_USER,
   LOGIN_ERROR,
-  GET_ALL_USERS
+  GET_USERS
 } from "../actions";
 
 let initialState = {
@@ -45,7 +45,7 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
-    case GET_ALL_USERS:
+    case GET_USERS:
       return Object.assign({}, state, { users: action.payload });
 
     case LOGIN_ERROR:

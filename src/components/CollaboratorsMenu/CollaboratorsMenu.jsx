@@ -6,7 +6,7 @@ import { actionsGetAllUsers } from "../../actions";
 class CollaboratorsMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { searchTerm: "", collaborators: [], users: [] };
+    this.state = { searchTerm: "", collaborators: [], users: [], invited: {} };
   }
 
   componentDidMount = () => {
@@ -34,6 +34,20 @@ class CollaboratorsMenu extends Component {
     });
   };
 
+  toggleSelect = e => {
+    if (e) {
+      e.stopPropagation();
+    }
+
+    if (this.state.invited[e.target.name]) {
+      return this.setState({
+        invited: { [e.target.name]: !this.state.invited[e.target.name] }
+      });
+    } else {
+      return this.setState({ invited: { [e.target.name]: true } });
+    }
+  };
+
   render() {
     return (
       <ul className={styles.CollaboratorsMenu}>
@@ -55,6 +69,28 @@ class CollaboratorsMenu extends Component {
             value={this.state.searchTerm}
             onChange={this.handleInput}
           />
+          <ul className={styles.search_ul}>
+            {this.state.users.map(user => {
+              return (
+                <li className={styles.search_li} key={user.id}>
+                  <label
+                    name={user.id}
+                    className={styles.checkboxLabel}
+                    onClick={this.toggleSelect}
+                    key={user.id}
+                  >
+                    {user.firstname + " " + user.lastname}
+                    <input
+                      type="checkbox"
+                      name={user.id}
+                      className={styles.checkboxInput}
+                    />
+                    <span className={styles.checkboxCustom}></span>
+                  </label>
+                </li>
+              );
+            })}
+          </ul>
         </li>
       </ul>
     );

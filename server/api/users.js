@@ -39,7 +39,7 @@ router.get("/all", (req, res) => {
       .orWhere("lastname", "LIKE", term)
       .orWhere("username", "LIKE", term);
   })
-    .fetchAll({ columns: ["username", "firstname", "lastname"] })
+    .fetchAll({ columns: ["username", "firstname", "lastname", "id"] })
     .then(results => {
       console.log(results);
       return res.json(results);
