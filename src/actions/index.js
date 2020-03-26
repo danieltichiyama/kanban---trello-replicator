@@ -20,6 +20,7 @@ export const DELETE_USER = "DELETE_USER";
 export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const GET_USERS = "GET_USERS";
+export const INVITE_COLLABORATORS = "INVITE_COLLABORATORS";
 
 const postConfig = data => {
   return {
@@ -50,7 +51,29 @@ const deleteConfig = data => {
   };
 };
 
-export const actionsGetAllUsers = searchTerm => async dispatch => {
+export const actionsInviteCollaborators = formData => async dispatch => {
+  await fetch(`/api/boards/invite/${formData.id}`, postConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(results => {
+      return dispatch({
+        type: INVITE_COLLABORATORS,
+        payload: results
+      });
+    })
+    .catch(err => {
+      console.log(err);
+    });
+};
+
+export const actionsGetUsers = searchTerm => async dispatch => {
+  if (searchTerm === "") {
+    return dispatch({
+      type: GET_USERS,
+      payload: []
+    });
+  }
   await fetch(`/api/users/all?search=${searchTerm}`)
     .then(response => {
       return response.json();

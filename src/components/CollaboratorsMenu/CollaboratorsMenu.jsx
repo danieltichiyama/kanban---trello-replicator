@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import styles from "./CollaboratorsMenu.module.scss";
 import { connect } from "react-redux";
-import { actionsGetAllUsers } from "../../actions";
+import { actionsGetUsers, actionsInviteCollaborators } from "../../actions";
+import SearchResult from "../SearchResult";
 
 class CollaboratorsMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = { searchTerm: "", collaborators: [], users: [], invited: {} };
+    this.state = { searchTerm: "", collaborators: [], users: [], invited: [] };
   }
 
   componentDidMount = () => {
@@ -29,8 +30,7 @@ class CollaboratorsMenu extends Component {
     }
 
     return this.setState({ searchTerm: e.target.value }, () => {
-      // debugger;
-      this.props.dispatchGetAllUsers(this.state.searchTerm);
+      this.props.dispatchGetUsers(this.state.searchTerm);
     });
   };
 
@@ -39,13 +39,25 @@ class CollaboratorsMenu extends Component {
       e.stopPropagation();
     }
 
-    if (this.state.invited[e.target.name]) {
-      return this.setState({
-        invited: { [e.target.name]: !this.state.invited[e.target.name] }
-      });
+    let toggleSelect = [...this.state.invited];
+    let id = parseInt(e.target.name);
+
+    if (this.state.invited.includes(id)) {
+      toggleSelect.splice(toggleSelect.indexOf(id), 1);
     } else {
-      return this.setState({ invited: { [e.target.name]: true } });
+      toggleSelect.push(id);
     }
+
+    return this.setState({ invited: toggleSelect });
+  };
+
+  handleInvite = () => {
+    let formData = { invitations: this.state.invited, id: this.props.id };
+    return this.props.dispatchInviteCollaborators(formData);
+  };
+
+  handleCancel = () => {
+    return this.setState({ invited: [] });
   };
 
   render() {
@@ -71,25 +83,32 @@ class CollaboratorsMenu extends Component {
           />
           <ul className={styles.search_ul}>
             {this.state.users.map(user => {
-              return (
-                <li className={styles.search_li} key={user.id}>
-                  <label
-                    name={user.id}
-                    className={styles.checkboxLabel}
-                    onClick={this.toggleSelect}
+              if (user.id !== this.props.created_by) {
+                return (
+                  <SearchResult
+                    result={user}
+                    toggleSelect={this.toggleSelect}
                     key={user.id}
-                  >
-                    {user.firstname + " " + user.lastname}
-                    <input
-                      type="checkbox"
-                      name={user.id}
-                      className={styles.checkboxInput}
-                    />
-                    <span className={styles.checkboxCustom}></span>
-                  </label>
-                </li>
-              );
+                  />
+                );
+              } else {
+                return null;
+              }
             })}
+            <li className={styles.search_buttons_li}>
+              <button
+                className={styles.search_button}
+                onClick={this.handleInvite}
+              >
+                Invite
+              </button>
+              <button
+                className={styles.search_button}
+                onClick={this.handleCancel}
+              >
+                Cancel
+              </button>
+            </li>
           </ul>
         </li>
       </ul>
@@ -100,14 +119,19 @@ class CollaboratorsMenu extends Component {
 const mapStateToProps = state => {
   return {
     users: state.users,
-    collaborators: state.collaborators
+    collaborators: state.collaborators,
+    id: state.id,
+    created_by: state.created_by
   };
 };
 
 const mapDispatchToProps = dispatch => {
   return {
-    dispatchGetAllUsers: searchTerm => {
-      return dispatch(actionsGetAllUsers(searchTerm));
+    dispatchGetUsers: searchTerm => {
+      return dispatch(actionsGetUsers(searchTerm));
+    },
+    dispatchInviteCollaborators: formData => {
+      return dispatch(actionsInviteCollaborators(formData));
     }
   };
 };

@@ -5,11 +5,11 @@ exports.seed = function(knex) {
     .then(function() {
       // Inserts seed entries
       return knex("boards_collaborators").insert([
-        {
-          board_id: 1,
-          collaborator_id: 2,
-          status: 1
-        }
+        // {
+        //   board_id: 1,
+        //   collaborator_id: 2,
+        //   status: 1
+        // }
       ]);
     });
 };

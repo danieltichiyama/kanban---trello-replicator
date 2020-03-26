@@ -101,6 +101,26 @@ router.post("/new", (req, res) => {
     });
 });
 
+router.post("/invite/:boardID", (req, res) => {
+  return req.database.Board.where({ id: req.params.boardID })
+    .fetch({ withRelated: ["collaborators"] })
+    .then(results => {
+      return results.collaborators().attach(req.body.invitations);
+    })
+    .then(results => {
+      return req.database.Board.where({ id: req.params.boardID }).fetch({
+        withRelated: "collaborators",
+        columns: ["id"]
+      });
+    })
+    .then(results => {
+      return res.json(results);
+    })
+    .catch(err => {
+      console.log(err);
+    });
+});
+
 router.get("/all/:id", (req, res) => {
   return req.database.Board.where({ created_by: req.params.id })
     .fetchAll({

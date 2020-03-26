@@ -19,7 +19,8 @@ import {
   UPDATE_USER,
   DELETE_USER,
   LOGIN_ERROR,
-  GET_USERS
+  GET_USERS,
+  INVITE_COLLABORATORS
 } from "../actions";
 
 let initialState = {
@@ -45,6 +46,9 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case INVITE_COLLABORATORS:
+      return Object.assign({}, state, action.payload);
+
     case GET_USERS:
       return Object.assign({}, state, { users: action.payload });
 
