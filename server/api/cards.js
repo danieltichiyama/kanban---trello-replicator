@@ -1,17 +1,5 @@
 const express = require("express");
-
 const router = express.Router();
-require("passport");
-
-function isAuthenticated(req, res, next) {
-  console.log(req.isAuthenticated);
-  if (req.isAuthenticated()) {
-    return next();
-  } else {
-    console.log("UNAUTH");
-    return res.send({ message: "You have not been authenticated" });
-  }
-}
 
 router.get("/smoke", (req, res) => {
   return res.send("There's smoke in the cards route.");
@@ -66,7 +54,7 @@ router.put("/:id", (req, res) => {
     });
 });
 
-router.post("/new", isAuthenticated, (req, res) => {
+router.post("/new", (req, res) => {
   //req.body = {title, [details], [due_date], position, created_by, [assigned_to], list_id, [is_archived]}
   return req.database.Card.forge(req.body)
     .save()

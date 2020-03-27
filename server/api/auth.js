@@ -67,13 +67,13 @@ passport.use(
 );
 
 passport.serializeUser(function(user, done) {
+  console.log("serializing, user: ", user);
   return done(null, user.id);
 });
 
-passport.deserializeUser(function(id, done) {
-  User.findbyId(id, function(err, user) {
-    return done(err, user);
-  });
+passport.deserializeUser(function(user, done) {
+  console.log("deserializing, user: ", user);
+  return done(null, user);
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
