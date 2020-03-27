@@ -78,17 +78,25 @@ const reducer = (state = initialState, action) => {
 
     case UPDATE_USER:
       sessionStorage.setItem("user", JSON.stringify({ ...action.payload }));
+      let updateUser = { ...action.payload };
+      updateUser.user_id = action.payload.id;
+      delete updateUser.id;
+
       if (state.showModal === "profile") {
         return Object.assign({}, state, {
           showModal: false,
-          ...action.payload
+          updateUser
         });
       } else {
-        return Object.assign({}, state, { ...action.payload });
+        return Object.assign({}, state, updateUser);
       }
 
     case GET_USER:
-      return Object.assign({}, state, { ...action.payload });
+      let getUser = { ...action.payload };
+      getUser.user_id = action.payload.id;
+      delete getUser.id;
+
+      return Object.assign({}, state, getUser);
 
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });

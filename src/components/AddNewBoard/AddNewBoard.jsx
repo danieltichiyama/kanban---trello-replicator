@@ -17,6 +17,10 @@ class AddNewBoard extends Component {
 
     formData["created_by"] = JSON.parse(sessionStorage.getItem("user")).id;
 
+    if (!formData.url) {
+      formData.url = "#ffffff";
+    }
+
     this.props.dispatchCreateBoard(formData);
     return this.setState({ name: "", url: "" }, this.props.toggleAddNewBoard());
   };

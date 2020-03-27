@@ -54,8 +54,8 @@ const deleteConfig = () => {
 
 const actionAuthorization = (dispatch, getState) => {
   let state = getState();
-  if (state.created_by && state.id) {
-    if (state.created_by !== state.id) {
+  if (state.created_by && state.user_id) {
+    if (state.created_by !== state.user_id) {
       return dispatch({
         type: UNAUTHORIZED_ACTION_ERROR,
         payload: null

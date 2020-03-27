@@ -16,7 +16,8 @@ class List extends Component {
     this.state = {
       list: { name: "" },
       showMenu: false,
-      showCancelButton: false
+      showCancelButton: false,
+      name: ""
     };
   }
 

@@ -67,14 +67,17 @@ passport.use(
 );
 
 passport.serializeUser(function(user, done) {
-  return done(null, { id: user.id, email: user.email, name: user.username });
+  return done(null, user.id);
 });
 
-passport.deserializeUser(function(user, done) {
-  return done(null, user);
+passport.deserializeUser(function(id, done) {
+  User.findbyId(id, function(err, user) {
+    return done(err, user);
+  });
 });
 
 router.post("/login", passport.authenticate("local"), (req, res) => {
+  console.log(req.user);
   let response = { ...req.user };
 
   delete response.password;
