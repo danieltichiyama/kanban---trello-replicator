@@ -24,10 +24,6 @@ class ToDoList extends Component {
   render() {
     return (
       <div className={styles.ToDoList}>
-        <div className={styles.ToDoList_header}>
-          <h4>Assigned Cards</h4>
-          <button className={styles.exitButton} />
-        </div>
         {!this.props.cardsAssigned ? (
           <div className={styles.noCards}>No cards assigned</div>
         ) : (

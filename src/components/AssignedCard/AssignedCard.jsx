@@ -40,18 +40,19 @@ class AssignedCard extends Component {
   };
 
   handleNameInput = e => {
+    if (e) {
+      e.stopPropagation();
+    }
     const { value, name } = e.target;
     return this.setState({ [name]: value });
   };
 
   handleListInput = e => {
+    if (e) {
+      e.stopPropagation();
+    }
     const { value, name } = e.target;
     return this.setState({ [name]: value }, this.updateCard);
-  };
-
-  handleLabelInput = e => {
-    const { value, name } = e.target;
-    return this.setState({ label: { [name]: value } });
   };
 
   handleKeyPress = e => {
@@ -61,15 +62,14 @@ class AssignedCard extends Component {
     }
   };
 
-  goToBoard = e => {
-    if (e) {
-      e.stopPropagation();
-    }
-  };
-
   render() {
     return (
-      <div className={styles.AssignedCard}>
+      <div
+        className={styles.AssignedCard}
+        onClick={e => {
+          e.stopPropagation();
+        }}
+      >
         {/* Card's Labels */}
         {this.props.card.labels ? (
           <div className={styles.labelsContainer}>

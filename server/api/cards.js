@@ -49,7 +49,8 @@ router.put("/:id", (req, res) => {
         "createdBy",
         "assignedTo",
         "cardImages",
-        "board.lists"
+        "board.lists",
+        "list"
       ]);
     })
     .then(results => {
