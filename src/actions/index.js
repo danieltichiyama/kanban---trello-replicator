@@ -22,48 +22,22 @@ export const LOGIN_ERROR = "LOGIN_ERROR";
 export const GET_USERS = "GET_USERS";
 export const INVITE_COLLABORATORS = "INVITE_COLLABORATORS";
 export const UNAUTHORIZED_ACTION_ERROR = "UNAUTHORIZED_ACTION_ERROR";
+export const UPDATE_CARD_FROM_TODO = "UPDATE_CARD_FROM_TODO";
 
-const postConfig = data => {
-  return {
-    method: "POST",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-type": "application/json"
-    }
-  };
-};
-
-const putConfig = data => {
-  return {
-    method: "PUT",
-    body: JSON.stringify(data),
-    headers: {
-      "Content-type": "application/json"
-    }
-  };
-};
-
-const deleteConfig = () => {
-  return {
-    method: "DELETE",
-    headers: {
-      "Content-type": "application/json"
-    }
-  };
-};
-
-const actionAuthorization = (dispatch, getState) => {
-  let state = getState();
-  if (state.created_by && state.user_id) {
-    if (state.created_by !== state.user_id) {
+export const actionsUpdateCardFromToDoList = formData => async dispatch => {
+  await fetch(`/api/cards/${formData.id}`, putConfig(formData))
+    .then(response => {
+      return response.json();
+    })
+    .then(json => {
       return dispatch({
-        type: UNAUTHORIZED_ACTION_ERROR,
-        payload: null
+        type: UPDATE_CARD_FROM_TODO,
+        payload: json
       });
-    } else {
-      return true;
-    }
-  }
+    })
+    .catch(err => {
+      console.log(err);
+    });
 };
 
 export const actionsInviteCollaborators = formData => async (
@@ -412,4 +386,47 @@ export const actionsGetBoards = userID => async dispatch => {
     .catch(err => {
       console.log(err);
     });
+};
+
+const postConfig = data => {
+  return {
+    method: "POST",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+};
+
+const putConfig = data => {
+  return {
+    method: "PUT",
+    body: JSON.stringify(data),
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+};
+
+const deleteConfig = () => {
+  return {
+    method: "DELETE",
+    headers: {
+      "Content-type": "application/json"
+    }
+  };
+};
+
+const actionAuthorization = (dispatch, getState) => {
+  let state = getState();
+  if (state.created_by && state.user_id) {
+    if (state.created_by !== state.user_id) {
+      return dispatch({
+        type: UNAUTHORIZED_ACTION_ERROR,
+        payload: null
+      });
+    } else {
+      return true;
+    }
+  }
 };

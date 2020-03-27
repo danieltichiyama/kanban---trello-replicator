@@ -11,8 +11,7 @@ exports.seed = function(knex) {
           position: 1,
           board_id: 1,
           list_id: 2,
-          created_by: 1,
-          assigned_to: 1
+          created_by: 1
         },
         {
           name: "Make the board better",
@@ -20,8 +19,7 @@ exports.seed = function(knex) {
           position: 1,
           board_id: 1,
           list_id: 1,
-          created_by: 1,
-          assigned_to: 1
+          created_by: 1
         },
         {
           name: "Make the board like trello.",
@@ -29,8 +27,7 @@ exports.seed = function(knex) {
           position: 2,
           board_id: 1,
           list_id: 1,
-          created_by: 1,
-          assigned_to: 1
+          created_by: 1
         },
         {
           name: "Setup database seeds and migrations",
@@ -38,8 +35,7 @@ exports.seed = function(knex) {
           position: 1,
           board_id: 1,
           list_id: 3,
-          created_by: 1,
-          assigned_to: 1
+          created_by: 1
         }
       ]);
     });

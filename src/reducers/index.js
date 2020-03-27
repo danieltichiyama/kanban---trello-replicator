@@ -21,7 +21,8 @@ import {
   LOGIN_ERROR,
   GET_USERS,
   INVITE_COLLABORATORS,
-  UNAUTHORIZED_ACTION_ERROR
+  UNAUTHORIZED_ACTION_ERROR,
+  UPDATE_CARD_FROM_TODO
 } from "../actions";
 
 let initialState = {
@@ -48,6 +49,31 @@ const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case UPDATE_CARD_FROM_TODO:
+      let updateCardsFromToDo = [...state.cardsAssigned];
+      for (let i = 0; i < updateCardsFromToDo.length; i++) {
+        if (updateCardsFromToDo[i].id === action.payload.id) {
+          updateCardsFromToDo.splice(i, 1, action.payload);
+          if (state.id && state.cards && state.id === action.payload.board_id) {
+            let updateCardFromToDoTwo = [...state.cards];
+            for (let j = 0; j < updateCardFromToDoTwo.length; j++) {
+              if (updateCardFromToDoTwo[j].id === action.payload.id) {
+                updateCardFromToDoTwo.splice(j, 1, action.payload);
+                return Object.assign({}, state, {
+                  cardsAssigned: updateCardsFromToDo,
+                  cards: updateCardFromToDoTwo
+                });
+              }
+            }
+          } else {
+            return Object.assign({}, state, {
+              cardsASsigned: updateCardsFromToDo
+            });
+          }
+        }
+      }
+      break;
+
     case UNAUTHORIZED_ACTION_ERROR:
       alert("Only the owner of this board can do that.");
       window.location.reload();
@@ -163,9 +189,22 @@ const reducer = (state = initialState, action) => {
       for (let i = 0; i < updateCards.length; i++) {
         if (updateCards[i].id === action.payload.id) {
           updateCards.splice(i, 1, action.payload);
-          return Object.assign({}, state, { cards: updateCards });
+          let updateCardsTwo = [...state.cardsAssigned];
+
+          for (let j = 0; j < updateCardsTwo.length; j++) {
+            if (updateCardsTwo[j].id === action.payload.id) {
+              updateCardsTwo.splice(j, 1, action.payload);
+
+              return Object.assign({}, state, {
+                cardsAssigned: updateCardsTwo,
+                cards: updateCards
+              });
+            }
+            return Object.assign({}, state, { cards: updateCards });
+          }
         }
       }
+
       break;
 
     case UPDATE_LABEL:

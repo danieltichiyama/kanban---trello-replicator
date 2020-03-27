@@ -54,8 +54,14 @@ router.get("/:userID", (req, res) => {
         "userImage",
         "boards.boardImage",
         "boards.collaborators",
-        "cardsAssigned",
-        "collaborations.boardImage"
+        "cardsAssigned.board.lists",
+        "cardsAssigned.labels",
+        "cardsAssigned.list",
+        "cardsAssigned.assignedTo",
+        "cardsAssigned.cardImages",
+        "cardsAssigned.createdBy",
+        "collaborations.boardImage",
+        "boards.labels"
       ],
       columns: [
         "username",

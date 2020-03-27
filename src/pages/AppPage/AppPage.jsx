@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import Board from "../../components/Board";
 import ProfileButton from "../../components/ProfileButton";
 import Modals from "../../components/Modals";
+import ToDoList from "../../components/ToDoList";
 
 let AppPage = props => {
   if (!sessionStorage.getItem("user")) {
@@ -18,6 +19,7 @@ let AppPage = props => {
       <ProfileButton
         username={JSON.parse(sessionStorage.getItem("user")).username}
       />
+      <ToDoList />
       {window.location.pathname.startsWith("/dashboard/") ? (
         <BoardsList />
       ) : (

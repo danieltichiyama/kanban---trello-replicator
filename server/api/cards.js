@@ -44,7 +44,13 @@ router.put("/:id", (req, res) => {
   return req.database.Card.where({ id: req.params.id })
     .save(req.body, { method: "update", patch: true })
     .then(results => {
-      return results.load(["labels", "createdBy", "assignedTo", "cardImages"]);
+      return results.load([
+        "labels",
+        "createdBy",
+        "assignedTo",
+        "cardImages",
+        "board.lists"
+      ]);
     })
     .then(results => {
       return res.json(results);

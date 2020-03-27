@@ -160,16 +160,19 @@ class CardMenu extends Component {
               value={this.state.details}
               className={styles.editDetails}
             />
+            {/* Assign To and Created By*/}
 
             <div className={styles.assigned_created_container}>
-              {/* Assign To */}
               <p className={styles.assignedTo}>
                 assigned to{" "}
                 <select
                   name="assigned_to"
-                  value={this.state.assigned_to}
+                  value={this.state.assigned_to ? this.state.assigned_to : ""}
                   onChange={this.handleCardInput}
                 >
+                  <option value="" disabled>
+                    choose a collaborator
+                  </option>
                   <option value={this.props.createdBy.id}>
                     {this.props.createdBy.firstname +
                       " " +
