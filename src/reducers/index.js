@@ -46,7 +46,7 @@ let initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log("action.payload: ", action.payload, "action.type", action.type);
+  // console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
     case UPDATE_CARD_FROM_TODO:
