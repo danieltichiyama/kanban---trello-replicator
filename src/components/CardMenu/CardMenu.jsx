@@ -170,9 +170,7 @@ class CardMenu extends Component {
                   value={this.state.assigned_to ? this.state.assigned_to : ""}
                   onChange={this.handleCardInput}
                 >
-                  <option value="" disabled>
-                    choose a collaborator
-                  </option>
+                  <option value="">unassigned</option>
                   <option value={this.props.createdBy.id}>
                     {this.props.createdBy.firstname +
                       " " +

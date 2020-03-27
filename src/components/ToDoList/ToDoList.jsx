@@ -24,8 +24,10 @@ class ToDoList extends Component {
   render() {
     return (
       <div className={styles.ToDoList}>
-        {!this.props.cardsAssigned ? (
-          <div className={styles.noCards}>No cards assigned</div>
+        {this.props.cardsAssigned.length === 0 ? (
+          <div className={styles.noAssignedCards}>
+            You have no cards assigned to you.
+          </div>
         ) : (
           this.props.cardsAssigned.map((card, index) => {
             return (

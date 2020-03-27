@@ -122,7 +122,7 @@ const reducer = (state = initialState, action) => {
       getUser.user_id = action.payload.id;
       delete getUser.id;
 
-      return Object.assign({}, state, getUser);
+      return Object.assign({}, state, { ...getUser });
 
     case TOGGLE_MODAL:
       return Object.assign({}, state, { showModal: action.payload });
