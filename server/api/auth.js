@@ -67,12 +67,12 @@ passport.use(
 );
 
 passport.serializeUser(function(user, done) {
-  console.log("serializing, user: ", user);
+  console.log("serializing, user id: ", user.id);
   return done(null, user.id);
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log("deserializing, user: ", user);
+  console.log("deserializing, user id: ", user);
   return done(null, user);
 });
 

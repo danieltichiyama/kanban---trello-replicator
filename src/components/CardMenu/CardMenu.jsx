@@ -170,7 +170,11 @@ class CardMenu extends Component {
                   value={this.state.assigned_to}
                   onChange={this.handleCardInput}
                 >
-                  <option value={this.props.user_id}>{this.props.name}</option>
+                  <option value={this.props.createdBy.id}>
+                    {this.props.createdBy.firstname +
+                      " " +
+                      this.props.createdBy.lastname}
+                  </option>
                   {this.state.collaborators
                     ? this.state.collaborators.map(user => {
                         return (
@@ -218,7 +222,7 @@ const mapStateToProps = state => {
     labels: state.labels,
     collaborators: state.collaborators,
     user_id: state.user_id,
-    name: state.firstname + " " + state.lastname
+    createdBy: state.createdBy
   };
 };
 
