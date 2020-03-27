@@ -15,6 +15,11 @@ const redis = require("redis");
 const RedisStore = require("connect-redis")(session);
 const client = redis.createClient({ url: process.env.REDIS_URL });
 
+//used to create a transaction in register route
+const Promise = require("bluebird");
+const bookshelf = require("../database/bookshelf");
+//used to create a transaction in register route
+
 router.use(
   session({
     store: new RedisStore({ client }),
@@ -92,20 +97,23 @@ router.post("/register", (req, res) => {
       if (err) {
         console.log(err);
       }
-      return new User(Object.assign({ ...req.body }, { password: hash }))
-        .save()
-        .then(user => {
-          let response = { ...user.attributes };
 
-          delete response.password;
-          delete response.created_at;
-          delete response.updated_at;
+      return bookshelf.transaction(t => {
+        return new User(Object.assign({ ...req.body }, { password: hash }))
+          .save(null, { transacting: t })
+          .then(user => {
+            let response = { ...user.attributes };
 
-          return res.json(response);
-        })
-        .catch(err => {
-          console.log(err);
-        });
+            delete response.password;
+            delete response.created_at;
+            delete response.updated_at;
+
+            return res.json(response);
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      });
     });
   });
 });
