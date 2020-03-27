@@ -4,7 +4,6 @@ import BoardsList from "../../components/BoardsList";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import Board from "../../components/Board";
-import ProfileButton from "../../components/ProfileButton";
 import Modals from "../../components/Modals";
 
 let AppPage = props => {
@@ -15,9 +14,7 @@ let AppPage = props => {
   return (
     <div className={styles.AppPage}>
       {props.showModal ? <Modals /> : null}
-      <ProfileButton
-        username={JSON.parse(sessionStorage.getItem("user")).username}
-      />
+
       {window.location.pathname.startsWith("/dashboard/") ? (
         <BoardsList />
       ) : (

@@ -11,6 +11,8 @@ import {
 } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
+import ProfileButton from "../ProfileButton";
+import ProfileMenu from "../ProfileMenu";
 import styles from "./Board.module.scss";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
@@ -18,7 +20,12 @@ import { Link } from "react-router-dom";
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: { name: "" }, list: { name: "" }, showMenu: false };
+    this.state = {
+      board: { name: "" },
+      list: { name: "" },
+      showMenu: false,
+      showProfileMenu: false
+    };
   }
 
   componentDidMount = () => {
@@ -40,6 +47,10 @@ class Board extends Component {
       ...this.state.board,
       id: this.props.board_id
     };
+
+    delete formData.list;
+    delete formData.showMenu;
+    delete formData.showProfileMenu;
 
     if (formData.name.length === 0) {
       formData.name = this.props.name;
@@ -206,6 +217,15 @@ class Board extends Component {
     }
   };
 
+  toggleProfileMenu = e => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    return this.setState({ showProfileMenu: !this.state.showProfileMenu });
+  };
+
   render() {
     let boardStyle;
     if (this.props.boardImage && this.props.boardImage.url.startsWith("#")) {
@@ -222,6 +242,13 @@ class Board extends Component {
 
     return (
       <div className={styles.Board} style={boardStyle}>
+        <ProfileButton
+          username={JSON.parse(sessionStorage.getItem("user")).username}
+          toggleProfileMenu={this.toggleProfileMenu}
+        />
+        {this.state.showProfileMenu ? (
+          <ProfileMenu toggleThis={this.toggleProfileMenu} />
+        ) : null}
         <div className={styles.boardHeader}>
           {/* Board Name */}
           <form onSubmit={this.updateBoard}>

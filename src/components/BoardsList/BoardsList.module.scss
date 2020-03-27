@@ -2,9 +2,9 @@
 @import "../../sass/formatting.scss";
 
 .BoardsList {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  position: relative;
+  // position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;

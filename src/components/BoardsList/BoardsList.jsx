@@ -8,13 +8,16 @@ import {
 } from "../../actions";
 import AddNewBoard from "../AddNewBoard";
 import BoardThumbnail from "../BoardThumbnail";
+import ProfileButton from "../ProfileButton";
+import ProfileMenu from "../ProfileMenu";
 
 class BoardsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       addNewBoard: false,
-      showArchived: false
+      showArchived: false,
+      showProfileMenu: false
     };
   }
 
@@ -34,9 +37,25 @@ class BoardsList extends Component {
     return this.setState({ showArchived: !this.state.showArchived });
   };
 
+  toggleProfileMenu = e => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    return this.setState({ showProfileMenu: !this.state.showProfileMenu });
+  };
+
   render() {
     return (
       <div className={styles.BoardsList}>
+        <ProfileButton
+          username={JSON.parse(sessionStorage.getItem("user")).username}
+          toggleProfileMenu={this.toggleProfileMenu}
+        />
+        {this.state.showProfileMenu ? (
+          <ProfileMenu toggleThis={this.toggleProfileMenu} />
+        ) : null}
         <h2>My Boards</h2>
         {/* List of Boards */}
         <div className={styles.BoardsContainer}>

@@ -34,18 +34,31 @@ class ProfileMenu extends Component {
 
   render() {
     return (
-      <ul className={styles.ProfileMenu}>
-        <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
-          My Profile
-        </li>
-        <li className={styles.menu_li} onClick={this.handleToDoClick}>
-          Assigned Card
-        </li>
-        {!this.state.showAssignedCards ? null : <ToDoList />}
-        <li onClick={this.handleLogoutClick} className={styles.menu_li}>
-          Logout
-        </li>
-      </ul>
+      <div
+        className={styles.ProfileMenu_container}
+        onClick={this.props.toggleThis}
+      >
+        <ul className={styles.ProfileMenu}>
+          <div className={styles.menuHeader}>
+            <h3>Profile Menu</h3>
+            <button
+              className={styles.exitButton}
+              onClick={this.props.toggleThis}
+            ></button>
+          </div>
+          <hr></hr>
+          <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
+            My Profile
+          </li>
+          <li className={styles.menu_li} onClick={this.handleToDoClick}>
+            Assigned Card
+          </li>
+          {!this.state.showAssignedCards ? null : <ToDoList />}
+          <li onClick={this.handleLogoutClick} className={styles.menu_li}>
+            Logout
+          </li>
+        </ul>
+      </div>
     );
   }
 }
