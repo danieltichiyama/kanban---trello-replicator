@@ -58,8 +58,6 @@ class List extends Component {
       e.preventDefault();
     }
     let formData = { ...this.state.list, id: this.props.list.id };
-
-    console.log(formData);
     if (formData.name.length === 0) {
       formData.name = this.props.list.name;
     }

@@ -111,10 +111,10 @@ const reducer = (state = initialState, action) => {
       if (state.showModal === "profile") {
         return Object.assign({}, state, {
           showModal: false,
-          updateUser
+          ...updateUser
         });
       } else {
-        return Object.assign({}, state, updateUser);
+        return Object.assign({}, state, ...updateUser);
       }
 
     case GET_USER:

@@ -91,7 +91,7 @@ class Card extends Component {
                         key={label.color}
                         style={color}
                       >
-                        {labelName}
+                        <span> {labelName}</span>
                       </div>
                     );
                   })}

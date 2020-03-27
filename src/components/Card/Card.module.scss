@@ -23,11 +23,18 @@
 
     .Label {
       margin-right: 4px;
-      padding: 2px 8px;
+      padding: 2px 0;
       border-radius: 4px;
       font-size: 12px;
       font-weight: 800;
       color: white;
+      width: auto;
+      height: 24px;
+
+      span {
+        width: auto;
+        margin: 0 4px;
+      }
     }
   }
 
