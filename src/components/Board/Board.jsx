@@ -330,7 +330,8 @@ const mapStateToProps = state => {
     board_id: state.id,
     cards: state.cards,
     boardImage: state.boardImage,
-    labelColors: state.initLabels
+    labelColors: state.initLabels,
+    unauthorized: state.unauthorized
   };
 };
 

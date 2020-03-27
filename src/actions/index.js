@@ -21,6 +21,7 @@ export const TOGGLE_MODAL = "TOGGLE_MODAL";
 export const LOGIN_ERROR = "LOGIN_ERROR";
 export const GET_USERS = "GET_USERS";
 export const INVITE_COLLABORATORS = "INVITE_COLLABORATORS";
+export const UNAUTHORIZED_ACTION_ERROR = "UNAUTHORIZED_ACTION_ERROR";
 
 const postConfig = data => {
   return {
@@ -42,7 +43,7 @@ const putConfig = data => {
   };
 };
 
-const deleteConfig = data => {
+const deleteConfig = () => {
   return {
     method: "DELETE",
     headers: {
@@ -51,20 +52,39 @@ const deleteConfig = data => {
   };
 };
 
-export const actionsInviteCollaborators = formData => async dispatch => {
-  await fetch(`/api/boards/invite/${formData.id}`, postConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(results => {
+const actionAuthorization = (dispatch, getState) => {
+  let state = getState();
+  if (state.created_by && state.id) {
+    if (state.created_by !== state.id) {
       return dispatch({
-        type: INVITE_COLLABORATORS,
-        payload: results
+        type: UNAUTHORIZED_ACTION_ERROR,
+        payload: null
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+    } else {
+      return true;
+    }
+  }
+};
+
+export const actionsInviteCollaborators = formData => async (
+  dispatch,
+  getState
+) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/boards/invite/${formData.id}`, postConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(results => {
+        return dispatch({
+          type: INVITE_COLLABORATORS,
+          payload: results
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  }
 };
 
 export const actionsGetUsers = searchTerm => async dispatch => {
@@ -97,7 +117,7 @@ export const actionsToggleModal = (modal = false) => dispatch => {
 };
 
 export const actionsDeleteUser = id => async dispatch => {
-  await fetch(`/api/users/${id}/`, deleteConfig(id))
+  await fetch(`/api/users/${id}/`, deleteConfig())
     .then(response => {
       return response.json();
     })
@@ -222,20 +242,22 @@ export const actionsAddLabels = formData => async dispatch => {
     });
 };
 
-export const actionsUpdateLabel = formData => async dispatch => {
-  await fetch(`/api/labels/${formData.id}`, putConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      return dispatch({
-        type: UPDATE_LABEL,
-        payload: json
+export const actionsUpdateLabel = formData => async (dispatch, getState) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/labels/${formData.id}`, putConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return dispatch({
+          type: UPDATE_LABEL,
+          payload: json
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }
 };
 
 export const actionsUpdateCard = formData => async dispatch => {
@@ -254,53 +276,58 @@ export const actionsUpdateCard = formData => async dispatch => {
     });
 };
 
-export const actionsUpdateList = formData => async dispatch => {
-  await fetch(`/api/lists/${formData.id}`, putConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      return dispatch({
-        type: UPDATE_LIST,
-        payload: json
+export const actionsUpdateList = formData => async (dispatch, getState) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/lists/${formData.id}`, putConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return dispatch({
+          type: UPDATE_LIST,
+          payload: json
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }
 };
 
-export const actionsUpdateBoard = formData => async dispatch => {
-  console.log(formData);
-  await fetch(`/api/boards/${formData.id}`, putConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      return dispatch({
-        type: UPDATE_BOARD,
-        payload: json
+export const actionsUpdateBoard = formData => async (dispatch, getState) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/boards/${formData.id}`, putConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return dispatch({
+          type: UPDATE_BOARD,
+          payload: json
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }
 };
 
-export const actionsCreateLabel = formData => async dispatch => {
-  await fetch(`/api/labels/new`, postConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      return dispatch({
-        type: CREATE_LABEL,
-        payload: json
+export const actionsCreateLabel = formData => async (dispatch, getState) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/labels/new`, postConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        return dispatch({
+          type: CREATE_LABEL,
+          payload: json
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }
 };
 
 export const actionsCreateCard = formData => async dispatch => {
@@ -319,21 +346,23 @@ export const actionsCreateCard = formData => async dispatch => {
     });
 };
 
-export const actionsCreateList = formData => async dispatch => {
-  await fetch(`/api/lists/new`, postConfig(formData))
-    .then(response => {
-      return response.json();
-    })
-    .then(json => {
-      json["cards"] = [];
-      return dispatch({
-        type: CREATE_LIST,
-        payload: json
+export const actionsCreateList = formData => async (dispatch, getState) => {
+  if (actionAuthorization(dispatch, getState) === true) {
+    await fetch(`/api/lists/new`, postConfig(formData))
+      .then(response => {
+        return response.json();
+      })
+      .then(json => {
+        json["cards"] = [];
+        return dispatch({
+          type: CREATE_LIST,
+          payload: json
+        });
+      })
+      .catch(err => {
+        console.log(err);
       });
-    })
-    .catch(err => {
-      console.log(err);
-    });
+  }
 };
 
 export const actionsCreateBoard = formData => async dispatch => {

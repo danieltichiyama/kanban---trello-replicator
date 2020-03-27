@@ -20,7 +20,8 @@ import {
   DELETE_USER,
   LOGIN_ERROR,
   GET_USERS,
-  INVITE_COLLABORATORS
+  INVITE_COLLABORATORS,
+  UNAUTHORIZED_ACTION_ERROR
 } from "../actions";
 
 let initialState = {
@@ -39,13 +40,19 @@ let initialState = {
     "#344562": { color: "#344562" }
   },
   showModal: false,
-  isLoggedIn: sessionStorage.getItem("user") ? true : false
+  isLoggedIn: sessionStorage.getItem("user") ? true : false,
+  unauthorized: false
 };
 
 const reducer = (state = initialState, action) => {
   console.log("action.payload: ", action.payload, "action.type", action.type);
 
   switch (action.type) {
+    case UNAUTHORIZED_ACTION_ERROR:
+      alert("Only the owner of this board can do that.");
+      window.location.reload();
+      return state;
+
     case INVITE_COLLABORATORS:
       return Object.assign({}, state, action.payload);
 
