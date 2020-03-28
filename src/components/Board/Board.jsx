@@ -23,8 +23,8 @@ class Board extends Component {
     this.state = {
       board: { name: "" },
       list: { name: "" },
-      showMenu: false,
-      showProfileMenu: true
+      showMenu: true,
+      showProfileMenu: false
     };
   }
 

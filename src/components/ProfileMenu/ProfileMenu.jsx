@@ -11,7 +11,7 @@ class ProfileMenu extends Component {
     super(props);
     this.state = {
       showAssignedCards: false,
-      showEditProfile: true
+      showEditProfile: false
     };
   }
 

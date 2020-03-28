@@ -76,7 +76,7 @@ class BoardsList extends Component {
         <h2>Shared Boards</h2>
 
         <div className={styles.BoardsContainer}>
-          {this.props.collaborations ? (
+          {this.props.collaborations && this.props.collaborations.length > 0 ? (
             this.props.collaborations.map(board => {
               if (!board.is_archived) {
                 return <BoardThumbnail board={board} key={board.id} />;

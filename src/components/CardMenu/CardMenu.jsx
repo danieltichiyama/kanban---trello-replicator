@@ -86,7 +86,7 @@ class CardMenu extends Component {
               <div className={styles.cardMenuHeaderInputs}>
                 <TextareaAutosize
                   name="name"
-                  rows="1"
+                  minRows={1}
                   value={this.state.name}
                   onChange={this.handleCardInput}
                   className={styles.updateCardName}

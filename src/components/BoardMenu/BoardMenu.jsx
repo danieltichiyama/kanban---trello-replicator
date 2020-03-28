@@ -3,6 +3,7 @@ import styles from "./BoardMenu.module.scss";
 import LabelsMenu from "../LabelsMenu";
 import ArchivedItems from "../ArchivedItems";
 import CollaboratorsMenu from "../CollaboratorsMenu";
+import EditBoardMenu from "../EditBoardMenu";
 
 class BoardMenu extends Component {
   constructor(props) {
@@ -10,12 +11,13 @@ class BoardMenu extends Component {
     this.state = {
       labelsMenu: false,
       collaboratorsMenu: false,
-      editBoard: false
+      editBoardMenu: false
     };
   }
 
   toggle = e => {
     if (e) {
+      e.preventDefault();
       let { id } = e.target;
       if (id) {
         return this.setState({ [id]: !this.state[id] });
@@ -46,14 +48,16 @@ class BoardMenu extends Component {
             ></button>
           </div>
           <hr></hr>
-          {/* Edit Board
           <li
             className={styles.MenuOption}
-            id="editBoard"
+            id="editBoardMenu"
             onClick={this.toggle}
           >
             Edit Board
-          </li> */}
+          </li>
+          {this.state.editBoardMenu ? (
+            <EditBoardMenu toggleMenu={this.toggle} />
+          ) : null}
           {/* Collaborators */}
           <li
             className={styles.MenuOption}
@@ -65,7 +69,6 @@ class BoardMenu extends Component {
           {this.state.collaboratorsMenu ? (
             <CollaboratorsMenu toggleMenu={this.toggle} />
           ) : null}
-
           {/* Labels */}
           <li
             className={styles.MenuOption}
@@ -75,7 +78,6 @@ class BoardMenu extends Component {
             Labels
           </li>
           {this.state.labelsMenu ? <LabelsMenu /> : null}
-
           {/* Archived Items */}
           <li
             className={styles.MenuOption}
@@ -84,7 +86,6 @@ class BoardMenu extends Component {
           >
             Archived Items
           </li>
-
           {this.state.archivedItems ? <ArchivedItems /> : null}
         </ul>
       </div>
