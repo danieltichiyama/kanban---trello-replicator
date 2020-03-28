@@ -2,6 +2,10 @@ const express = require("express");
 
 const router = express.Router();
 
+router.get("/smoke", (req, res) => {
+  return res.send("There's smoke in the users router.");
+});
+
 router.delete("/:userID", (req, res) => {
   return req.database.User.where({ id: parseInt(req.params.userID) })
     .destroy()
@@ -77,10 +81,6 @@ router.get("/:userID", (req, res) => {
     .catch(err => {
       console.log(err);
     });
-});
-
-router.get("/smoke", (req, res) => {
-  return res.send("There's smoke in the users router.");
 });
 
 module.exports = router;

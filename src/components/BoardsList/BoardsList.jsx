@@ -138,18 +138,8 @@ class BoardsList extends Component {
 
 const mapStateToProps = state => {
   return {
-    //this doesn't work
-    boards: state.boards
-      ? state.boards.sort((a, b) => {
-          return a.updated_at < b.updated_at ? 1 : -1;
-        })
-      : null,
-    collaborations:
-      state.collaborations && state.collaborations.length > 0
-        ? state.collaborations.sort((a, b) => {
-            return a.updated_at < b.updated_at ? 1 : -1;
-          })
-        : null
+    boards: state.boards,
+    collaborations: state.collaborations
   };
 };
 

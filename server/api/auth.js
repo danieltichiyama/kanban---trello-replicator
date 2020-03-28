@@ -80,6 +80,10 @@ passport.deserializeUser(function(user, done) {
   return done(null, user);
 });
 
+router.get("/smoke", (req, res) => {
+  return res.json({ message: "I see smoke in auth." });
+});
+
 router.post("/login", passport.authenticate("local"), (req, res) => {
   let response = { ...req.user };
 
@@ -117,6 +121,42 @@ router.post("/register", (req, res) => {
                       { board_id: board.id },
                       { transacting: t }
                     );
+                  }).tap(labels => {
+                    return Promise.map(tutorial.lists, list => {
+                      return req.database.List.forge(list).save(
+                        { board_id: board.id },
+                        { transacting: t }
+                      );
+                    }).tap(lists => {
+                      let board_id = board.id;
+                      let list_id = lists[0].id;
+                      let created_by = user.id;
+
+                      return Promise.map(tutorial.cards, card => {
+                        let cardData = { ...card };
+                        delete cardData.labels;
+
+                        return req.database.Card.forge(cardData)
+                          .save(
+                            {
+                              list_id,
+                              board_id,
+                              created_by
+                            },
+                            { transacting: t }
+                          )
+                          .tap(results => {
+                            let label_ids = [];
+                            for (let i = 0; i < card.labels.length; i++) {
+                              label_ids.push(labels[card.labels[i]].id);
+                            }
+
+                            return results
+                              .labels()
+                              .attach(label_ids, { transacting: t });
+                          });
+                      });
+                    });
                   });
                 });
             });
@@ -140,10 +180,6 @@ router.post("/register", (req, res) => {
 router.get("/logout", (req, res) => {
   req.logout();
   return res.json({ session: {} });
-});
-
-router.get("/smoke", (req, res) => {
-  return res.json({ message: "I see smoke in auth." });
 });
 
 module.exports = router;
