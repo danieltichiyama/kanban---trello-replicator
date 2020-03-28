@@ -99,34 +99,52 @@ router.post("/register", (req, res) => {
         console.log(err);
       }
 
-      return bookshelf.transaction(t => {
-        return new User(Object.assign({ ...req.body }, { password: hash }))
-          .save(null, { transacting: t })
-          .tap(user => {
-            return req.database.Board.forge(tutorial.board)
-              .save({ created_by: user.id }, { transacting: t })
-              .tap(board => {
-                return Promise.map(tutorial.lists, list => {
-                  return req.database.List.forge(list).save(
-                    { board_id: board.id },
-                    { transacting: t }
-                  );
+      return bookshelf
+        .transaction(t => {
+          return new User(Object.assign({ ...req.body }, { password: hash }))
+            .save(null, { transacting: t })
+            .tap(user => {
+              return req.database.Board.forge(tutorial.board)
+                .save({ created_by: user.id }, { transacting: t })
+                .tap(board => {
+                  return Promise.map(tutorial.lists, list => {
+                    return req.database.List.forge(list).save(
+                      { board_id: board.id },
+                      { transacting: t }
+                    );
+                  }).tap(lists => {
+                    let board_id = board.id;
+                    let list_id = lists[0].id;
+                    let created_by = user.id;
+
+                    console.log(board_id, list_id, created_by);
+                    console.log(" ");
+                    return Promise.map(tutorial.cards, card => {
+                      return req.database.Card.forge(card).save(
+                        {
+                          list_id,
+                          board_id,
+                          created_by
+                        },
+                        { transacting: t }
+                      );
+                    });
+                  });
                 });
-              });
-          })
-          .then(user => {
-            let response = { ...user.attributes };
+            });
+        })
+        .then(user => {
+          let response = { ...user.attributes };
 
-            delete response.password;
-            delete response.created_at;
-            delete response.updated_at;
+          delete response.password;
+          delete response.created_at;
+          delete response.updated_at;
 
-            return res.json(response);
-          })
-          .catch(err => {
-            console.log(err);
-          });
-      });
+          return res.json(response);
+        })
+        .catch(err => {
+          console.log(err);
+        });
     });
   });
 });
