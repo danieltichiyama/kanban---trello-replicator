@@ -7,6 +7,7 @@ exports.seed = function(knex) {
       return knex("cards_labels").insert([
         { card_id: 1, label_id: 1 },
         { card_id: 2, label_id: 2 },
+        { card_id: 4, label_id: 3 },
         { card_id: 2, label_id: 1 },
         { card_id: 3, label_id: 1 }
       ]);

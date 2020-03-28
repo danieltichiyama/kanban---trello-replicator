@@ -118,29 +118,6 @@ router.post("/register", (req, res) => {
                       { transacting: t }
                     );
                   });
-                })
-                .tap(board => {
-                  return Promise.map(tutorial.lists, list => {
-                    return req.database.List.forge(list).save(
-                      { board_id: board.id },
-                      { transacting: t }
-                    );
-                  }).tap(lists => {
-                    let board_id = board.id;
-                    let list_id = lists[0].id;
-                    let created_by = user.id;
-
-                    return Promise.map(tutorial.cards, card => {
-                      return req.database.Card.forge(card).save(
-                        {
-                          list_id,
-                          board_id,
-                          created_by
-                        },
-                        { transacting: t }
-                      );
-                    });
-                  });
                 });
             });
         })
