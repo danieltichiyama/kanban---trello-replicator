@@ -13,6 +13,7 @@
   height: fit-content;
   margin: 8px 4px;
   padding: 4px 8px;
+  max-height: 100%;
 
   .listDragHandle {
     height: 10px;
@@ -28,28 +29,42 @@
     justify-content: space-between;
     margin: 4px 0;
 
-    .listName {
-      height: 32px;
-      border-radius: 2px;
-      border: none;
-      padding: 0 4px;
-      color: #162b4d;
-      font-size: 14px;
-      font-weight: 700;
-      background: none;
+    .listHeader_form {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+      width: 100%;
 
-      &::placeholder {
+      .returnButton_span {
+        position: absolute;
+        right: 0;
+      }
+
+      .listName {
+        height: 32px;
+        width: 100%;
+        border-radius: 2px;
+        border: none;
+        padding: 0 4px;
         color: #162b4d;
         font-size: 14px;
         font-weight: 700;
-      }
+        background: none;
 
-      &:hover {
-        cursor: pointer;
-      }
+        &::placeholder {
+          color: #162b4d;
+          font-size: 14px;
+          font-weight: 700;
+        }
 
-      &:focus {
-        background-color: white;
+        &:hover {
+          cursor: pointer;
+        }
+
+        &:focus {
+          background-color: white;
+        }
       }
     }
 
@@ -68,7 +83,6 @@
     right: -232px;
     z-index: 2;
     background-color: white;
-    // justify-content: center;
     padding: 8px;
     box-shadow: 0 0 12px rgba($color: #000000, $alpha: 0.2);
 
@@ -113,11 +127,21 @@
     justify-self: end;
     display: flex;
     flex-direction: row;
-    margin-bottom: 8px;
+    margin: 8px 0;
 
     .addCardForm {
       width: 100%;
       flex-grow: 1;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      position: relative;
+
+      .plusButton {
+        @include plusButton(2em);
+        position: absolute;
+        right: 2px;
+      }
 
       .addCardInput {
         height: 32px;
@@ -148,5 +172,6 @@
   .listOfCards {
     width: 100%;
     padding: 8px 0;
+    overflow: scroll;
   }
 }

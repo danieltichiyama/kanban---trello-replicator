@@ -3,7 +3,7 @@ import styles from "./List.module.scss";
 import { connect } from "react-redux";
 import Card from "../Card";
 import { actionsCreateCard, actionsUpdateList } from "../../actions";
-
+import ReturnButton from "../ReturnButton";
 import { Droppable, Draggable } from "react-beautiful-dnd";
 
 class List extends Component {
@@ -17,6 +17,8 @@ class List extends Component {
       list: { name: "" },
       showMenu: false,
       showCancelButton: false,
+      showNameReturn: false,
+      showCardReturn: false,
       name: ""
     };
   }
@@ -67,7 +69,7 @@ class List extends Component {
     }
 
     this.props.dispatchUpdateList(formData);
-    return this.setState({ showMenu: false });
+    return this.setState({ showMenu: false, showNameReturn: false });
   };
 
   createCard = e => {
@@ -94,9 +96,14 @@ class List extends Component {
     delete formData.list;
     delete formData.showMenu;
     delete formData.showCancelButton;
+    delete formData.showCardReturn;
+    delete formData.showNameReturn;
 
     this.props.dispatchCreateCard(formData);
-    return this.setState({ name: "" }, this.hideCancelButton());
+    return this.setState(
+      { name: "", showCardReturn: false },
+      this.hideCancelButton()
+    );
   };
 
   handleCardInput = e => {
@@ -107,6 +114,16 @@ class List extends Component {
   handleListInput = e => {
     const { value, name } = e.target;
     return this.setState({ list: { [name]: value } });
+  };
+
+  handleListNameClick = e => {
+    e.preventDefault();
+    return this.setState({ showNameReturn: true });
+  };
+
+  handleCardNameClick = e => {
+    e.preventDefault();
+    return this.setState({ showCardReturn: true }, this.showCancelButton);
   };
 
   toggleMenu = e => {
@@ -137,7 +154,22 @@ class List extends Component {
       e.preventDefault();
     }
 
-    return this.setState({ showCancelButton: false, name: "" });
+    return this.setState({
+      showCancelButton: false,
+      showCardReturn: false,
+      name: ""
+    });
+  };
+
+  handleListNameBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showNameReturn: false,
+        list: { name: this.props.list.name }
+      });
+    }, 500);
   };
 
   render() {
@@ -162,16 +194,25 @@ class List extends Component {
               </div>
               {/* List Name */}
               <div className={styles.listHeader}>
-                <form onSubmit={this.updateList}>
+                <form
+                  onSubmit={this.updateList}
+                  className={styles.listHeader_form}
+                  onBlur={this.handleListNameBlur}
+                >
                   <input
                     type="text"
                     onChange={this.handleListInput}
-                    // onClick={this.handleInputClick}
                     value={this.state.list.name}
                     name="name"
                     onKeyPress={this.props.handleKeyPress}
                     className={styles.listName}
+                    onClick={this.handleListNameClick}
                   />
+                  {this.state.showNameReturn ? (
+                    <span className={styles.returnButton_span}>
+                      <ReturnButton func={this.updateList} />
+                    </span>
+                  ) : null}
                 </form>
                 {/* Menu/Unarchive Button */}
                 <button
@@ -261,10 +302,13 @@ class List extends Component {
                     placeholder="+ Add a card"
                     onChange={this.handleCardInput}
                     onKeyPress={this.props.handleKeyPress}
-                    onClick={this.showCancelButton}
+                    onClick={this.handleCardNameClick}
                     autoComplete="off"
                     onBlur={this.createCard}
                   />
+                  {this.state.showCardReturn ? (
+                    <button type="submit" className={styles.plusButton} />
+                  ) : null}
                 </form>
                 {this.state.showCancelButton ? (
                   <button

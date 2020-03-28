@@ -234,6 +234,28 @@ class Board extends Component {
     return this.setState({ showProfileMenu: !this.state.showProfileMenu });
   };
 
+  handleBoardNameBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showNameReturn: false,
+        board: { name: this.props.name }
+      });
+    }, 500);
+  };
+
+  handleCreateListBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showAddListReturn: false,
+        list: { name: "" }
+      });
+    }, 500);
+  };
+
   render() {
     let boardStyle;
     if (this.props.boardImage && this.props.boardImage.url.startsWith("#")) {
@@ -259,7 +281,11 @@ class Board extends Component {
         ) : null}
         <div className={styles.boardHeader}>
           {/* Board Name */}
-          <form onSubmit={this.updateBoard} className={styles.boardName_form}>
+          <form
+            onSubmit={this.updateBoard}
+            className={styles.boardName_form}
+            onBlur={this.handleBoardNameBlur}
+          >
             <input
               className={styles.boardName}
               type="text"
@@ -338,6 +364,7 @@ class Board extends Component {
                   <form
                     onSubmit={this.createList}
                     className={styles.addListForm}
+                    onBlur={this.handleCreateListBlur}
                   >
                     <input
                       className={styles.addList}
