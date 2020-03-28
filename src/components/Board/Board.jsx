@@ -13,6 +13,7 @@ import List from "../List";
 import BoardMenu from "../BoardMenu";
 import ProfileButton from "../ProfileButton";
 import ProfileMenu from "../ProfileMenu";
+import ReturnButton from "../ReturnButton";
 import styles from "./Board.module.scss";
 import { DragDropContext, Droppable } from "react-beautiful-dnd";
 import { Link } from "react-router-dom";
@@ -24,7 +25,9 @@ class Board extends Component {
       board: { name: "" },
       list: { name: "" },
       showMenu: false,
-      showProfileMenu: false
+      showProfileMenu: false,
+      showNameReturn: false,
+      showAddListReturn: false
     };
   }
 
@@ -48,14 +51,12 @@ class Board extends Component {
       id: this.props.board_id
     };
 
-    delete formData.list;
-    delete formData.showMenu;
-    delete formData.showProfileMenu;
-
     if (formData.name.length === 0) {
       formData.name = this.props.name;
     }
-    return this.props.dispatchUpdateBoard(formData);
+    this.props.dispatchUpdateBoard(formData);
+
+    return this.setState({ showNameReturn: false });
   };
 
   createList = e => {
@@ -77,7 +78,7 @@ class Board extends Component {
     };
 
     this.props.dispatchCreateList(formData);
-    return this.setState({ list: { name: "" } });
+    return this.setState({ list: { name: "" }, showAddListReturn: false });
   };
 
   handleBoardInput = e => {
@@ -92,7 +93,10 @@ class Board extends Component {
 
   handleInputClick = e => {
     const { placeholder } = e.target;
-    return this.setState({ board: { name: placeholder } });
+    return this.setState({
+      board: { name: placeholder },
+      showNameReturn: true
+    });
   };
 
   onDragEnd = result => {
@@ -217,6 +221,10 @@ class Board extends Component {
     }
   };
 
+  handleAddListClick = () => {
+    return this.setState({ showAddListReturn: true });
+  };
+
   toggleProfileMenu = e => {
     if (e) {
       e.preventDefault();
@@ -251,7 +259,7 @@ class Board extends Component {
         ) : null}
         <div className={styles.boardHeader}>
           {/* Board Name */}
-          <form onSubmit={this.updateBoard}>
+          <form onSubmit={this.updateBoard} className={styles.boardName_form}>
             <input
               className={styles.boardName}
               type="text"
@@ -264,6 +272,9 @@ class Board extends Component {
               onKeyPress={this.handleKeyPress}
               autoComplete="off"
             />
+            {this.state.showNameReturn ? (
+              <ReturnButton func={this.updateBoard} />
+            ) : null}
           </form>
           <Link className={styles.Link} to="/">
             <button className={styles.homeButton} />
@@ -335,8 +346,12 @@ class Board extends Component {
                       placeholder="+ Add List"
                       onChange={this.handleListInput}
                       onKeyPress={this.handleKeyPress}
+                      onClick={this.handleAddListClick}
                       autoComplete="off"
                     />
+                    {this.state.showAddListReturn ? (
+                      <ReturnButton func={this.createList} />
+                    ) : null}
                   </form>
                   {provided.placeholder}
                 </ul>
