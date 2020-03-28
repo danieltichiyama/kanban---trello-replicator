@@ -7,8 +7,24 @@ import { actionsUpdateBoard } from "../../actions";
 class EditBoardMenu extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      name: "",
+      details: "",
+      description: "",
+      url: "",
+      id: 0
+    };
   }
+
+  componentDidMount = () => {
+    return this.setState({
+      name: this.props.name,
+      details: this.props.details,
+      description: this.props.description,
+      url: this.props.boardImage.url,
+      id: this.props.id
+    });
+  };
 
   updateBoard = e => {
     if (e) {
@@ -17,7 +33,13 @@ class EditBoardMenu extends Component {
     }
     let formData = { ...this.state };
     delete formData.showMenu;
-    formData.id = this.props.board_id;
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.name;
+    }
+    if (formData.url.length === 0) {
+      delete formData.url;
+    }
 
     this.props.dispatchUpdateBoard(formData);
     return this.props.toggleMenu(e);
@@ -63,6 +85,7 @@ class EditBoardMenu extends Component {
         onSubmit={this.updateBoard}
         className={styles.EditBoardMenu}
         onClick={this.stopPropagation}
+        data-menu="editBoardMenu"
       >
         <label>
           Board Name
@@ -70,9 +93,8 @@ class EditBoardMenu extends Component {
             type="text"
             name="name"
             value={this.state.name}
-            defaultValue={this.props.boardName}
             onChange={this.handleInput}
-            placeholder={this.props.boardName}
+            placeholder={this.props.name}
           />
         </label>
 
@@ -82,7 +104,7 @@ class EditBoardMenu extends Component {
             name="description"
             minRows={1}
             onChange={this.handleInput}
-            defaultValue={this.props.description}
+            value={this.state.description}
           ></TextareaAutosize>
         </label>
 
@@ -124,7 +146,16 @@ class EditBoardMenu extends Component {
           </div>
         </label>
         <div className={styles.form_buttons_container}>
+          <button type="submit">Save</button>
           <button
+            type="button"
+            data-menu="editBoardMenu"
+            onClick={this.props.toggleMenu}
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
             className={styles.buttons_archiveBoard}
             onClick={this.archive}
             style={
@@ -132,16 +163,6 @@ class EditBoardMenu extends Component {
             }
           >
             {this.state.is_archived ? "Unarchive" : "Archive"}
-          </button>
-          <button type="submit" data-menu="editBoardMenu">
-            Save
-          </button>
-          <button
-            type="button"
-            data-menu="editBoardMenu"
-            onClick={this.props.toggleMenu}
-          >
-            Cancel
           </button>
         </div>
       </form>
@@ -152,10 +173,10 @@ class EditBoardMenu extends Component {
 const mapStateToProps = state => {
   return {
     colors: state.initLabels,
-    boardName: state.name,
+    name: state.name,
     description: state.description,
     boardImage: state.boardImage,
-    board_id: state.id
+    id: state.id
   };
 };
 

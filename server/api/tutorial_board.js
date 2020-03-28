@@ -15,7 +15,7 @@ module.exports = tutorialBoard = {
       labels: [0]
     },
     {
-      name: "Click on my menu button to find out more about editing cards. -->",
+      name: "Click on my menu button ••• to find out more about editing cards.",
       details:
         "Here you can change all sorts of things for this or any card.  Add labels, change which list it appears in, assign the card to someone in the team, or archive the card if you're done with it.  There's still more so be sure to check it out.",
       position: 2,
@@ -63,10 +63,9 @@ module.exports = tutorialBoard = {
     { color: "#344562" }
   ],
   lists: [
-    { name: "Queued", position: 1, is_archived: false },
-    { name: "In Progress", position: 2, is_archived: false },
-    { name: "Drag me!", position: 4, is_archived: false },
-    { name: "Completed", position: 3, is_archived: false }
+    { name: "To Do", position: 1, is_archived: false },
+    { name: "Doing", position: 2, is_archived: false },
+    { name: "Done", position: 3, is_archived: false }
   ],
   boardImage: {
     url:

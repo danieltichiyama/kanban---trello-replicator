@@ -5,7 +5,7 @@
   width: 100%;
   height: auto;
   list-style: none;
-  padding: 0;
+  padding: 12px 6px;
   background: rgba($color: #000000, $alpha: 0.05);
 
   .collabs_container {
@@ -62,13 +62,12 @@
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    padding: 12px;
-    // background: rgba($color: #000000, $alpha: 0.05);
+    // padding: 12px;
 
     .search_input {
-      height: 48px;
-      border: 2px solid rgba($color: #000000, $alpha: 0.1);
-      border-radius: 4px;
+      height: 36px;
+      border: 1px rgba($color: #000000, $alpha: 0.2) solid;
+      border-radius: 2px;
       padding: 6px;
     }
 
@@ -95,7 +94,7 @@
     button {
       @include modal_button();
       width: auto;
-      margin-left: 12px;
+      margin-left: 4px;
     }
   }
 }

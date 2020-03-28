@@ -23,6 +23,7 @@ class ProfileMenu extends Component {
   handleMyProfileClick = e => {
     if (e) {
       e.stopPropagation();
+      e.preventDefault();
     }
     return this.setState({ showEditProfile: !this.state.showEditProfile });
   };
@@ -52,7 +53,9 @@ class ProfileMenu extends Component {
           <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
             My Profile
           </li>
-          {!this.state.showEditProfile ? null : <EditProfileMenu />}
+          {!this.state.showEditProfile ? null : (
+            <EditProfileMenu toggleThis={this.handleMyProfileClick} />
+          )}
           <li className={styles.menu_li} onClick={this.handleToDoClick}>
             Assigned Card
           </li>

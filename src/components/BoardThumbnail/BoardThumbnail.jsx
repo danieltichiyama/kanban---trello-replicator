@@ -3,6 +3,7 @@ import styles from "./BoardThumbnail.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateBoard } from "../../actions";
 import { Link } from "react-router-dom";
+import TextareaAutosize from "react-textarea-autosize";
 
 class BoardThumbnail extends Component {
   constructor(props) {
@@ -132,13 +133,12 @@ class BoardThumbnail extends Component {
               <div className={styles.descriptionContainer}>
                 <h4 className={styles.subHeader}>Description</h4>
 
-                <textarea
+                <TextareaAutosize
                   name="description"
-                  cols="10"
-                  rows="5"
+                  minRows={5}
                   onChange={this.handleInput}
                   defaultValue={this.props.board.description}
-                ></textarea>
+                ></TextareaAutosize>
               </div>
 
               <div className={styles.colorPickerContainer}>
@@ -174,6 +174,8 @@ class BoardThumbnail extends Component {
                 </div>
               </div>
               <div className={styles.buttonsContainer}>
+                <button type="submit">Save</button>
+                <button onClick={this.toggleMenu}>Cancel</button>
                 <button
                   onClick={this.archive}
                   style={
@@ -184,8 +186,6 @@ class BoardThumbnail extends Component {
                 >
                   {this.state.is_archived ? "Unarchive" : "Archive"}
                 </button>
-                <button type="submit">Save</button>
-                <button onClick={this.toggleMenu}>Cancel</button>
               </div>
             </form>
           </div>

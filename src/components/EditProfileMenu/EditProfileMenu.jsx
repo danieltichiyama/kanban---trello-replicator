@@ -42,6 +42,7 @@ class EditProfileMenu extends Component {
       e.preventDefault();
     }
     this.props.dispatchUpdateUser(this.state);
+    return this.props.toggleThis();
   };
 
   stopPropagation = e => {
@@ -98,7 +99,7 @@ class EditProfileMenu extends Component {
         </label>
         <div className={styles.form_buttons_container}>
           <button type="submit">Save</button>
-          <button onClick={this.props.toggleModal}>Cancel</button>
+          <button onClick={this.props.toggleThis}>Cancel</button>
           <button
             onClick={this.handleDelete}
             className={styles.delete_account_button}

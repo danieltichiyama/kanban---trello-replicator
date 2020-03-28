@@ -58,7 +58,7 @@
 
     .updateBoard {
       border-radius: 4px;
-      padding: 8px;
+      padding: 12px 8px;
       background: white;
       display: flex;
       flex-direction: column;
@@ -126,7 +126,6 @@
         width: 320px;
         padding: 8px 4px 4px 4px;
         resize: none;
-        height: 200px;
         border: 1px gray solid;
         border-radius: 4px;
         margin-bottom: 20px;
@@ -138,6 +137,7 @@
         width: 100%;
         justify-content: space-between;
         padding: 0 16px;
+        margin-bottom: 12px;
 
         button {
           padding: 16px;

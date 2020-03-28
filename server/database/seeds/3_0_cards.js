@@ -16,7 +16,7 @@ exports.seed = function(knex) {
         },
         {
           name:
-            "Click on my menu button to find out more about editing cards. -->",
+            "Click on my menu button ••• to find out more about editing cards.",
           details:
             "Here you can change all sorts of things for this or any card.  Add labels, change which list it appears in, assign the card to someone in the team, or archive the card if you're done with it.  There's still more so be sure to check it out.",
           position: 2,
