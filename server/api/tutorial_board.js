@@ -60,11 +60,8 @@ module.exports = tutorialBoard = {
     { name: "Drag me!", position: 4, is_archived: false },
     { name: "Completed", position: 3, is_archived: false }
   ],
-  boardImages: [
-    {
-      url:
-        "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1655&q=80"
-      //   board_id: 1
-    }
-  ]
+  boardImage: {
+    url:
+      "https://images.unsplash.com/photo-1507925921958-8a62f3d1a50d?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1655&q=80"
+  }
 };

@@ -107,6 +107,11 @@ router.post("/register", (req, res) => {
               return req.database.Board.forge(tutorial.board)
                 .save({ created_by: user.id }, { transacting: t })
                 .tap(board => {
+                  return req.database.BoardImage.forge(
+                    tutorial.boardImage
+                  ).save({ board_id: board.id }, { transacting: t });
+                })
+                .tap(board => {
                   return Promise.map(tutorial.labels, label => {
                     return req.database.Label.forge(label).save(
                       { board_id: board.id },
