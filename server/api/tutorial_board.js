@@ -1,12 +1,10 @@
 module.exports = tutorialBoard = {
-  board: [
-    {
-      name: "Tutorial Board",
-      description:
-        "This board can guide you through the various features of this productivity app."
-      //   created_by: 1
-    }
-  ],
+  board: {
+    name: "Tutorial Board",
+    description:
+      "This board can guide you through the various features of this productivity app."
+    //   created_by: 1
+  },
   cards: [
     {
       name: "Welcome to the tutorial board.",
@@ -76,10 +74,10 @@ module.exports = tutorialBoard = {
     // { board_id: 1, color: "#344562" }
   ],
   lists: [
-    // { name: "Queued", position: 1, board_id: 1, is_archived: false },
-    // { name: "In Progress", position: 2, board_id: 1, is_archived: false },
-    // { name: "Drag me!", position: 4, board_id: 1, is_archived: false },
-    // { name: "Completed", position: 3, board_id: 1, is_archived: false }
+    { name: "Queued", position: 1, is_archived: false },
+    { name: "In Progress", position: 2, is_archived: false },
+    { name: "Drag me!", position: 4, is_archived: false },
+    { name: "Completed", position: 3, is_archived: false }
   ],
   boardImages: [
     {

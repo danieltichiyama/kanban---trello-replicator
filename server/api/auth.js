@@ -100,9 +100,20 @@ router.post("/register", (req, res) => {
       }
 
       return bookshelf.transaction(t => {
-        console.log("tutorial board", tutorial);
         return new User(Object.assign({ ...req.body }, { password: hash }))
           .save(null, { transacting: t })
+          .tap(user => {
+            return req.database.Board.forge(tutorial.board)
+              .save({ created_by: user.id }, { transacting: t })
+              .tap(board => {
+                return Promise.map(tutorial.lists, list => {
+                  return req.database.List.forge(list).save(
+                    { board_id: board.id },
+                    { transacting: t }
+                  );
+                });
+              });
+          })
           .then(user => {
             let response = { ...user.attributes };
 
