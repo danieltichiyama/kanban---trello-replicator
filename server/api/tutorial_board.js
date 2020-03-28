@@ -1,4 +1,4 @@
-export const tutorialBoard = {
+module.exports = tutorialBoard = {
   board: [
     {
       name: "Tutorial Board",

@@ -18,6 +18,7 @@ const client = redis.createClient({ url: process.env.REDIS_URL });
 //used to create a transaction in register route
 const Promise = require("bluebird");
 const bookshelf = require("../database/bookshelf");
+const tutorial = require("./tutorial_board");
 //used to create a transaction in register route
 
 router.use(
@@ -99,6 +100,7 @@ router.post("/register", (req, res) => {
       }
 
       return bookshelf.transaction(t => {
+        console.log("tutorial board", tutorial);
         return new User(Object.assign({ ...req.body }, { password: hash }))
           .save(null, { transacting: t })
           .then(user => {
