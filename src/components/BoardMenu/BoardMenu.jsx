@@ -2,18 +2,32 @@ import React, { Component } from "react";
 import styles from "./BoardMenu.module.scss";
 import LabelsMenu from "../LabelsMenu";
 import ArchivedItems from "../ArchivedItems";
+import CollaboratorsMenu from "../CollaboratorsMenu";
+import EditBoardMenu from "../EditBoardMenu";
 
 class BoardMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      labelsMenu: false
+      labelsMenu: false,
+      collaboratorsMenu: false,
+      editBoardMenu: false
     };
   }
 
   toggle = e => {
-    let { id } = e.target;
-    this.setState({ [id]: !this.state[id] });
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      let { id } = e.target;
+      if (id) {
+        return this.setState({ [id]: !this.state[id] });
+      } else if (e.target.dataset.menu) {
+        return this.setState({
+          [e.target.dataset.menu]: !this.state[e.target.dataset.menu]
+        });
+      }
+    }
   };
 
   stopPropagation = e => {
@@ -35,12 +49,27 @@ class BoardMenu extends Component {
             ></button>
           </div>
           <hr></hr>
-          {/* General Board Information */}
-          <li className={styles.MenuOption}>General Information</li>
-
-          {/* Background Image */}
-          <li className={styles.MenuOption}>Background Image</li>
-
+          <li
+            className={styles.MenuOption}
+            id="editBoardMenu"
+            onClick={this.toggle}
+          >
+            Edit Board
+          </li>
+          {this.state.editBoardMenu ? (
+            <EditBoardMenu toggleMenu={this.toggle} />
+          ) : null}
+          {/* Collaborators */}
+          <li
+            className={styles.MenuOption}
+            id="collaboratorsMenu"
+            onClick={this.toggle}
+          >
+            Collaborators
+          </li>
+          {this.state.collaboratorsMenu ? (
+            <CollaboratorsMenu toggleMenu={this.toggle} />
+          ) : null}
           {/* Labels */}
           <li
             className={styles.MenuOption}
@@ -50,7 +79,6 @@ class BoardMenu extends Component {
             Labels
           </li>
           {this.state.labelsMenu ? <LabelsMenu /> : null}
-
           {/* Archived Items */}
           <li
             className={styles.MenuOption}
@@ -59,7 +87,6 @@ class BoardMenu extends Component {
           >
             Archived Items
           </li>
-
           {this.state.archivedItems ? <ArchivedItems /> : null}
         </ul>
       </div>

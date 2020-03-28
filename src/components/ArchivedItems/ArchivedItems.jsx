@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./ArchivedItems.module.scss";
-import Card from "../Card";
-import List from "../List";
+import { actionsUpdateCard, actionsUpdateList } from "../../actions";
 
 class ArchivedItems extends Component {
   constructor(props) {
@@ -16,23 +15,64 @@ class ArchivedItems extends Component {
     return this.setState({ showLists: !this.state.showLists });
   };
 
+  unarchiveCard = e => {
+    let { id } = e.target;
+    let formData = { id, is_archived: false };
+
+    return this.props.dispatchUpdateCard(formData);
+  };
+
+  unarchiveList = e => {
+    let { id } = e.target;
+    let formData = { id, is_archived: false };
+
+    return this.props.dispatchUpdateList(formData);
+  };
+
   render() {
     return (
       <div className={styles.ArchivedItems}>
         {/* Lists/Cards Toggle */}
-        {this.state.showLists ? "Archived Lists" : "Archived Cards"}
-        <button onClick={this.toggleItems}>
-          Show {this.state.showLists ? "Cards" : "Lists"}
-        </button>
+        <div className={styles.menuContainer}>
+          <h4>{this.state.showLists ? "Archived Lists" : "Archived Cards"}</h4>
+          <button
+            onClick={this.toggleItems}
+            className={styles.cardsListsToggleButton}
+          >
+            Show {this.state.showLists ? "Cards" : "Lists"}
+          </button>
+        </div>
 
         {/* List of Items */}
         <ul className={styles.itemsList}>
           {this.state.showLists
             ? this.props.lists.map(list => {
-                return <List key={list.id} list={list} />;
+                return (
+                  <div className={styles.archivedContainer} key={list.id}>
+                    {list.name}
+                    <button
+                      onClick={this.unarchiveList}
+                      id={list.id}
+                      className={styles.unarchiveButton}
+                    >
+                      Unarchive
+                    </button>
+                  </div>
+                );
               })
             : this.props.cards.map(card => {
-                return <Card card={card} key={card.id} />;
+                return (
+                  <div className={styles.archivedContainer} key={card.id}>
+                    <p>{card.name}</p>
+                    <button
+                      onClick={this.unarchiveCard}
+                      id={card.id}
+                      className={styles.unarchiveButton}
+                    >
+                      Unarchive
+                    </button>
+                  </div>
+                );
               })}
         </ul>
       </div>
@@ -50,4 +90,18 @@ const mapStateToProps = state => {
   };
 };
 
-export default ArchivedItems = connect(mapStateToProps, null)(ArchivedItems);
+const mapDispatchToProps = dispatch => {
+  return {
+    dispatchUpdateCard: formData => {
+      return dispatch(actionsUpdateCard(formData));
+    },
+    dispatchUpdateList: formData => {
+      return dispatch(actionsUpdateList(formData));
+    }
+  };
+};
+
+export default ArchivedItems = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ArchivedItems);

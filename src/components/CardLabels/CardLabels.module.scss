@@ -3,6 +3,7 @@
 
 .CardLabels {
   position: absolute;
+  top: -100px;
   width: 300px;
   height: auto;
   background-color: white;
@@ -12,6 +13,7 @@
   list-style: none;
   display: flex;
   flex-direction: column;
+  overflow: scroll;
 
   .cardLabelsHeader {
     display: flex;

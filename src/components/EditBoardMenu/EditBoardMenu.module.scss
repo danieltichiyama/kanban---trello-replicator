@@ -1,0 +1,131 @@
+@import "../../sass/inputs.scss";
+
+.EditBoardMenu {
+  width: 100%;
+  background-color: rgba($color: #000000, $alpha: 0.05);
+  padding: 12px 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+
+  .colorPickerContainer {
+    width: 100%;
+    margin-bottom: 24px;
+
+    .colorPickerOptionsContainer {
+      width: 100%;
+      display: grid;
+      justify-content: space-between;
+      align-items: center;
+      grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+      margin-top: 6px;
+
+      .colorPickerLabel {
+        height: 36px;
+        width: auto;
+        margin: 4px 4px;
+        border-radius: 4px;
+        padding-top: 8px;
+        padding-left: 12px;
+
+        .colorPickerInput {
+          top: 0;
+          left: 0;
+          opacity: 0;
+          height: 0px;
+          width: 0px;
+
+          &:checked ~ span {
+            &::before {
+              content: "\02714";
+              color: black;
+              opacity: 0.3;
+              padding: 4px;
+              font-size: 18px;
+            }
+          }
+        }
+
+        .colorPickerCustom {
+          height: 100%;
+          width: 100%;
+          background: transparent;
+        }
+      }
+    }
+  }
+
+  label {
+    width: 100%;
+    text-align: left;
+    margin-bottom: 6px;
+    padding: 6px;
+    color: rgba($color: #000000, $alpha: 0.8);
+    font-size: 12px;
+  }
+
+  input {
+    width: 100%;
+    height: 36px;
+    width: 100%;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 2px;
+    border: 1px rgba($color: #000000, $alpha: 0.2) solid;
+  }
+
+  textarea {
+    width: 100%;
+    resize: none;
+    height: 200px;
+    padding: 8px;
+    margin-top: 4px;
+    border-radius: 2px;
+    border: 1px rgba($color: #000000, $alpha: 0.2) solid;
+  }
+
+  .buttonsContainer {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+    padding: 0 16px;
+
+    button {
+      padding: 16px;
+      width: 88px;
+      border: none;
+      background-color: #61be4f;
+      border-radius: 4px;
+      color: white;
+      font-weight: 700;
+
+      &:hover {
+        background-color: #6ac957;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .form_buttons_container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 12px;
+
+    button {
+      @include modal_button();
+    }
+
+    .buttons_archiveBoard {
+      background-color: rgba($color: #000000, $alpha: 0.2);
+      height: 100%;
+
+      &:hover {
+        background-color: #ff5039;
+      }
+    }
+  }
+}

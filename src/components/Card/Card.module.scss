@@ -4,7 +4,7 @@
 .Card {
   width: 100%;
   margin-bottom: 8px;
-  padding: 8px;
+  padding: 8px 8px 8px 8px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -13,20 +13,41 @@
   border-radius: 4px;
   box-shadow: 0 1px 0 0 rgba($color: #000000, $alpha: 0.05);
 
-  .labelsContainer {
+  .card_labelsAndMenu {
     display: flex;
-    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
     width: 100%;
-    justify-content: flex-start;
-    margin-bottom: 4px;
 
-    .Label {
-      margin-right: 4px;
-      padding: 2px 8px;
-      border-radius: 4px;
-      font-size: 12px;
-      font-weight: 800;
-      color: white;
+    .labelsContainer {
+      display: flex;
+      flex-direction: row;
+      width: 100%;
+      justify-content: flex-start;
+      margin-bottom: 4px;
+      overflow: scroll;
+
+      .Label {
+        margin-right: 4px;
+        padding: 2px 0;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 800;
+        color: white;
+        width: auto;
+        height: 24px;
+
+        span {
+          width: auto;
+          margin: 0 4px;
+        }
+      }
+    }
+
+    .menuButton {
+      @include menuButton(dark);
+      margin-left: 8px;
+      align-self: flex-end;
     }
   }
 
@@ -39,37 +60,69 @@
     justify-content: flex-start;
     align-items: flex-end;
 
-    form {
+    .cardName {
+      height: auto;
       width: 100%;
+      border-radius: 2px;
+      border: none;
+      color: black;
+      font-size: 14px;
+      resize: none;
+      padding: 4px;
 
-      .cardName {
-        height: auto;
-        width: 100%;
-        border-radius: 2px;
-        border: none;
+      &::placeholder {
         color: black;
         font-size: 14px;
-        resize: none;
+      }
 
-        &::placeholder {
-          color: black;
-          font-size: 14px;
-        }
+      &:hover {
+        cursor: pointer;
+        background-color: white;
+      }
 
-        &:hover {
-          cursor: pointer;
-          background-color: white;
-        }
-
-        &:focus {
-          background-color: white;
-        }
+      &:focus {
+        background-color: white;
       }
     }
   }
 
-  .menuButton {
-    @include menuButton(dark);
-    margin-left: 8px;
+  .card_extraInfo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+
+    .card_extraInfo_userInfo {
+      width: 100%;
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      font-size: 10px;
+      padding-left: 6px;
+      color: rgba($color: #000000, $alpha: 0.8);
+    }
+
+    .extraInfo_details {
+      margin: 6px 6px 0 6px;
+      width: 18px;
+
+      hr {
+        width: 100%;
+        height: 2px;
+        background-color: rgba($color: #000000, $alpha: 0.6);
+        border-radius: 1px;
+        margin: 0;
+        margin-bottom: 2px;
+        border: none;
+      }
+
+      .details_middle {
+        width: 14px;
+      }
+      .details_bottom {
+        width: 16px;
+      }
+    }
   }
 }

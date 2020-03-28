@@ -16,11 +16,16 @@
     display: flex;
     flex-direction: column;
     width: 360px;
-    height: 400px;
+    height: auto;
     justify-content: flex-start;
     align-items: center;
 
-    input {
+    .subHeader {
+      align-self: left;
+      margin-bottom: 8px;
+    }
+
+    .nameInput {
       height: 40px;
       width: 320px;
       padding-left: 8px;
@@ -37,7 +42,6 @@
       height: 200px;
       border: 1px gray solid;
       border-radius: 4px;
-      margin-bottom: 20px;
     }
 
     .buttonsContainer {
@@ -59,6 +63,52 @@
         &:hover {
           background-color: #6ac957;
           cursor: pointer;
+        }
+      }
+    }
+
+    .colorPickerContainer {
+      width: 320px;
+      margin-bottom: 24px;
+
+      .colorPickerOptionsContainer {
+        width: 100%;
+        display: grid;
+        justify-content: space-between;
+        align-items: center;
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+
+        .colorPickerLabel {
+          height: 36px;
+          width: 54px;
+          margin: 4px 4px;
+          border-radius: 4px;
+          padding-top: 8px;
+          padding-left: 12px;
+
+          .colorPickerInput {
+            top: 0;
+            left: 0;
+            opacity: 0;
+            height: 0px;
+            width: 0px;
+
+            &:checked ~ span {
+              &::before {
+                content: "\02714";
+                color: black;
+                opacity: 0.3;
+                padding: 4px;
+                font-size: 18px;
+              }
+            }
+          }
+
+          .colorPickerCustom {
+            height: 100%;
+            width: 100%;
+            background: transparent;
+          }
         }
       }
     }

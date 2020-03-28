@@ -2,13 +2,14 @@
 @import "../../sass/formatting.scss";
 
 .BoardsList {
-  height: 100vh;
+  height: 100%;
   width: 100%;
-  position: relative;
+  // position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   margin: 0;
+  padding-top: 48px;
 
   h2 {
     margin-bottom: 0;
@@ -29,8 +30,9 @@
     flex-direction: row;
     flex-wrap: wrap;
     margin: 20px;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
+    width: 100%;
 
     .container {
       height: 96px;
@@ -65,6 +67,7 @@
     border-radius: 4px;
     color: white;
     font-weight: 700;
+    margin-bottom: 48px;
 
     &:hover {
       background-color: #f76451;

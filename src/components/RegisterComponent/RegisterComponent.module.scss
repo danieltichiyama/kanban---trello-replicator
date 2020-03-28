@@ -1,0 +1,92 @@
+.RegisterComponent {
+  padding: 40px 20px 20px 20px;
+  background: white;
+  text-align: center;
+  width: 100%;
+
+  h3 {
+    color: #022c6b;
+    display: block;
+    margin-bottom: 4px;
+    position: relative;
+  }
+
+  h5 {
+    color: rgba($color: #000000, $alpha: 0.5);
+    display: block;
+    margin: 0;
+  }
+
+  .form_ul {
+    padding: 0;
+    border-bottom: 2px solid rgba($color: #000000, $alpha: 0.2);
+    margin-top: 48px;
+
+    .form_li {
+      list-style: none;
+      padding: 0 30px;
+      height: 48px;
+      margin-bottom: 24px;
+
+      .form_li_error {
+        color: red;
+        font-size: 12px;
+        font-weight: 400;
+        margin: 0;
+        padding-left: 4px;
+        width: 100%;
+        text-align: left;
+      }
+
+      .form_input {
+        height: 100%;
+        outline: 0;
+        border: 0;
+        border: 2px solid rgba(0, 0, 0, 0.2);
+        width: 100%;
+        padding: 5px 10px;
+        font-size: 16px;
+        color: rgba($color: #000000, $alpha: 0.8);
+        border-radius: 4px;
+
+        &::placeholder {
+          color: rgba(0, 0, 0, 0.2);
+        }
+
+        &:focus {
+          border-color: rgba($color: #0084d0, $alpha: 1);
+        }
+      }
+
+      .register_button {
+        height: 75%;
+        width: 100%;
+        font-size: 14px;
+        font-weight: bold;
+        color: white;
+        background: #5aac44;
+        border: none;
+        border-radius: 3px;
+        box-shadow: 0px 0px 2px 0px rgba(0, 0, 0, 0.2);
+        margin-top: 5px;
+
+        &:hover {
+          background-color: #62b949;
+        }
+      }
+    }
+  }
+
+  .optionsContainer {
+    color: rgba(0, 0, 0, 0.8);
+
+    .options_span {
+      color: #0066ff;
+
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+}

@@ -1,26 +1,32 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import styles from "./BoardsList.module.scss";
-import { actionsGetBoards, actionsGetBoardData } from "../../actions";
+import {
+  actionsGetBoards,
+  actionsGetBoardData,
+  actionsGetUser
+} from "../../actions";
 import AddNewBoard from "../AddNewBoard";
 import BoardThumbnail from "../BoardThumbnail";
+import ProfileButton from "../ProfileButton";
+import ProfileMenu from "../ProfileMenu";
 
 class BoardsList extends Component {
   constructor(props) {
     super(props);
     this.state = {
       addNewBoard: false,
-      showArchived: false
+      showArchived: false,
+      showProfileMenu: false
     };
   }
 
   componentDidMount = () => {
-    return this.props.dispatchGetBoards(1);
-  };
-
-  getBoardData = event => {
-    let { id } = event.target;
-    return this.props.dispatchGetBoardData(id);
+    let session = sessionStorage.getItem("user");
+    if (session) {
+      let id = JSON.parse(sessionStorage.getItem("user")).id;
+      return this.props.dispatchGetUser(id);
+    }
   };
 
   toggleAddNewBoard = () => {
@@ -31,22 +37,32 @@ class BoardsList extends Component {
     return this.setState({ showArchived: !this.state.showArchived });
   };
 
+  toggleProfileMenu = e => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    return this.setState({ showProfileMenu: !this.state.showProfileMenu });
+  };
+
   render() {
     return (
       <div className={styles.BoardsList}>
+        <ProfileButton
+          username={JSON.parse(sessionStorage.getItem("user")).username}
+          toggleProfileMenu={this.toggleProfileMenu}
+        />
+        {this.state.showProfileMenu ? (
+          <ProfileMenu toggleThis={this.toggleProfileMenu} />
+        ) : null}
         <h2>My Boards</h2>
         {/* List of Boards */}
         <div className={styles.BoardsContainer}>
           {this.props.boards
             ? this.props.boards.map(board => {
                 if (!board.is_archived) {
-                  return (
-                    <BoardThumbnail
-                      board={board}
-                      key={board.id}
-                      getBoardData={this.getBoardData}
-                    />
-                  );
+                  return <BoardThumbnail board={board} key={board.id} />;
                 }
                 return null;
               })
@@ -56,6 +72,22 @@ class BoardsList extends Component {
           <div className={styles.container} onClick={this.toggleAddNewBoard}>
             <div className={styles.BoardThumbnail}>Create new board</div>
           </div>
+        </div>
+        <h2>Shared Boards</h2>
+
+        <div className={styles.BoardsContainer}>
+          {this.props.collaborations && this.props.collaborations.length > 0 ? (
+            this.props.collaborations.map(board => {
+              if (!board.is_archived) {
+                return <BoardThumbnail board={board} key={board.id} />;
+              }
+              return null;
+            })
+          ) : (
+            <div className={styles.noArchivedBoardsMessage}>
+              "You have no shared boards"
+            </div>
+          )}
         </div>
 
         {/* Archived Boards List */}
@@ -106,7 +138,8 @@ class BoardsList extends Component {
 
 const mapStateToProps = state => {
   return {
-    boards: state.boards
+    boards: state.boards,
+    collaborations: state.collaborations
   };
 };
 
@@ -117,6 +150,9 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchGetBoardData: boardID => {
       return dispatch(actionsGetBoardData(boardID));
+    },
+    dispatchGetUser: userID => {
+      return dispatch(actionsGetUser(userID));
     }
   };
 };

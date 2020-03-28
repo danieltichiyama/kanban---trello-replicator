@@ -6,18 +6,9 @@ exports.seed = function(knex) {
       // Inserts seed entries
       return knex("boards").insert([
         {
-          name: "React-Kanban",
-          description: "A board for this board.",
-          created_by: 1
-        },
-        {
-          name: "Job Search",
-          description: "A board for the job search.",
-          created_by: 1
-        },
-        {
-          name: "Random Stuff",
-          description: "A board for random stuff.",
+          name: "Tutorial Board",
+          description:
+            "This board can guide you through the various features of this productivity app.",
           created_by: 1
         }
       ]);

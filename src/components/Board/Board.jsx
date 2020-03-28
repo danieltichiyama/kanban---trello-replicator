@@ -5,22 +5,35 @@ import {
   actionsUpdateBoard,
   actionsUpdateCard,
   actionsGetBoardData,
-  actionsUpdateCardStore
+  actionsUpdateCardStore,
+  actionsUpdateList,
+  actionsUpdateListStore
 } from "../../actions";
 import List from "../List";
 import BoardMenu from "../BoardMenu";
+import ProfileButton from "../ProfileButton";
+import ProfileMenu from "../ProfileMenu";
+import ReturnButton from "../ReturnButton";
 import styles from "./Board.module.scss";
-import { DragDropContext } from "react-beautiful-dnd";
+import { DragDropContext, Droppable } from "react-beautiful-dnd";
+import { Link } from "react-router-dom";
 
 class Board extends Component {
   constructor(props) {
     super(props);
-    this.state = { board: { name: "" }, list: {}, showMenu: false };
+    this.state = {
+      board: { name: "" },
+      list: { name: "" },
+      showMenu: false,
+      showProfileMenu: false,
+      showNameReturn: false,
+      showAddListReturn: false
+    };
   }
 
-  // only need this during dev
   componentDidMount = () => {
-    return this.props.dispatchGetBoardData(1);
+    let id = parseInt(window.location.pathname.split("/")[2]);
+    return this.props.dispatchGetBoardData(id);
   };
 
   toggleMenu = e => {
@@ -37,11 +50,20 @@ class Board extends Component {
       ...this.state.board,
       id: this.props.board_id
     };
-    return this.props.dispatchUpdateBoard(formData);
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.name;
+    }
+    this.props.dispatchUpdateBoard(formData);
+
+    return this.setState({ showNameReturn: false });
   };
 
   createList = e => {
     e.preventDefault();
+    if (this.state.list.name.length === 0) {
+      return this.setState({ list: { name: "" } });
+    }
     let lists = this.props.lists;
     let position;
     if (lists.length === 0) {
@@ -56,7 +78,7 @@ class Board extends Component {
     };
 
     this.props.dispatchCreateList(formData);
-    return this.setState({ list: { name: "" } });
+    return this.setState({ list: { name: "" }, showAddListReturn: false });
   };
 
   handleBoardInput = e => {
@@ -71,11 +93,14 @@ class Board extends Component {
 
   handleInputClick = e => {
     const { placeholder } = e.target;
-    return this.setState({ board: { name: placeholder } });
+    return this.setState({
+      board: { name: placeholder },
+      showNameReturn: true
+    });
   };
 
   onDragEnd = result => {
-    const { destination, source } = result;
+    const { destination, source, type } = result;
     if (!destination) {
       return;
     }
@@ -85,6 +110,28 @@ class Board extends Component {
       destination.index === source.index
     ) {
       return;
+    }
+
+    //if draggable type is a list
+    if (type === "lists") {
+      let copyOfPropsLists = [...this.props.lists];
+      let listToMove = this.props.lists[source.index];
+
+      //if list was moved to the right
+      if (destination.index > source.index) {
+        copyOfPropsLists.splice(destination.index + 1, 0, listToMove);
+        copyOfPropsLists.splice(source.index, 1);
+      } else {
+        //if list was moved to the left
+        copyOfPropsLists.splice(source.index, 1);
+        copyOfPropsLists.splice(destination.index, 0, listToMove);
+      }
+
+      let formData = this.updatePosition(copyOfPropsLists, destination.index);
+      delete formData.cards;
+
+      this.props.dispatchUpdateListStore(formData);
+      return this.props.dispatchUpdateList(formData);
     }
 
     let cardsInOldList;
@@ -128,7 +175,7 @@ class Board extends Component {
       newCardsInList.splice(destination.index, 0, cardsInList[source.index]);
     }
 
-    let newCard = this.updateCardPosition(newCardsInList, destination.index);
+    let newCard = this.updatePosition(newCardsInList, destination.index);
 
     if (destination.droppableId !== source.droppableId) {
       newCard.list_id = parseInt(destination.droppableId);
@@ -144,7 +191,7 @@ class Board extends Component {
     return this.props.dispatchUpdateCard(formData);
   };
 
-  updateCardPosition = (array, destinationIndex) => {
+  updatePosition = (array, destinationIndex) => {
     if (destinationIndex === 0) {
       if (array.length === 1) {
         array[0].position = "1.00";
@@ -174,92 +221,171 @@ class Board extends Component {
     }
   };
 
+  handleAddListClick = () => {
+    return this.setState({ showAddListReturn: true });
+  };
+
+  toggleProfileMenu = e => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+
+    return this.setState({ showProfileMenu: !this.state.showProfileMenu });
+  };
+
+  handleBoardNameBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showNameReturn: false,
+        board: { name: this.props.name }
+      });
+    }, 500);
+  };
+
+  handleCreateListBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showAddListReturn: false,
+        list: { name: "" }
+      });
+    }, 500);
+  };
+
   render() {
+    let boardStyle;
+    if (this.props.boardImage && this.props.boardImage.url.startsWith("#")) {
+      boardStyle = { backgroundColor: this.props.boardImage.url };
+    } else if (this.props.boardImage) {
+      boardStyle = {
+        backgroundImage: `url(${this.props.boardImage.url})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat"
+      };
+    } else {
+      boardStyle = { backgroundColor: "white" };
+    }
+
     return (
-      <div
-        className={styles.Board}
-        style={
-          this.props.boardImage
-            ? {
-                backgroundImage: `url(${this.props.boardImage.url})`,
-                backgroundSize: "cover",
-                backgroundRepeat: "no-repeat"
-              }
-            : {
-                backgroundColor: Object.keys(this.props.labelColors)[
-                  Math.floor(
-                    Math.random() *
-                      Math.floor(Object.keys(this.props.labelColors).length)
-                  )
-                ]
-              }
-        }
-      >
+      <div className={styles.Board} style={boardStyle}>
+        <ProfileButton
+          username={JSON.parse(sessionStorage.getItem("user")).username}
+          toggleProfileMenu={this.toggleProfileMenu}
+        />
+        {this.state.showProfileMenu ? (
+          <ProfileMenu toggleThis={this.toggleProfileMenu} />
+        ) : null}
         <div className={styles.boardHeader}>
           {/* Board Name */}
-          <form onSubmit={this.updateBoard}>
+          <form
+            onSubmit={this.updateBoard}
+            className={styles.boardName_form}
+            onBlur={this.handleBoardNameBlur}
+          >
             <input
               className={styles.boardName}
               type="text"
               name="name"
+              size={this.props.name ? this.props.name.length : null}
               value={this.state.board.name}
               placeholder={this.props.name}
               onChange={this.handleBoardInput}
               onClick={this.handleInputClick}
               onKeyPress={this.handleKeyPress}
+              autoComplete="off"
             />
+            {this.state.showNameReturn ? (
+              <ReturnButton func={this.updateBoard} />
+            ) : null}
           </form>
+          <Link className={styles.Link} to="/">
+            <button className={styles.homeButton} />
+          </Link>
           <button onClick={this.toggleMenu} className={styles.boardMenuButton}>
-            Show Menu
+            Board Menu
           </button>
         </div>
 
         {this.state.showMenu ? (
           <BoardMenu toggleMenu={this.toggleMenu} />
         ) : null}
-
-        {/* Lists */}
-
-        <ul className={styles.Lists}>
-          <DragDropContext onDragEnd={this.onDragEnd}>
-            {this.props.lists
-              ? this.props.lists.map(list => {
-                  if (list.is_archived) {
-                    return null;
-                  } else {
-                    return (
-                      <List
-                        handleKeyPress={this.handleKeyPress}
-                        list={list}
-                        key={list.id}
-                        cards={this.props.cards
-                          .filter(card => {
-                            return card.list_id === list.id;
-                          })
-                          .sort((a, b) => {
+        <DragDropContext onDragEnd={this.onDragEnd}>
+          {/* Lists */}
+          <Droppable
+            droppableId="horizontalDroppable"
+            type="lists"
+            direction="horizontal"
+          >
+            {provided => {
+              return (
+                <ul
+                  className={styles.Lists}
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                >
+                  {this.props.lists
+                    ? this.props.lists
+                        .sort((a, b) => {
+                          return (
+                            parseFloat(a.position) - parseFloat(b.position)
+                          );
+                        })
+                        .map((list, index) => {
+                          if (list.is_archived) {
+                            return null;
+                          } else {
                             return (
-                              parseFloat(a.position) - parseFloat(b.position)
+                              <List
+                                handleKeyPress={this.handleKeyPress}
+                                list={list}
+                                key={list.id}
+                                index={index}
+                                cards={this.props.cards
+                                  .filter(card => {
+                                    return card.list_id === list.id;
+                                  })
+                                  .sort((a, b) => {
+                                    return (
+                                      parseFloat(a.position) -
+                                      parseFloat(b.position)
+                                    );
+                                  })}
+                              />
                             );
-                          })}
-                      />
-                    );
-                  }
-                })
-              : null}
-          </DragDropContext>
+                          }
+                        })
+                    : null}
 
-          {/* Add List */}
-          <form onSubmit={this.createList} className={styles.addListForm}>
-            <input
-              className={styles.addList}
-              name="name"
-              value={this.state.list.name}
-              placeholder="+ Add List"
-              onChange={this.handleListInput}
-              onKeyPress={this.handleKeyPress}
-            />
-          </form>
-        </ul>
+                  {/* Add List */}
+                  <form
+                    onSubmit={this.createList}
+                    className={styles.addListForm}
+                    onBlur={this.handleCreateListBlur}
+                  >
+                    <input
+                      className={styles.addList}
+                      name="name"
+                      value={this.state.list.name}
+                      placeholder="+ Add List"
+                      onChange={this.handleListInput}
+                      onKeyPress={this.handleKeyPress}
+                      onClick={this.handleAddListClick}
+                      autoComplete="off"
+                    />
+                    {this.state.showAddListReturn ? (
+                      <ReturnButton func={this.createList} />
+                    ) : null}
+                  </form>
+                  {provided.placeholder}
+                </ul>
+              );
+            }}
+          </Droppable>
+        </DragDropContext>
       </div>
     );
   }
@@ -273,7 +399,8 @@ const mapStateToProps = state => {
     board_id: state.id,
     cards: state.cards,
     boardImage: state.boardImage,
-    labelColors: state.initLabels
+    labelColors: state.initLabels,
+    unauthorized: state.unauthorized
   };
 };
 
@@ -293,6 +420,12 @@ const mapDispatchToProps = dispatch => {
     },
     dispatchUpdateCardStore: formData => {
       return dispatch(actionsUpdateCardStore(formData));
+    },
+    dispatchUpdateListStore: formData => {
+      return dispatch(actionsUpdateListStore(formData));
+    },
+    dispatchUpdateList: formData => {
+      return dispatch(actionsUpdateList(formData));
     }
   };
 };

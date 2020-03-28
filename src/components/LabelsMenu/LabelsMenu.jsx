@@ -60,16 +60,21 @@ class LabelsMenu extends Component {
               key={label.color}
               name={label.color}
               id={label.id}
+              className={styles.labelForm}
             >
               <input
                 type="text"
                 name={label.color}
                 defaultValue={label.name}
-                value={this.state[label.color]}
                 onChange={this.handleLabelInput}
                 onClick={this.handleInputClick}
+                className={styles.labelFormTextInput}
               />
-              <input type="submit" value="Edit" />
+              <input
+                type="submit"
+                value={label.name ? "Edit" : "Save"}
+                className={styles.submitButton}
+              />
             </form>
           );
         })}

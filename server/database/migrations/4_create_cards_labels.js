@@ -1,7 +1,13 @@
 exports.up = function(knex) {
   return knex.schema.createTable("cards_labels", table => {
-    table.integer("label_id").references("labels.id");
-    table.integer("card_id").references("cards.id");
+    table
+      .integer("label_id")
+      .references("labels.id")
+      .onDelete("CASCADE");
+    table
+      .integer("card_id")
+      .references("cards.id")
+      .onDelete("CASCADE");
   });
 };
 

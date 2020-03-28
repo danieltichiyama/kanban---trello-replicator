@@ -3,6 +3,7 @@ import styles from "./BoardThumbnail.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateBoard } from "../../actions";
 import { Link } from "react-router-dom";
+import TextareaAutosize from "react-textarea-autosize";
 
 class BoardThumbnail extends Component {
   constructor(props) {
@@ -28,6 +29,11 @@ class BoardThumbnail extends Component {
   handleInput = e => {
     const { value, name } = e.target;
     return this.setState({ [name]: value });
+  };
+
+  toggleColor = e => {
+    let { id } = e.target;
+    return this.setState({ url: id });
   };
 
   toggleMenu = e => {
@@ -66,35 +72,28 @@ class BoardThumbnail extends Component {
   };
 
   render() {
-    let { board, getBoardData, labelColors } = this.props;
+    let { board } = this.props;
     let BoardThumbnailBG;
 
-    if (board.boardImage.url) {
+    if (board.boardImage && board.boardImage.url.startsWith("#")) {
+      BoardThumbnailBG = {
+        backgroundColor: board.boardImage.url
+      };
+    } else if (board.boardImage && board.boardImage.url) {
       BoardThumbnailBG = {
         background: `url(${board.boardImage.url})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat"
       };
-    } else {
-      if (this.props.labelColors) {
-        let array = Object.keys(labelColors);
-
-        let number = Math.floor(Math.random() * Math.floor(array.length));
-
-        BoardThumbnailBG = {
-          backgroundColor: array[number]
-        };
-      }
     }
 
     return (
       <div className={styles.thumbnailContainer} style={BoardThumbnailBG}>
-        <Link style={{ textDecoration: "none" }} to="/board">
-          <div
-            id={board.id}
-            className={styles.BoardThumbnail}
-            onClick={getBoardData}
-          >
+        <Link
+          style={{ textDecoration: "none" }}
+          to={`/b/${this.props.board.id}/${this.props.board.name}`}
+        >
+          <div id={board.id} className={styles.BoardThumbnail}>
             {board.name}
             {!this.props.board.is_archived ? (
               <button
@@ -131,15 +130,52 @@ class BoardThumbnail extends Component {
                 onChange={this.handleInput}
                 placeholder={this.props.board.name}
               />
+              <div className={styles.descriptionContainer}>
+                <h4 className={styles.subHeader}>Description</h4>
 
-              <textarea
-                name="description"
-                cols="10"
-                rows="5"
-                onChange={this.handleInput}
-                defaultValue={this.props.board.description}
-              ></textarea>
+                <TextareaAutosize
+                  name="description"
+                  minRows={5}
+                  onChange={this.handleInput}
+                  defaultValue={this.props.board.description}
+                ></TextareaAutosize>
+              </div>
+
+              <div className={styles.colorPickerContainer}>
+                <h4 className={styles.subHeader}>Background Color</h4>
+                <div className={styles.colorPickerOptionsContainer}>
+                  {!this.props.colors
+                    ? null
+                    : Object.keys(this.props.colors).map(color => {
+                        let style = { backgroundColor: color };
+                        let checked = false;
+                        if (this.props.board.boardImage.url === color) {
+                          checked = true;
+                        }
+                        return (
+                          <label
+                            key={color}
+                            className={styles.colorPickerLabel}
+                            style={style}
+                            onClick={this.toggleColor}
+                            name={color}
+                          >
+                            <input
+                              type="radio"
+                              className={styles.colorPickerInput}
+                              name="color"
+                              id={color}
+                              defaultChecked={checked}
+                            />
+                            <span className={styles.colorPickerCustom}></span>
+                          </label>
+                        );
+                      })}
+                </div>
+              </div>
               <div className={styles.buttonsContainer}>
+                <button type="submit">Save</button>
+                <button onClick={this.toggleMenu}>Cancel</button>
                 <button
                   onClick={this.archive}
                   style={
@@ -150,8 +186,6 @@ class BoardThumbnail extends Component {
                 >
                   {this.state.is_archived ? "Unarchive" : "Archive"}
                 </button>
-                <button type="submit">Save</button>
-                <button onClick={this.toggleMenu}>Cancel</button>
               </div>
             </form>
           </div>
@@ -163,10 +197,9 @@ class BoardThumbnail extends Component {
 
 const mapStateToProps = state => {
   return {
-    labelColors: state.initLabels
+    colors: state.initLabels
   };
 };
-
 const mapDispatchToProps = dispatch => {
   return {
     dispatchUpdateBoard: formData => {

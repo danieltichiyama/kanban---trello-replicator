@@ -1,0 +1,42 @@
+@import "../../sass/formatting.scss";
+
+.SearchResult {
+  width: 100%;
+  height: 36px;
+  margin-bottom: 4px;
+
+  label {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding: 0px;
+    font-weight: 600;
+    font-size: 16px;
+    justify-content: flex-end;
+    border-bottom: 1px white solid;
+    background-color: white;
+    border-radius: 4px;
+    padding-right: 24px;
+
+    &:hover {
+      background-color: rgba($color: #000000, $alpha: 0.2);
+    }
+
+    .checkboxInput {
+      opacity: 0;
+      height: 0px;
+      width: 0px;
+    }
+  }
+
+  .checkedLabel {
+    background-color: rgba($color: #7cc96d, $alpha: 0.9);
+
+    &:hover {
+      opacity: 0.9;
+      background-color: rgba($color: #7cc96d, $alpha: 1);
+    }
+  }
+}

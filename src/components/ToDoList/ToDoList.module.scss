@@ -1,0 +1,26 @@
+@import "../../sass/inputs.scss";
+
+.ToDoList {
+  width: 100%;
+  height: auto;
+  background: rgba($color: #000000, $alpha: 0.05);
+
+  .ToDoList_header {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 12px;
+  }
+
+  .noAssignedCards {
+    display: flex;
+    height: 240px;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba($color: #000000, $alpha: 0.025);
+    color: rgba($color: #000000, $alpha: 0.2);
+  }
+}

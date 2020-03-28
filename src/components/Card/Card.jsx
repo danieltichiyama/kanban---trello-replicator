@@ -3,6 +3,7 @@ import styles from "./Card.module.scss";
 import { connect } from "react-redux";
 import { actionsUpdateCard } from "../../actions";
 import { Draggable } from "react-beautiful-dnd";
+import TextareaAutosize from "react-textarea-autosize";
 
 import CardMenu from "../CardMenu";
 
@@ -15,6 +16,16 @@ class Card extends Component {
     };
   }
 
+  componentDidMount = () => {
+    return this.setState({ name: this.props.card.name });
+  };
+
+  componentDidUpdate = prevProps => {
+    if (prevProps.card !== this.props.card) {
+      return this.setState({ name: this.props.card.name });
+    }
+  };
+
   updateCard = e => {
     if (e) {
       e.preventDefault();
@@ -22,11 +33,12 @@ class Card extends Component {
     let formData = { ...this.state, id: this.props.card.id };
     delete formData.label;
     delete formData.showMenu;
-    return this.props.dispatchUpdateCard(formData);
-  };
 
-  unarchive = () => {
-    return this.setState({ is_archived: false }, this.updateCard);
+    if (formData.name.length === 0) {
+      formData.name = this.props.card.name;
+    }
+
+    return this.props.dispatchUpdateCard(formData);
   };
 
   toggleMenu = e => {
@@ -46,9 +58,11 @@ class Card extends Component {
     return this.setState({ label: { [name]: value } });
   };
 
-  handleInputClick = e => {
-    const { placeholder, name } = e.target;
-    return this.setState({ [name]: placeholder });
+  handleKeyPress = e => {
+    if (e.key === "Enter") {
+      this.updateCard();
+      return e.target.blur();
+    }
   };
 
   render() {
@@ -65,49 +79,61 @@ class Card extends Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              {/* Card's Labels */}
-              {this.props.card.labels ? (
-                <div className={styles.labelsContainer}>
-                  {this.props.card.labels.map(label => {
-                    let color = { backgroundColor: label.color };
-                    let labelName = this.props.labels[label.color].name;
-                    return (
-                      <div
-                        className={styles.Label}
-                        key={label.color}
-                        style={color}
-                      >
-                        {labelName}
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
+              <div className={styles.card_labelsAndMenu}>
+                {/* Card's Labels */}
+                {this.props.card.labels ? (
+                  <div className={styles.labelsContainer}>
+                    {this.props.card.labels.map(label => {
+                      let color = { backgroundColor: label.color };
+                      let labelName = this.props.labels[label.color].name;
+                      return (
+                        <div
+                          className={styles.Label}
+                          key={label.color}
+                          style={color}
+                        >
+                          <span> {labelName}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+
+                {/* Show Card Editor Menu or Unarchive Card Button*/}
+
+                <button
+                  onClick={this.toggleMenu}
+                  className={styles.menuButton}
+                ></button>
+              </div>
 
               {/* Card Name */}
               <div className={styles.cardBody}>
-                <form onSubmit={this.updateCard}>
-                  <textarea
-                    className={styles.cardName}
-                    type="text"
-                    name="name"
-                    rows="2"
-                    placeholder={this.props.card.name}
-                    value={this.state.name}
-                    onChange={this.handleCardInput}
-                    onClick={this.handleInputClick}
-                    onKeyPress={this.props.handleKeyPress}
-                  />
-                </form>
-
-                {/* Show Card Editor Menu or Unarchive Card Button*/}
-                {this.props.card.is_archived ? (
-                  <button onClick={this.unarchive}>Unarchive</button>
-                ) : (
-                  <button
-                    onClick={this.toggleMenu}
-                    className={styles.menuButton}
-                  ></button>
+                <TextareaAutosize
+                  className={styles.cardName}
+                  type="text"
+                  name="name"
+                  minRows={1}
+                  value={this.state.name}
+                  onChange={this.handleCardInput}
+                  onKeyPress={this.handleKeyPress}
+                />
+              </div>
+              <div className={styles.card_extraInfo} onClick={this.toggleMenu}>
+                <div className={styles.card_extraInfo_userInfo}>
+                  {/* assigned to */}
+                  {this.props.card.assignedTo ? (
+                    <span>
+                      assigned to: {this.props.card.assignedTo.firstname}
+                    </span>
+                  ) : null}
+                </div>
+                {!this.props.card.details ? null : (
+                  <div className={styles.extraInfo_details}>
+                    <hr className={styles.details_top}></hr>
+                    <hr className={styles.details_middle} />
+                    <hr className={styles.details_bottom} />
+                  </div>
                 )}
               </div>
 
@@ -117,9 +143,7 @@ class Card extends Component {
                   card={this.props.card}
                   toggleMenu={this.toggleMenu}
                   updateCard={this.updateCard}
-                >
-                  test
-                </CardMenu>
+                ></CardMenu>
               )}
             </div>
           );

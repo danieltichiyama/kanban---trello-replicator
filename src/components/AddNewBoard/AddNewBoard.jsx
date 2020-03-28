@@ -12,8 +12,17 @@ class AddNewBoard extends Component {
 
   createBoard = e => {
     e.preventDefault();
-    this.props.dispatchCreateBoard(this.state);
-    return this.setState({ name: "" });
+
+    let formData = { ...this.state };
+
+    formData["created_by"] = JSON.parse(sessionStorage.getItem("user")).id;
+
+    if (!formData.url) {
+      formData.url = "#ffffff";
+    }
+
+    this.props.dispatchCreateBoard(formData);
+    return this.setState({ name: "", url: "" }, this.props.toggleAddNewBoard());
   };
 
   handleInput = event => {
@@ -23,6 +32,11 @@ class AddNewBoard extends Component {
 
   stopPropagation = e => {
     return e.stopPropagation();
+  };
+
+  toggleColor = e => {
+    let { id } = e.target;
+    return this.setState({ url: id });
   };
 
   render() {
@@ -43,17 +57,52 @@ class AddNewBoard extends Component {
             value={this.state.name}
             placeholder="Board Name"
             onChange={this.handleInput}
+            className={styles.nameInput}
           />
-          <textarea
-            type="text"
-            name="description"
-            value={this.state.description}
-            placeholder="What is this board for?"
-            onChange={this.handleInput}
-          />
+          <div className={styles.descriptionContainer}>
+            <h4 className={styles.subHeader}>Description</h4>
+            <textarea
+              type="text"
+              name="description"
+              value={this.state.description}
+              placeholder="What is this board for?"
+              onChange={this.handleInput}
+            />
+          </div>
+
+          <div className={styles.colorPickerContainer}>
+            <h4 className={styles.subHeader}>Background Color</h4>
+            <div className={styles.colorPickerOptionsContainer}>
+              {!this.props.colors
+                ? null
+                : Object.keys(this.props.colors).map(color => {
+                    let style = { backgroundColor: color };
+                    return (
+                      <label
+                        key={color}
+                        className={styles.colorPickerLabel}
+                        style={style}
+                        onClick={this.toggleColor}
+                        name={color}
+                      >
+                        <input
+                          type="radio"
+                          className={styles.colorPickerInput}
+                          name="color"
+                          id={color}
+                        />
+                        <span className={styles.colorPickerCustom}></span>
+                      </label>
+                    );
+                  })}
+            </div>
+          </div>
+
           <div className={styles.buttonsContainer}>
             <button type="submit">Create</button>
-            <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
+            <button type="button" onClick={this.props.toggleAddNewBoard}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
@@ -61,16 +110,21 @@ class AddNewBoard extends Component {
   }
 }
 
+const mapStateToProps = state => {
+  return {
+    colors: state.initLabels
+  };
+};
+
 const mapDispatchToProps = dispatch => {
   return {
     dispatchCreateBoard: formData => {
-      console.log("dispatchCreateBoard");
-
-      formData.created_by = 1;
-
       dispatch(actionsCreateBoard(formData));
     }
   };
 };
 
-export default AddNewBoard = connect(null, mapDispatchToProps)(AddNewBoard);
+export default AddNewBoard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AddNewBoard);

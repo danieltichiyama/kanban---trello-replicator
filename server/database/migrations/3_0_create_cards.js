@@ -8,7 +8,8 @@ exports.up = function(knex) {
     table
       .integer("board_id")
       .references("boards.id")
-      .notNullable();
+      .notNullable()
+      .onDelete("CASCADE");
     table
       .integer("list_id")
       .references("lists.id")
@@ -16,8 +17,12 @@ exports.up = function(knex) {
     table
       .integer("created_by")
       .references("users.id")
-      .notNullable();
-    table.integer("assigned_to").references("users.id");
+      .onDelete("SET NULL");
+    table
+      .integer("assigned_to")
+      .references("users.id")
+      .defaultTo(null)
+      .onDelete("SET DEFAULT");
     table.boolean("is_archived").defaultTo(false);
     table.timestamps(true, true);
   });
