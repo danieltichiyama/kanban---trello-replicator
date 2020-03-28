@@ -79,24 +79,33 @@ class Card extends Component {
               {...provided.dragHandleProps}
               ref={provided.innerRef}
             >
-              {/* Card's Labels */}
-              {this.props.card.labels ? (
-                <div className={styles.labelsContainer}>
-                  {this.props.card.labels.map(label => {
-                    let color = { backgroundColor: label.color };
-                    let labelName = this.props.labels[label.color].name;
-                    return (
-                      <div
-                        className={styles.Label}
-                        key={label.color}
-                        style={color}
-                      >
-                        <span> {labelName}</span>
-                      </div>
-                    );
-                  })}
-                </div>
-              ) : null}
+              <div className={styles.card_labelsAndMenu}>
+                {/* Card's Labels */}
+                {this.props.card.labels ? (
+                  <div className={styles.labelsContainer}>
+                    {this.props.card.labels.map(label => {
+                      let color = { backgroundColor: label.color };
+                      let labelName = this.props.labels[label.color].name;
+                      return (
+                        <div
+                          className={styles.Label}
+                          key={label.color}
+                          style={color}
+                        >
+                          <span> {labelName}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+                ) : null}
+
+                {/* Show Card Editor Menu or Unarchive Card Button*/}
+
+                <button
+                  onClick={this.toggleMenu}
+                  className={styles.menuButton}
+                ></button>
+              </div>
 
               {/* Card Name */}
               <div className={styles.cardBody}>
@@ -109,13 +118,23 @@ class Card extends Component {
                   onChange={this.handleCardInput}
                   onKeyPress={this.handleKeyPress}
                 />
-
-                {/* Show Card Editor Menu or Unarchive Card Button*/}
-
-                <button
-                  onClick={this.toggleMenu}
-                  className={styles.menuButton}
-                ></button>
+              </div>
+              <div className={styles.card_extraInfo} onClick={this.toggleMenu}>
+                <div className={styles.card_extraInfo_userInfo}>
+                  {/* assigned to */}
+                  {this.props.card.assignedTo ? (
+                    <span>
+                      assigned to: {this.props.card.assignedTo.firstname}
+                    </span>
+                  ) : null}
+                </div>
+                {!this.props.card.details ? null : (
+                  <div className={styles.extraInfo_details}>
+                    <hr className={styles.details_top}></hr>
+                    <hr className={styles.details_middle} />
+                    <hr className={styles.details_bottom} />
+                  </div>
+                )}
               </div>
 
               {/* Card Menu */}

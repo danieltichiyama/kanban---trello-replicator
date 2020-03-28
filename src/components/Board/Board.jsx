@@ -24,7 +24,7 @@ class Board extends Component {
       board: { name: "" },
       list: { name: "" },
       showMenu: false,
-      showProfileMenu: false
+      showProfileMenu: true
     };
   }
 

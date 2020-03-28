@@ -29,20 +29,6 @@ class Modals extends Component {
           </div>
         );
 
-      case "editCard":
-        return (
-          <div className={styles.Modals} onClick={this.toggleModal}>
-            Edit Card
-          </div>
-        );
-
-      case "addBoard":
-        return (
-          <div className={styles.Modals} onClick={this.toggleModal}>
-            AddBoard
-          </div>
-        );
-
       default:
         return <div className={styles.Modals} onClick={this.toggleModal}></div>;
     }

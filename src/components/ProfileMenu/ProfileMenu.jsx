@@ -4,12 +4,14 @@ import styles from "./ProfileMenu.module.scss";
 import { actionsLogoutUser, actionsToggleModal } from "../../actions";
 import { withRouter } from "react-router-dom";
 import ToDoList from "../ToDoList";
+import EditProfileMenu from "../EditProfileMenu";
 
 class ProfileMenu extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAssignedCards: false
+      showAssignedCards: false,
+      showEditProfile: true
     };
   }
 
@@ -22,7 +24,7 @@ class ProfileMenu extends Component {
     if (e) {
       e.stopPropagation();
     }
-    return this.props.dispatchToggleModal("profile");
+    return this.setState({ showEditProfile: !this.state.showEditProfile });
   };
 
   handleToDoClick = e => {
@@ -50,6 +52,7 @@ class ProfileMenu extends Component {
           <li className={styles.menu_li} onClick={this.handleMyProfileClick}>
             My Profile
           </li>
+          {!this.state.showEditProfile ? null : <EditProfileMenu />}
           <li className={styles.menu_li} onClick={this.handleToDoClick}>
             Assigned Card
           </li>

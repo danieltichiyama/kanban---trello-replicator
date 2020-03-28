@@ -9,7 +9,8 @@ class BoardMenu extends Component {
     super(props);
     this.state = {
       labelsMenu: false,
-      collaboratorsMenu: false
+      collaboratorsMenu: false,
+      editBoard: false
     };
   }
 
@@ -45,6 +46,14 @@ class BoardMenu extends Component {
             ></button>
           </div>
           <hr></hr>
+          {/* Edit Board
+          <li
+            className={styles.MenuOption}
+            id="editBoard"
+            onClick={this.toggle}
+          >
+            Edit Board
+          </li> */}
           {/* Collaborators */}
           <li
             className={styles.MenuOption}
