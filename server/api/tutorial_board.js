@@ -44,15 +44,15 @@ module.exports = tutorialBoard = {
     }
   ],
   labels: [
-    // { board_id: 1, color: "#61be4f", name: "MVP" },
-    // { board_id: 1, color: "#f2d600", name: "Urgent" },
-    // { board_id: 1, color: "#ff9f1a" },
-    // { board_id: 1, color: "#eb5946" },
-    // { board_id: 1, color: "#c377e0" },
-    // { board_id: 1, color: "#0079bf" },
-    // { board_id: 1, color: "#00c2e0" },
-    // { board_id: 1, color: "#ff77cb" },
-    // { board_id: 1, color: "#344562" }
+    { color: "#61be4f", name: "MVP" },
+    { color: "#f2d600", name: "Urgent" },
+    { color: "#ff9f1a" },
+    { color: "#eb5946" },
+    { color: "#c377e0" },
+    { color: "#0079bf" },
+    { color: "#00c2e0" },
+    { color: "#ff77cb" },
+    { color: "#344562" }
   ],
   lists: [
     { name: "Queued", position: 1, is_archived: false },

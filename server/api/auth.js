@@ -107,6 +107,14 @@ router.post("/register", (req, res) => {
               return req.database.Board.forge(tutorial.board)
                 .save({ created_by: user.id }, { transacting: t })
                 .tap(board => {
+                  return Promise.map(tutorial.labels, label => {
+                    return req.database.Label.forge(label).save(
+                      { board_id: board.id },
+                      { transacting: t }
+                    );
+                  });
+                })
+                .tap(board => {
                   return Promise.map(tutorial.lists, list => {
                     return req.database.List.forge(list).save(
                       { board_id: board.id },
@@ -117,8 +125,6 @@ router.post("/register", (req, res) => {
                     let list_id = lists[0].id;
                     let created_by = user.id;
 
-                    console.log(board_id, list_id, created_by);
-                    console.log(" ");
                     return Promise.map(tutorial.cards, card => {
                       return req.database.Card.forge(card).save(
                         {
