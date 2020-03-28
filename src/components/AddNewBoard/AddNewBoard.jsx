@@ -100,7 +100,9 @@ class AddNewBoard extends Component {
 
           <div className={styles.buttonsContainer}>
             <button type="submit">Create</button>
-            <button onClick={this.props.toggleAddNewBoard}>Cancel</button>
+            <button type="button" onClick={this.props.toggleAddNewBoard}>
+              Cancel
+            </button>
           </div>
         </form>
       </div>
