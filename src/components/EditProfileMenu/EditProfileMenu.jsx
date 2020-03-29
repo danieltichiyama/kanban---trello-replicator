@@ -118,7 +118,7 @@ const mapStateToProps = state => {
     email: state.email,
     firstname: state.firstname,
     lastname: state.lastname,
-    id: state.id
+    id: state.user_id
   };
 };
 
