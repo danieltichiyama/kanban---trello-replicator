@@ -3,6 +3,7 @@ import styles from "./ToDoList.module.scss";
 import { connect } from "react-redux";
 import { actionsGetUser } from "../../actions";
 import AssignedCard from "../AssignedCard";
+import { isThisTypeNode } from "typescript";
 
 class ToDoList extends Component {
   constructor(props) {
@@ -35,6 +36,7 @@ class ToDoList extends Component {
                 card={card}
                 key={index}
                 handleKeyPress={this.handleKeyPress}
+                closeProfileMenu={this.props.closeProfileMenu}
               />
             );
           })

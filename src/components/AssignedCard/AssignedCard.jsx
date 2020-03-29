@@ -105,7 +105,10 @@ class AssignedCard extends Component {
                 style={{ textDecoration: "underline", color: "black" }}
                 to={`/b/${this.props.card.board.id}/${this.props.card.board.name}`}
               >
-                {this.props.card.board.name}
+                <span onClick={this.props.closeProfileMenu}>
+                  {" "}
+                  {this.props.card.board.name}
+                </span>
               </Link>
               , in list
               <select

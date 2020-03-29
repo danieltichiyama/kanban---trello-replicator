@@ -59,7 +59,9 @@ class ProfileMenu extends Component {
           <li className={styles.menu_li} onClick={this.handleToDoClick}>
             Assigned Card
           </li>
-          {!this.state.showAssignedCards ? null : <ToDoList />}
+          {!this.state.showAssignedCards ? null : (
+            <ToDoList closeProfileMenu={this.props.toggleThis} />
+          )}
           <li onClick={this.handleLogoutClick} className={styles.menu_li}>
             Logout
           </li>
