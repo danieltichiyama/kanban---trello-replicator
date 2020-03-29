@@ -4,8 +4,6 @@ const decorator = require("./database/decorator");
 const app = express();
 const PORT = process.env.EXPRESS_HOST_PORT || 8080;
 
-app.use(express.static("./server/public"));
-
 //for checkAuth() middleware --start 1 of 2
 const session = require("express-session");
 const passport = require("passport");
