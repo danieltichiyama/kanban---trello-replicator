@@ -112,11 +112,15 @@ class AssignedCard extends Component {
                 defaultValue={this.props.card.list_id}
               >
                 {this.props.card.board.lists.map(list => {
-                  return (
-                    <option value={list.id} key={list.id}>
-                      {list.name}
-                    </option>
-                  );
+                  if (!list.isArchived) {
+                    return (
+                      <option value={list.id} key={list.id}>
+                        {list.name}
+                      </option>
+                    );
+                  } else {
+                    return null;
+                  }
                 })}
               </select>{" "}
             </div>
