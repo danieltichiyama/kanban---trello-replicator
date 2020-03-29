@@ -113,17 +113,21 @@ class AssignedCard extends Component {
                 onChange={this.handleListInput}
                 defaultValue={this.props.card.list_id}
               >
-                {this.props.card.board.lists.map(list => {
-                  if (!list.isArchived) {
-                    return (
-                      <option value={list.id} key={list.id}>
-                        {list.name}
-                      </option>
-                    );
-                  } else {
-                    return null;
-                  }
-                })}
+                {this.props.card.board.lists
+                  .sort((a, b) => {
+                    return parseFloat(a.position) - parseFloat(b.position);
+                  })
+                  .map(list => {
+                    if (!list.is_archived) {
+                      return (
+                        <option value={list.id} key={list.id}>
+                          {list.name}
+                        </option>
+                      );
+                    } else {
+                      return null;
+                    }
+                  })}
               </select>{" "}
             </div>
           </div>
