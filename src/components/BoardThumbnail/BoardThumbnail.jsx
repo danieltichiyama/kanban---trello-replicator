@@ -39,7 +39,7 @@ class BoardThumbnail extends Component {
     formData.id = this.props.board.id;
 
     this.props.dispatchUpdateBoard(formData);
-    return this.toggleMenu();
+    return this.setState({ showMenu: false, is_archived: false });
   };
 
   handleInput = e => {
