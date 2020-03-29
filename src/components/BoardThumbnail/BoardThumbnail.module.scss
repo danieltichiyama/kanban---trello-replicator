@@ -33,7 +33,8 @@
     }
 
     .unarchiveButton {
-      align-self: flex-end;
+      justify-self: flex-end;
+      margin-left: auto;
       @include menuButton(light);
 
       &::before {
