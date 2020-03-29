@@ -79,7 +79,13 @@ class BoardsList extends Component {
           {this.props.collaborations && this.props.collaborations.length > 0 ? (
             this.props.collaborations.map(board => {
               if (!board.is_archived) {
-                return <BoardThumbnail board={board} key={board.id} />;
+                return (
+                  <BoardThumbnail
+                    board={board}
+                    key={board.id}
+                    isNotOwner={true}
+                  />
+                );
               }
               return null;
             })

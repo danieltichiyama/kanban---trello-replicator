@@ -426,5 +426,7 @@ const actionAuthorization = (dispatch, getState) => {
     } else {
       return true;
     }
+  } else if (!state.created_by && state.user_id) {
+    return true;
   }
 };

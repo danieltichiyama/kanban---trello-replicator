@@ -9,9 +9,18 @@ class BoardThumbnail extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      showMenu: false
+      showMenu: false,
+      name: "",
+      description: "",
+      url: ""
     };
   }
+
+  componentDidMount = () => {
+    let { name, description } = this.props.board;
+    let { url } = this.props.board.boardImage;
+    return this.setState({ name, description, url });
+  };
 
   updateBoard = e => {
     if (e) {
@@ -20,6 +29,13 @@ class BoardThumbnail extends Component {
     }
     let formData = { ...this.state };
     delete formData.showMenu;
+
+    if (formData.name.length === 0) {
+      formData.name = this.props.board.name;
+    }
+
+    console.log(formData);
+
     formData.id = this.props.board.id;
 
     this.props.dispatchUpdateBoard(formData);
@@ -41,6 +57,7 @@ class BoardThumbnail extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
+
     return this.setState({
       showMenu: !this.state.showMenu,
       is_archived: false
@@ -96,10 +113,12 @@ class BoardThumbnail extends Component {
           <div id={board.id} className={styles.BoardThumbnail}>
             {board.name}
             {!this.props.board.is_archived ? (
-              <button
-                onClick={this.toggleMenu}
-                className={styles.menuButton}
-              ></button>
+              this.props.isNotOwner ? null : (
+                <button
+                  onClick={this.toggleMenu}
+                  className={styles.menuButton}
+                ></button>
+              )
             ) : (
               <button
                 onClick={this.unarchive}
@@ -126,7 +145,6 @@ class BoardThumbnail extends Component {
                 type="text"
                 name="name"
                 value={this.state.name}
-                defaultValue={this.props.board.name}
                 onChange={this.handleInput}
                 placeholder={this.props.board.name}
               />
@@ -137,7 +155,7 @@ class BoardThumbnail extends Component {
                   name="description"
                   minRows={5}
                   onChange={this.handleInput}
-                  defaultValue={this.props.board.description}
+                  value={this.state.description}
                 ></TextareaAutosize>
               </div>
 
@@ -175,9 +193,12 @@ class BoardThumbnail extends Component {
               </div>
               <div className={styles.buttonsContainer}>
                 <button type="submit">Save</button>
-                <button onClick={this.toggleMenu}>Cancel</button>
+                <button type="button" onClick={this.toggleMenu}>
+                  Cancel
+                </button>
                 <button
                   onClick={this.archive}
+                  type="button"
                   style={
                     this.state.is_archived
                       ? { backgroundColor: "#eb5946" }
