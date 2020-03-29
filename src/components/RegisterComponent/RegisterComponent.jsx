@@ -95,6 +95,7 @@ class RegisterComponent extends Component {
                   onChange={this.handleInput}
                   placeholder="Enter username"
                   className={styles.form_input}
+                  autoComplete="username"
                 />
                 {this.state.errors && this.state.errors.username ? (
                   <p className={styles.form_li_error}>
@@ -109,6 +110,7 @@ class RegisterComponent extends Component {
                   value={this.state.password}
                   onChange={this.handleInput}
                   placeholder="Enter password"
+                  autoComplete="new-password"
                   className={styles.form_input}
                 />
               </li>
@@ -120,6 +122,7 @@ class RegisterComponent extends Component {
                   onChange={this.handleInput}
                   placeholder="Confirm Password"
                   className={styles.form_input}
+                  autoComplete="new-password"
                 />
                 {this.state.errors && this.state.errors.password ? (
                   <p className={styles.form_li_error}>
@@ -159,6 +162,7 @@ class RegisterComponent extends Component {
                 <input
                   type="text"
                   name="firstname"
+                  autoComplete="firstname"
                   value={this.state.firstname}
                   onChange={this.handleInput}
                   placeholder="First Name"
@@ -174,6 +178,7 @@ class RegisterComponent extends Component {
                 <input
                   type="text"
                   name="lastname"
+                  autoComplete="lastname"
                   value={this.state.lastname}
                   onChange={this.handleInput}
                   placeholder="Last Name"
@@ -189,6 +194,7 @@ class RegisterComponent extends Component {
                 <input
                   type="text"
                   name="email"
+                  autoComplete="email"
                   value={this.state.email}
                   onChange={this.handleInput}
                   placeholder="Email Address (optional)"

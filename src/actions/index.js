@@ -141,11 +141,9 @@ export const actionsGetUser = id => async dispatch => {
 export const actionsLoginUser = formData => async dispatch => {
   await fetch("/api/auth/login", postConfig(formData))
     .then(response => {
-      console.log("response", response);
       return response.json();
     })
     .then(results => {
-      console.log("results", results);
       return dispatch({
         type: LOGIN_USER,
         payload: results
