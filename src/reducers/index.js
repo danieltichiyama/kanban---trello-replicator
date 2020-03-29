@@ -46,8 +46,6 @@ let initialState = {
 };
 
 const reducer = (state = initialState, action) => {
-  console.log(action.type);
-  console.log(action.payload);
   switch (action.type) {
     case UPDATE_CARD_FROM_TODO:
       let updateCardsFromToDo = [...state.cardsAssigned];
