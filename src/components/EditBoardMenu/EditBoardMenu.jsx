@@ -3,6 +3,7 @@ import styles from "./EditBoardMenu.module.scss";
 import { connect } from "react-redux";
 import TextareaAutosize from "react-textarea-autosize";
 import { actionsUpdateBoard } from "../../actions";
+import { withRouter } from "react-router-dom";
 
 class EditBoardMenu extends Component {
   constructor(props) {
@@ -22,7 +23,8 @@ class EditBoardMenu extends Component {
       details: this.props.details,
       description: this.props.description,
       url: this.props.boardImage.url,
-      id: this.props.id
+      id: this.props.id,
+      is_archived: this.props.is_archived
     });
   };
 
@@ -42,7 +44,12 @@ class EditBoardMenu extends Component {
     }
 
     this.props.dispatchUpdateBoard(formData);
-    return this.props.toggleMenu(e);
+    if (formData.is_archived) {
+      let username = JSON.parse(sessionStorage.getItem("user")).username;
+      return this.props.history.push(`/dashboard/${username}/boards`);
+    } else {
+      return this.props.toggleMenu(e);
+    }
   };
 
   handleInput = e => {
@@ -60,11 +67,7 @@ class EditBoardMenu extends Component {
       e.stopPropagation();
       e.preventDefault();
     }
-    if (this.state.is_archived) {
-      return this.setState({ is_archived: !this.state.is_archived });
-    } else {
-      return this.setState({ is_archived: true });
-    }
+    return this.setState({ is_archived: !this.state.is_archived });
   };
 
   unarchive = e => {
@@ -176,7 +179,8 @@ const mapStateToProps = state => {
     name: state.name,
     description: state.description,
     boardImage: state.boardImage,
-    id: state.id
+    id: state.id,
+    is_archived: state.is_archived
   };
 };
 
@@ -188,7 +192,6 @@ const mapDispatchToProps = dispatch => {
   };
 };
 
-export default EditBoardMenu = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(EditBoardMenu);
+export default withRouter(
+  (EditBoardMenu = connect(mapStateToProps, mapDispatchToProps)(EditBoardMenu))
+);

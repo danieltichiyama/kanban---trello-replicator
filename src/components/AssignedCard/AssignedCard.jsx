@@ -36,6 +36,8 @@ class AssignedCard extends Component {
       formData.name = this.props.card.name;
     }
 
+    formData.position = "99";
+
     return this.props.dispatchUpdateCardFromToDoList(formData);
   };
 

@@ -53,6 +53,8 @@ class CardMenu extends Component {
     delete formData.openCardLabels;
     delete formData.collaborators;
 
+    formData.position = "99";
+
     this.props.dispatchUpdateCard(formData);
     return this.props.toggleMenu();
   };
