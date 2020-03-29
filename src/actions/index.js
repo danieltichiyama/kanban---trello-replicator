@@ -68,7 +68,9 @@ export const actionsGetUsers = searchTerm => async dispatch => {
       payload: []
     });
   }
-  await fetch(`/api/users/all?search=${searchTerm}`)
+
+  let lowercase = searchTerm.toLowerCase();
+  await fetch(`/api/users/all?search=${lowercase}`)
     .then(response => {
       return response.json();
     })
