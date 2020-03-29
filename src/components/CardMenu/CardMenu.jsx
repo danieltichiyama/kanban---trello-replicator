@@ -103,11 +103,13 @@ class CardMenu extends Component {
                   defaultValue={this.props.card.list_id}
                 >
                   {this.props.lists.map(list => {
-                    return (
-                      <option value={list.id} key={list.id}>
-                        {list.name}
-                      </option>
-                    );
+                    if (!list.is_archived) {
+                      return (
+                        <option value={list.id} key={list.id}>
+                          {list.name}
+                        </option>
+                      );
+                    } else return null;
                   })}
                 </select>
               </div>

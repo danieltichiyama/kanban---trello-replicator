@@ -172,6 +172,18 @@ class List extends Component {
     }, 500);
   };
 
+  handleCardInputBlur = e => {
+    e.preventDefault();
+
+    return setTimeout(() => {
+      return this.setState({
+        showCardReturn: false,
+        name: "",
+        showCancelButton: false
+      });
+    }, 500);
+  };
+
   render() {
     return (
       <Draggable
@@ -304,7 +316,7 @@ class List extends Component {
                     onKeyPress={this.props.handleKeyPress}
                     onClick={this.handleCardNameClick}
                     autoComplete="off"
-                    onBlur={this.createCard}
+                    onBlur={this.handleCardInputBlur}
                   />
                   {this.state.showCardReturn ? (
                     <button type="submit" className={styles.plusButton} />
